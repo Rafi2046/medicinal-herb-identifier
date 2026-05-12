@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:medical_herb/core/constants/app_spacing.dart';
+import 'package:medical_herb/core/constants/app_images.dart';
+
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/features/main/presentation/pages/main_screen.dart';
 
@@ -39,37 +40,11 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Image.asset(
-              'assets/background_image/shape.webp',
+          Center(child: Text('Medical Herb', style: AppTextStyles.heading2)),
+          SizedBox.expand(
+            child: Image(
+              image: AssetImage(AppImages.splashImage),
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return const SizedBox();
-              },
-            ),
-          ),
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(
-                  'assets/app_logo/logo.png',
-                  height: AppSpacing.h100,
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(
-                      Icons.local_hospital,
-                      size: 100,
-                      color: Colors.green[700],
-                    );
-                  },
-                ),
-                const SizedBox(height: 16),
-                Text('HerbGen', style: AppTextStyles.splashText),
-              ],
             ),
           ),
         ],
