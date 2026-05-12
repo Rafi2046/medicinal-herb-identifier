@@ -11,6 +11,7 @@ class AppTextStyles {
   static TextStyle heading2 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
+    color: AppColors.white,
   );
 
   static TextStyle heading3 = TextStyle(

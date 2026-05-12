@@ -17,7 +17,8 @@ class AppImages {
 
 
 
-  static const String splashImage = 'assets/app_logo/splash_image.webp';
+  static const String splashImage = 'assets/app_logo/splash.webp';
+  static const String splashLogo = 'assets/app_logo/final_logo.png';
 
 
 }
