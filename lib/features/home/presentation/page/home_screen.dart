@@ -8,26 +8,38 @@ import 'package:medical_herb/features/home/presentation/widgets/welcome_card.dar
 import 'package:medical_herb/features/home/presentation/widgets/featured_herbs_section.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final bool isDark;
+  final VoidCallback onThemeToggle;
+
+  const HomeScreen({
+    super.key,
+    required this.isDark,
+    required this.onThemeToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
-        backgroundColor: AppColors.white,
+        backgroundColor: isDark ? Colors.grey[900] : Colors.white,
         leading: Padding(
           padding: const EdgeInsets.all(8),
           child: Image.asset('assets/app_logo/logo2.webp', fit: BoxFit.cover),
         ),
-
+        actions: [
+          IconButton(
+            icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode, color: isDark ? Colors.white : Colors.black),
+            onPressed: onThemeToggle,
+          ),
+        ],
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('MediLeaf', style: AppTextStyles.appBar),
+            Text('MediLeaf', style: AppTextStyles.appBar.copyWith(color: isDark ? Colors.white : Colors.black)),
             Text(
               'Medicinal Herb Identifier',
-              style: AppTextStyles.appBarSubTile,
+              style: AppTextStyles.appBarSubTile?.copyWith(color: isDark ? Colors.grey[400] : Colors.grey[600]),
             ),
           ],
         ),
