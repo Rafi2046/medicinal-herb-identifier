@@ -19,6 +19,7 @@ class AppImages {
 
   static const String splashImage = 'assets/app_logo/splash.webp';
   static const String splashLogo = 'assets/app_logo/final_logo.png';
+  static const String mediLeafLogo = 'assets/app_logo/medileaf_logo.webp';
 
 
 
@@ -52,7 +53,7 @@ class AppImages {
   static const String starIcon = "assets/icons/starIcon.webp";
 
   //property_screen
-  static const String arrowbackIcon = 'assets/icons/arrowbackIcon.webp';
+
   static const String paymentReceiptIcon = 'assets/icons/receipt.png';
   static const String paymentInvoiceIcon = 'assets/icons/invoice.png';
 
