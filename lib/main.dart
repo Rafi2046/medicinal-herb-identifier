@@ -30,10 +30,7 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData.dark(),
       themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
 
-      home: SplashScreen(
-        onThemeToggle: toggleTheme,
-        isDark: isDark,
-      ),
+      home: SplashScreen(onThemeToggle: toggleTheme, isDark: isDark),
     );
   }
 }
