@@ -62,7 +62,9 @@ class _MainScreenState extends State<MainScreen> {
 
       appBar: const TopBarWidget(
         title: 'MediLeaf',
+        subtitle: 'Medicinal Herb Identifier',
         backArrow: false,
+
       ),
 
       body: const Center(

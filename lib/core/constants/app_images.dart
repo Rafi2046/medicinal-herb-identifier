@@ -16,10 +16,16 @@ class AppImages {
 
 
 
-
+//splash screen
   static const String splashImage = 'assets/app_logo/splash.webp';
   static const String splashLogo = 'assets/app_logo/final_logo.png';
   static const String mediLeafLogo = 'assets/app_logo/medileaf_logo.webp';
+
+  //appbar
+  static const String darkLight = 'assets/app_icons/dark_light_button.webp';
+  static const String threeDot = 'assets/app_icons/3_dot_button.webp';
+
+
 
 
 
