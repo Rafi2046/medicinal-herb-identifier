@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medical_herb/features/favorites/presentation/pages/favorites_screen.dart';
-import 'package:medical_herb/features/history/presentation/pages/history_screen.dart';
-import 'package:medical_herb/features/home/presentation/page/home_screen.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class MainScreen extends StatefulWidget {
   final bool isDark;
@@ -14,54 +12,55 @@ class MainScreen extends StatefulWidget {
   });
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0;
-
-  List<Widget> get _pages => [
-        HomeScreen(
-          isDark: widget.isDark,
-          onThemeToggle: widget.onThemeToggle,
-        ),
-        const FavoritesScreen(),
-        const HistoryScreen(),
-      ];
+  var _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    final isDark = widget.isDark;
-    return Scaffold(
-      body: IndexedStack(index: _currentIndex, children: _pages),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        height: 72,
-        backgroundColor: isDark ? Colors.grey[900] : Colors.white,
-        indicatorColor: const Color(0xFFE6F7EC),
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        destinations: [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined, color: isDark ? Colors.white : Colors.black),
-            selectedIcon: Icon(Icons.home_rounded, color: isDark ? Colors.white : Colors.black),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.favorite_border_rounded, color: isDark ? Colors.white : Colors.black),
-            selectedIcon: Icon(Icons.favorite_rounded, color: isDark ? Colors.white : Colors.black),
-            label: 'Favorites',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.history_rounded, color: isDark ? Colors.white : Colors.black),
-            selectedIcon: Icon(Icons.history_toggle_off_rounded, color: isDark ? Colors.white : Colors.black),
-            label: 'History',
-          ),
-        ],
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: Scaffold(
+        appBar: AppBar(title: Text('Medical Herb')),
+        bottomNavigationBar: SalomonBottomBar(
+          currentIndex: _currentIndex,
+          onTap: (i) => setState(() => _currentIndex = i),
+          items: [
+            /// Home
+            SalomonBottomBarItem(
+              icon: Icon(Icons.home),
+              title: Text("Home"),
+              selectedColor: Colors.teal,
+            ),
+
+            /// Likes
+            SalomonBottomBarItem(
+              icon: Icon(Icons.favorite_border),
+              title: Text("Explore"),
+              selectedColor: Colors.teal,
+            ),
+
+            /// Search
+            SalomonBottomBarItem(
+              icon: Icon(Icons.search),
+              title: Text("Saved"),
+              selectedColor: Colors.teal,
+            ),
+
+            /// Profile
+            SalomonBottomBarItem(
+              icon: Icon(Icons.person),
+              title: Text("History"),
+              selectedColor: Colors.teal,
+            ),
+          ],
+        ),
       ),
     );
   }
