@@ -108,15 +108,25 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ],
                 ),
-                
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image(image: AssetImage(AppImages.darkLight,),height: AppSpacing.h40,width: AppSpacing.w40,),
-                    Image(image: AssetImage(AppImages.threeDot,),height: AppSpacing.h40,width: AppSpacing.w40,),
-                  ],
-                )
-                
+
+                Padding(
+                  padding: EdgeInsets.only(left: AppSpacing.w115),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        AppImages.darkLight,
+                        height: AppSpacing.h40,
+                        width: AppSpacing.w40,
+                      ),
+                      const SizedBox(width: AppSpacing.w8),
+                      Image.asset(
+                        AppImages.threeDot,
+                        height: AppSpacing.h40,
+                        width: AppSpacing.w40,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
     );
