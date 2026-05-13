@@ -18,6 +18,11 @@ class AppTextStyles {
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );
+  static TextStyle appbarTitle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: AppColors.black,
+  );
 
   static TextStyle heading33 = TextStyle(
     fontSize: 18,
