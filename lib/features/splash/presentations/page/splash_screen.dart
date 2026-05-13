@@ -5,14 +5,7 @@ import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/features/main/presentation/pages/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  final void Function() onThemeToggle;
-  final bool isDark;
-
-  const SplashScreen({
-    super.key,
-    required this.onThemeToggle,
-    required this.isDark,
-  });
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -30,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MainScreen(isDark: true)),
+          MaterialPageRoute(builder: (context) => const MainScreen()),
         );
       }
     });
