@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
+import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 
@@ -10,16 +11,18 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final bool resetForm;
   final VoidCallback? onPopOut;
   final bool? backArrow;
+  final String subtitle;
 
-  static const double _toolbarHeight = 60;
-  static const double _logoSize = 50;
-  static const double _logoAlphabeticBaselineFromTop = _logoSize * 0.76;
+  static const double _toolbarHeight = 65;
+  static const double _logoSize = 60;
+  static const double _logoAlphabeticBaselineFromTop = _logoSize * 0.90;
 
-  static const double _leadingWidth = 56;
+  static const double _leadingWidth = 100;
 
   const TopBarWidget({
     super.key,
     required this.title,
+    required this.subtitle,
     this.showMenuIcon = false,
     this.onPopOut,
     this.resetForm = false,
@@ -78,8 +81,8 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                       alignment: Alignment.bottomCenter,
                       child: Image.asset(
                         AppImages.mediLeafLogo,
-                        height: _logoSize * 0.88,
-                        width: _logoSize * 0.88,
+                        height: 55,
+                        width: 55,
                         fit: BoxFit.contain,
                         filterQuality: FilterQuality.medium,
                       ),
@@ -87,14 +90,33 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
 
-                Expanded(
-                  child: Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: titleStyle.copyWith(height: 1.0),
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: titleStyle.copyWith(height: 1.0),
+                    ),
+
+                    Text(
+                      subtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.subtitle,
+                    ),
+                  ],
                 ),
+                
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image(image: AssetImage(AppImages.darkLight,),height: AppSpacing.h40,width: AppSpacing.w40,),
+                    Image(image: AssetImage(AppImages.threeDot,),height: AppSpacing.h40,width: AppSpacing.w40,),
+                  ],
+                )
+                
               ],
             ),
     );
