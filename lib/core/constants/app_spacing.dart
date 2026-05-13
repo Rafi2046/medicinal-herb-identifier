@@ -79,6 +79,7 @@ class AppSpacing {
   static const double w80 = 80.0;
   static const double w100 = 100.0;
   static const double w110 = 110.0;
+  static const double w115 = 115.0;
   static const double w130 = 130.0;
   static const double w150 = 150.0;
   static const double w180 = 180.0;
