@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
+import 'package:medical_herb/core/providers/theme_provider.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
+import 'package:provider/provider.dart';
 
 class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -34,17 +36,18 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleStyle = AppTextStyles.appbarTitle;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
     final bool showBack = backArrow == true;
 
     return AppBar(
       scrolledUnderElevation: 0,
       elevation: 0,
-      backgroundColor: AppColors.white,
-      systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarColor: AppColors.white,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light,
+      backgroundColor: colorScheme.surface,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: colorScheme.surface,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+        statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
       ),
       toolbarHeight: _toolbarHeight,
       shape: const RoundedRectangleBorder(
@@ -66,7 +69,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
           : null,
       titleSpacing: showBack ? NavigationToolbar.kMiddleSpacing : 0,
       title: showBack
-          ? Text(title, style: titleStyle)
+          ? Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: colorScheme.onSurface))
           : Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
@@ -97,14 +100,14 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                       title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: titleStyle.copyWith(height: 1.0),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: colorScheme.onSurface, height: 1.0),
                     ),
 
                     Text(
                       subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.subtitle,
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: colorScheme.onSurface.withOpacity(0.6)),
                     ),
                   ],
                 ),
@@ -113,10 +116,13 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   padding: EdgeInsets.only(left: AppSpacing.w115),
                   child: Row(
                     children: [
-                      Image.asset(
-                        AppImages.darkLight,
-                        height: AppSpacing.h40,
-                        width: AppSpacing.w40,
+                      GestureDetector(
+                        onTap: () => context.read<ThemeProvider>().toggleTheme(),
+                        child: Image.asset(
+                          AppImages.darkLight,
+                          height: AppSpacing.h40,
+                          width: AppSpacing.w40,
+                        ),
                       ),
                       const SizedBox(width: AppSpacing.w8),
                       Image.asset(

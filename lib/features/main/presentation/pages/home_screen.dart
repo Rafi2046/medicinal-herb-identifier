@@ -1,23 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_herb/features/common_widgets/topbar_widget.dart';
 
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MainScreen(isDark: false),
-    );
-  }
-}
-
 class AppBarWidget extends StatelessWidget {
   final String title;
   const AppBarWidget({super.key, required this.title});
@@ -37,12 +20,7 @@ class AppBarWidget extends StatelessWidget {
 
 
 class MainScreen extends StatefulWidget {
-  final bool isDark;
-
-  const MainScreen({
-    super.key,
-    required this.isDark,
-  });
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -56,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF0FDF4),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       extendBody: true,
 
 
@@ -96,6 +74,11 @@ class _CustomBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final navBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final borderColor = isDark ? Colors.white.withOpacity(0.08) : Colors.black.withOpacity(0.04);
+    final shadowColor = isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.03);
+
     return Material(
       color: Colors.transparent,
       child: SizedBox(
@@ -112,16 +95,16 @@ class _CustomBottomNav extends StatelessWidget {
               height: _barBodyHeight + bottomInset,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: navBg,
                   border: Border(
                     top: BorderSide(
-                      color: Colors.black.withOpacity(0.04),
+                      color: borderColor,
                       width: 1,
                     ),
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.03),
+                      color: shadowColor,
                       offset: const Offset(0, -4),
                       blurRadius: 12,
                     ),
@@ -194,12 +177,12 @@ class _SideNavTile extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  static const Color _inactive = Color(0xFF94A3B8);
   static const Color _active = Color(0xFF27AE60);
 
   @override
   Widget build(BuildContext context) {
-    final color = selected ? _active : _inactive;
+    final inactive = Theme.of(context).colorScheme.onSurface.withOpacity(0.4);
+    final color = selected ? _active : inactive;
 
     return InkWell(
       onTap: onTap,
@@ -238,10 +221,13 @@ class _ScanNavTile extends StatelessWidget {
   final VoidCallback onTap;
 
   static const Color _scanGreen = Color(0xFF27AE60);
-  static const double _fabSize = 52; // Exact square size for the scan button
+  static const double _fabSize = 52;
 
   @override
   Widget build(BuildContext context) {
+    final iconColor = Theme.of(context).brightness == Brightness.dark
+        ? const Color(0xFF1E1E1E)
+        : Colors.white;
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
@@ -277,9 +263,9 @@ class _ScanNavTile extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.camera_alt_outlined,
-                        color: Colors.white,
+                        color: iconColor,
                         size: 26,
                       ),
                     ),
@@ -288,7 +274,7 @@ class _ScanNavTile extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
+            Text(
               'Scan',
               style: TextStyle(
                 fontSize: 11,
