@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medical_herb/features/common_widgets/topbar_widget.dart';
 
 
 void main() {
@@ -59,11 +60,9 @@ class _MainScreenState extends State<MainScreen> {
       extendBody: true,
 
 
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: const AppBarWidget(title: 'MediLeaf'),
+      appBar: const TopBarWidget(
+        title: 'MediLeaf',
+        backArrow: false,
       ),
 
       body: const Center(
