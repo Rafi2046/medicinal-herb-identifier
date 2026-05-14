@@ -49,7 +49,7 @@ class BottomNavScreen extends StatelessWidget {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: navBg,
-                  border: Border(top: BorderSide(color: borderColor, width: 1)),
+                  border: Border(top: BorderSide(color: Colors.blueGrey, width: 2)),
                   boxShadow: [
                     BoxShadow(
                       color: shadowColor,
