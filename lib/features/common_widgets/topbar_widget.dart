@@ -38,7 +38,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final bool showBack = backArrow == true;
 
-    // Match `_CustomBottomNav` top edge: subtle line + shadow onto the darker scaffold canvas.
+
     final borderColor = isDark
         ? Colors.white.withOpacity(0.08)
         : Colors.black.withOpacity(0.08);
@@ -46,137 +46,133 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
         ? Colors.black.withOpacity(0.3)
         : Colors.black.withOpacity(0.03);
 
-    final topBarBg =
-        isDark ? colorScheme.surface : Colors.white;
+    final topBarBg = isDark ? colorScheme.surface : Colors.white;
 
-    return AppBar(
-      scrolledUnderElevation: 0,
-      elevation: 0,
-      backgroundColor: topBarBg,
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: topBarBg,
-        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-        statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
-      ),
-      toolbarHeight: _toolbarHeight,
-      flexibleSpace: DecoratedBox(
-        decoration: BoxDecoration(
-          color: topBarBg,
-          border: Border(
-            bottom: BorderSide(color: Colors.black, width: 1),
-          ),
-          borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(20),
-
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: shadowColor,
-              offset: const Offset(0, 4),
-              blurRadius: 12,
-            ),
-          ],
+    return Container(
+      decoration: BoxDecoration(
+        color: topBarBg,
+        border: Border(bottom: BorderSide(color: Colors.teal, width: 2)),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: shadowColor,
+            offset: const Offset(0, 4),
+            blurRadius: 12,
+          ),
+        ],
       ),
-      centerTitle: false,
-      automaticallyImplyLeading: false,
-      leadingWidth: showBack ? _leadingWidth : 0,
-      leading: showBack
-          ? IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: resetForm && onPopOut != null
-                  ? onPopOut
-                  : () => Navigator.maybePop(context),
-            )
-          : null,
-      titleSpacing: showBack ? NavigationToolbar.kMiddleSpacing : 0,
-      title: showBack
-          ? Text(
-              title,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: colorScheme.onSurface,
-              ),
-            )
-          : Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Baseline(
-                  baseline: _logoAlphabeticBaselineFromTop,
-                  baselineType: TextBaseline.alphabetic,
-                  child: SizedBox(
-                    height: _logoSize,
-                    width: _logoSize,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Image.asset(
-                        AppImages.mediLeafLogo,
-                        height: 55,
-                        width: 55,
-                        fit: BoxFit.contain,
-                        filterQuality: FilterQuality.medium,
+      child: AppBar(
+        scrolledUnderElevation: 0,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: topBarBg,
+          statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+          statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+        ),
+        toolbarHeight: _toolbarHeight,
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        leadingWidth: showBack ? _leadingWidth : 0,
+        leading: showBack
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: resetForm && onPopOut != null
+                    ? onPopOut
+                    : () => Navigator.maybePop(context),
+              )
+            : null,
+        titleSpacing: showBack ? NavigationToolbar.kMiddleSpacing : 0,
+        title: showBack
+            ? Text(
+                title,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: colorScheme.onSurface,
+                ),
+              )
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  Baseline(
+                    baseline: _logoAlphabeticBaselineFromTop,
+                    baselineType: TextBaseline.alphabetic,
+                    child: SizedBox(
+                      height: _logoSize,
+                      width: _logoSize,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Image.asset(
+                          AppImages.mediLeafLogo,
+                          height: 55,
+                          width: 55,
+                          fit: BoxFit.contain,
+                          filterQuality: FilterQuality.medium,
+                        ),
                       ),
                     ),
                   ),
-                ),
 
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: colorScheme.onSurface,
-                        height: 1.0,
-                      ),
-                    ),
-
-                    Text(
-                      subtitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: colorScheme.onSurface.withOpacity(0.6),
-                      ),
-                    ),
-                  ],
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(left: AppSpacing.w115),
-                  child: Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                        onTap: () =>
-                            context.read<ThemeProvider>().toggleTheme(),
-                        child: Image.asset(
-                          context.watch<ThemeProvider>().isDark
-                              ? AppImages.lightButton
-                              : AppImages.darkLight,
-                          height: AppSpacing.h40,
-                          width: AppSpacing.w40,
+                      Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: colorScheme.onSurface,
+                          height: 1.0,
                         ),
                       ),
-                      const SizedBox(width: AppSpacing.w8),
-                      Image.asset(
-                        AppImages.threeDot,
-                        height: AppSpacing.h40,
-                        width: AppSpacing.w40,
+
+                      Text(
+                        subtitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: colorScheme.onSurface.withOpacity(0.6),
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
+
+                  Padding(
+                    padding: EdgeInsets.only(left: AppSpacing.w115),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () =>
+                              context.read<ThemeProvider>().toggleTheme(),
+                          child: Image.asset(
+                            context.watch<ThemeProvider>().isDark
+                                ? AppImages.lightButton
+                                : AppImages.darkLight,
+                            height: AppSpacing.h40,
+                            width: AppSpacing.w40,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.w8),
+                        Image.asset(
+                          AppImages.threeDot,
+                          height: AppSpacing.h40,
+                          width: AppSpacing.w40,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }
