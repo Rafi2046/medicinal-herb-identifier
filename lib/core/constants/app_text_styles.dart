@@ -116,6 +116,16 @@ class AppTextStyles {
     color: AppColors.green,
   );
 
+  static TextStyle welcomeText = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.white,);
+  static TextStyle identifyText = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: AppColors.white,);
+
+
   static TextStyle appBar = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w700,
@@ -225,6 +235,4 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
     color: AppColors.white,
   );
-
-
 }

@@ -15,7 +15,8 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const Color _primaryGreen = Color(0xFF27AE60);
+  static const Color _primaryTeal = Color(0xFF00897B);
+
   static const Color _lightBg = Color(0xFFF0FDF4);
   static const Color _darkBg = Color(0xFF121212);
   static const Color _darkSurface = Color(0xFF1E1E1E);
@@ -28,23 +29,49 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
+      theme: ThemeData(
+        useMaterial3: false,
+        brightness: Brightness.light,
+        primaryColor: Colors.teal,
+
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.teal,
+          brightness: Brightness.light,
+        ),
+
+        scaffoldBackgroundColor: Colors.white,
+
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+        ),
+
+        navigationBarTheme: NavigationBarThemeData(
+          indicatorColor: Colors.teal.withValues(alpha: 0.2),
+        ),
+      ),
+
       darkTheme: ThemeData(
         useMaterial3: false,
         brightness: Brightness.dark,
-        primaryColor: _primaryGreen,
+        primaryColor: Colors.teal,
+
         scaffoldBackgroundColor: _darkBg,
+
         colorScheme: ColorScheme.fromSeed(
-          seedColor: _primaryGreen,
+          seedColor: Colors.teal,
           brightness: Brightness.dark,
           surface: _darkSurface,
         ),
+
         appBarTheme: AppBarTheme(
           backgroundColor: _darkSurface,
           surfaceTintColor: _darkSurface,
         ),
+
         navigationBarTheme: NavigationBarThemeData(
           backgroundColor: _darkCard,
-          indicatorColor: _primaryGreen.withOpacity(0.2),
+          indicatorColor: Colors.teal.withValues(alpha: 0.2),
         ),
       ),
 

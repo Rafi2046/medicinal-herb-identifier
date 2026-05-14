@@ -27,6 +27,10 @@ class AppImages {
   static const String threeDot = 'assets/app_icons/3_dot_button.webp';
 
 
+  //home screen
+  static const String herbBanner = 'assets/background_image/herb_banner.webp';
+
+
 
 
 

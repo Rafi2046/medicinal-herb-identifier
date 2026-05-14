@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_herb/features/common_widgets/topbar_widget.dart';
 
-/// App bar for the main shell (MediLeaf header). Swap this widget to change the top bar.
 class MainAppTopBar extends StatelessWidget implements PreferredSizeWidget {
   const MainAppTopBar({super.key});
 

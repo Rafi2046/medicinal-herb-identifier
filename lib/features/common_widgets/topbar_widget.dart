@@ -63,11 +63,12 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
         decoration: BoxDecoration(
           color: topBarBg,
           border: Border(
-            bottom: BorderSide(color: borderColor, width: 1),
+            bottom: BorderSide(color: Colors.black, width: 1),
           ),
           borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
+
           ),
           boxShadow: [
             BoxShadow(
