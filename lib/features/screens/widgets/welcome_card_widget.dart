@@ -11,12 +11,16 @@ class WelcomeCardWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: AppSpacing.h150,
-
       decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(AppSpacing.br30),
         image: DecorationImage(
           image: AssetImage(AppImages.herbBanner),
           fit: BoxFit.cover,
+        ),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.surface,
+          width: 1,
         ),
       ),
       child: Padding(
