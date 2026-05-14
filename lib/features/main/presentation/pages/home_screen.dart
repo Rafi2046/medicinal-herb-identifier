@@ -34,7 +34,8 @@ class _MainScreenState extends State<MainScreen> {
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      // Use canvas color so the app bar (`surface`) reads as a distinct strip, like the bottom nav.
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       extendBody: true,
 
       appBar: const TopBarWidget(
