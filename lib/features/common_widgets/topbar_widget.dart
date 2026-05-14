@@ -40,20 +40,42 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final bool showBack = backArrow == true;
 
+    final borderColor = isDark
+        ? Colors.white.withOpacity(0.08)
+        : Colors.black.withOpacity(0.04);
+    final shadowColor = isDark
+        ? Colors.black.withOpacity(0.3)
+        : Colors.black.withOpacity(0.03);
+
+    final topBarBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+
     return AppBar(
       scrolledUnderElevation: 0,
       elevation: 0,
-      backgroundColor: colorScheme.surface,
+      backgroundColor: topBarBg,
       systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: colorScheme.surface,
+        statusBarColor: topBarBg,
         statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
         statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
       ),
       toolbarHeight: _toolbarHeight,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
+      flexibleSpace: DecoratedBox(
+        decoration: BoxDecoration(
+          color: topBarBg,
+          border: Border(
+            bottom: BorderSide(color: borderColor, width: 1),
+          ),
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: shadowColor,
+              offset: const Offset(0, 4),
+              blurRadius: 12,
+            ),
+          ],
         ),
       ),
       centerTitle: false,
