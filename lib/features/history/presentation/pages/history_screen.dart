@@ -1,6 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 
+/// History list for embedding in the main bottom navigation (no app bar).
+class HistoryBody extends StatelessWidget {
+  const HistoryBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'FEATURED HERBS',
+                style: AppTextStyles.optionText.copyWith(
+                  color: const Color(0xFF0F9A4C),
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.5,
+                ),
+              ),
+              Text(
+                'See all  >',
+                style: AppTextStyles.body3.copyWith(
+                  color: const Color(0xFF0F9A4C),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: ListView.separated(
+              itemCount: _items.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                return _HistoryHerbCard(item: _items[index]);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
 
@@ -17,44 +64,7 @@ class HistoryScreen extends StatelessWidget {
           style: AppTextStyles.appBar.copyWith(color: const Color(0xFF0E8A43)),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'FEATURED HERBS',
-                  style: AppTextStyles.optionText.copyWith(
-                    color: const Color(0xFF0F9A4C),
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                Text(
-                  'See all  >',
-                  style: AppTextStyles.body3.copyWith(
-                    color: const Color(0xFF0F9A4C),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: ListView.separated(
-                itemCount: _items.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  return _HistoryHerbCard(item: _items[index]);
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: const HistoryBody(),
     );
   }
 }
