@@ -28,28 +28,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.light,
-        primaryColor: _primaryGreen,
-        scaffoldBackgroundColor: _lightBg,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: _primaryGreen,
-          brightness: Brightness.light,
-          surface: Colors.white,
-        ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white,
-        ),
-        navigationBarTheme: NavigationBarThemeData(
-          backgroundColor: Colors.white,
-          indicatorColor: _primaryGreen.withOpacity(0.15),
-        ),
-      ),
-
       darkTheme: ThemeData(
-        useMaterial3: true,
+        useMaterial3: false,
         brightness: Brightness.dark,
         primaryColor: _primaryGreen,
         scaffoldBackgroundColor: _darkBg,
