@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
-import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/providers/theme_provider.dart';
-import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 
 class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -40,14 +38,16 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final bool showBack = backArrow == true;
 
+    // Match `_CustomBottomNav` top edge: subtle line + shadow onto the darker scaffold canvas.
     final borderColor = isDark
         ? Colors.white.withOpacity(0.08)
-        : Colors.black.withOpacity(0.04);
+        : Colors.black.withOpacity(0.08);
     final shadowColor = isDark
         ? Colors.black.withOpacity(0.3)
         : Colors.black.withOpacity(0.03);
 
-    final topBarBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final topBarBg =
+        isDark ? colorScheme.surface : Colors.white;
 
     return AppBar(
       scrolledUnderElevation: 0,
