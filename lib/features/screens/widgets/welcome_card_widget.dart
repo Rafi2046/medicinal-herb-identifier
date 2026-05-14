@@ -10,7 +10,7 @@ class WelcomeCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: AppSpacing.h140,
+      height: AppSpacing.h150,
 
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSpacing.br30),
