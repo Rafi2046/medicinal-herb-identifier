@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
-import 'package:medical_herb/features/main/presentation/pages/main_screen.dart';
+import 'package:medical_herb/features/screens/main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
