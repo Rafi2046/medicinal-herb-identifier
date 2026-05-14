@@ -4,10 +4,6 @@ import 'package:medical_herb/features/main/presentation/widgets/main_tab_pages.d
 import 'package:medical_herb/features/main/presentation/widgets/main_tab_placeholder.dart';
 import 'package:medical_herb/features/screens/home_screen.dart';
 
-/// Central place to wire bottom navigation: **same order and count** for both lists.
-///
-/// Paste your screens into [tabBodies] like:
-/// `static const List<Widget> tabBodies = [ HomeScreen(), ... ];`
 class MainTabConfig {
   MainTabConfig._();
 
@@ -34,6 +30,6 @@ class MainTabConfig {
       subtitle: 'Point the camera at a herb to identify it.',
     ),
     MainSavedTab(),
-    MainHistoryTab(),
+     MainHistoryTab(),
   ];
 }

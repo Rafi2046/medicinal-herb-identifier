@@ -5,7 +5,7 @@ import 'package:medical_herb/features/screens/bottom_nav_screen.dart';
 import 'package:medical_herb/features/screens/widgets/featured_herbs_section.dart';
 import 'package:medical_herb/features/screens/widgets/option_widget.dart';
 import 'package:medical_herb/features/screens/widgets/quick_access_widget.dart';
-import 'package:medical_herb/features/screens/widgets/welcome_card.dart';
+import 'package:medical_herb/features/screens/widgets/welcome_card_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          WelcomeCard(),
+          WelcomeCardWidget(),
           SizedBox(height: AppSpacing.h16),
           QuickAccessWidget(),
           SizedBox(height: AppSpacing.h16),
