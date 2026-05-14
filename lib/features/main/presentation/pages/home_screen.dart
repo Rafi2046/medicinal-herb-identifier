@@ -3,6 +3,7 @@ import 'package:medical_herb/features/common_widgets/topbar_widget.dart';
 
 class AppBarWidget extends StatelessWidget {
   final String title;
+
   const AppBarWidget({super.key, required this.title});
 
   @override
@@ -17,7 +18,6 @@ class AppBarWidget extends StatelessWidget {
     );
   }
 }
-
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -37,17 +37,13 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       extendBody: true,
 
-
       appBar: const TopBarWidget(
         title: 'MediLeaf',
         subtitle: 'Medicinal Herb Identifier',
         backArrow: false,
-
       ),
 
-      body: const Center(
-        child: Text('Content Area'),
-      ),
+      body: const Center(child: Text('Content Area')),
 
       bottomNavigationBar: _CustomBottomNav(
         currentIndex: _currentIndex,
@@ -76,8 +72,12 @@ class _CustomBottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final navBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
-    final borderColor = isDark ? Colors.white.withOpacity(0.08) : Colors.black.withOpacity(0.04);
-    final shadowColor = isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.03);
+    final borderColor = isDark
+        ? Colors.white.withOpacity(0.08)
+        : Colors.black.withOpacity(0.04);
+    final shadowColor = isDark
+        ? Colors.black.withOpacity(0.3)
+        : Colors.black.withOpacity(0.03);
 
     return Material(
       color: Colors.transparent,
@@ -87,7 +87,6 @@ class _CustomBottomNav extends StatelessWidget {
           clipBehavior: Clip.none,
           alignment: Alignment.bottomCenter,
           children: [
-
             Positioned(
               left: 0,
               right: 0,
@@ -96,12 +95,7 @@ class _CustomBottomNav extends StatelessWidget {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: navBg,
-                  border: Border(
-                    top: BorderSide(
-                      color: borderColor,
-                      width: 1,
-                    ),
-                  ),
+                  border: Border(top: BorderSide(color: borderColor, width: 1)),
                   boxShadow: [
                     BoxShadow(
                       color: shadowColor,
@@ -131,11 +125,7 @@ class _CustomBottomNav extends StatelessWidget {
                           onTap: () => onTap(1),
                         ),
                       ),
-                      Expanded(
-                        child: _ScanNavTile(
-                          onTap: () => onTap(2),
-                        ),
-                      ),
+                      Expanded(child: _ScanNavTile(onTap: () => onTap(2))),
                       Expanded(
                         child: _SideNavTile(
                           label: 'Saved',
@@ -214,9 +204,7 @@ class _SideNavTile extends StatelessWidget {
 }
 
 class _ScanNavTile extends StatelessWidget {
-  const _ScanNavTile({
-    required this.onTap,
-  });
+  const _ScanNavTile({required this.onTap});
 
   final VoidCallback onTap;
 
@@ -239,7 +227,6 @@ class _ScanNavTile extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-
             SizedBox(
               height: 24,
               width: _fabSize,
