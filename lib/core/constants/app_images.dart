@@ -23,6 +23,7 @@ class AppImages {
 
   //appbar
   static const String darkLight = 'assets/app_icons/dark_light_button.webp';
+  static const String lightButton = 'assets/app_icons/light_button.webp';
   static const String threeDot = 'assets/app_icons/3_dot_button.webp';
 
 

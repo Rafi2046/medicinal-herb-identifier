@@ -69,7 +69,14 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
           : null,
       titleSpacing: showBack ? NavigationToolbar.kMiddleSpacing : 0,
       title: showBack
-          ? Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: colorScheme.onSurface))
+          ? Text(
+              title,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: colorScheme.onSurface,
+              ),
+            )
           : Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
@@ -100,14 +107,23 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                       title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: colorScheme.onSurface, height: 1.0),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: colorScheme.onSurface,
+                        height: 1.0,
+                      ),
                     ),
 
                     Text(
                       subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: colorScheme.onSurface.withOpacity(0.6)),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: colorScheme.onSurface.withOpacity(0.6),
+                      ),
                     ),
                   ],
                 ),
@@ -117,9 +133,12 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: () => context.read<ThemeProvider>().toggleTheme(),
+                        onTap: () =>
+                            context.read<ThemeProvider>().toggleTheme(),
                         child: Image.asset(
-                          AppImages.darkLight,
+                          context.watch<ThemeProvider>().isDark
+                              ? AppImages.lightButton
+                              : AppImages.darkLight,
                           height: AppSpacing.h40,
                           width: AppSpacing.w40,
                         ),
