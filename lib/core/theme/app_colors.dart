@@ -13,11 +13,11 @@ class AppColors {
   static const Color containerColorWhite = Colors.white;
   static const Color white = Color(0xFFFFFFFF);
   static const Color backgroundColor = Color(0xFFF2F4F5);
-  static const Color green = Color(0xFF26B274);
+  static const Color green = Color(0xFF4b7c60); // herb
   static const Color containerColorRed = Color(0xFFFBEBEC);
   static const Color titleColorXL = Color(0xFFFBEBEC);
   static const Color previousButtonColor = Color(0x1A087C7C);
-  static const Color activeColor = Color(0xFF25AC71);
+  static const Color activeColor = Color(0xFFa0bba8);  // herb
   static const Color inactiveColor = Color(0xFFF26423);
   static const Color activeColor2 = Color(0xFFE6F2F2);
 

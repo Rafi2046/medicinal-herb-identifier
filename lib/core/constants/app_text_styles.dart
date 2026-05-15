@@ -28,10 +28,11 @@ class AppTextStyles {
     fontSize: 18,
     fontWeight: FontWeight.w600,
   );
-
+//herb
   static TextStyle heading4 = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.bold,
+      fontSize: 15,
+      fontWeight: FontWeight.w700,
+      color: AppColors.activeColor
   );
 
   static TextStyle medium = TextStyle(
@@ -164,14 +165,14 @@ class AppTextStyles {
     color: AppColors.black40,
   );
   static TextStyle uploadText = TextStyle(
-    fontSize: 11,
-    fontWeight: FontWeight.w500,
-    color: AppColors.black,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: AppColors.green,
   );
   static TextStyle uploadCameraText = TextStyle(
     fontSize: 11,
     fontWeight: FontWeight.w500,
-    color: AppColors.white,
+    color: AppColors.black40,
   );
 
   static TextStyle buttonText = TextStyle(

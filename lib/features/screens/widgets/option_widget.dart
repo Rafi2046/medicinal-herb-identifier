@@ -11,26 +11,37 @@ class OptionWidget extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Container(
-            height: 150,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(AppImages.containerImage),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(18),
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                  image: AssetImage(AppImages.cameraIcon),
-                  width: 48,
-                  height: 48,
+            child: Container(
+              height: 150,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(AppImages.herbBanner),
+                  fit: BoxFit.cover,
                 ),
-                Text('Scan Herb', style: AppTextStyles.scanText),
-                Text('Use camera', style: AppTextStyles.uploadCameraText),
-              ],
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.surface,
+                ),
+              ),
+              child: Column(
+                spacing: AppSpacing.s4,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(
+                    image: AssetImage(AppImages.cameraIcon),
+                    width: 48,
+                    height: 48,
+                  ),
+
+                  Text('Scan Herb', style: AppTextStyles.scanText),
+
+                  Text('Use camera', style: AppTextStyles.uploadCameraText),
+                ],
+              ),
             ),
           ),
         ),
@@ -38,26 +49,26 @@ class OptionWidget extends StatelessWidget {
         const SizedBox(width: AppSpacing.w12),
 
         Expanded(
-          child: Container(
-            height: 155,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(AppImages.containerWhite),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(18),
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                  image: AssetImage(AppImages.uploadIcon),
-                  width: 48,
-                  height: 48,
-                ),
-                Text('Upload', style: AppTextStyles.uploadText),
-                Text('From gallery', style: AppTextStyles.uploadText),
-              ],
+            child: SizedBox(
+              height: 150,
+              child: Column(
+                spacing: AppSpacing.s4,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(
+                    image: AssetImage(AppImages.uploadIcon),
+                    width: 48,
+                    height: 48,
+                  ),
+                  Text('Upload Image', style: AppTextStyles.uploadText),
+                  Text('Form gallery', style: AppTextStyles.uploadCameraText),
+                ],
+              ),
             ),
           ),
         ),

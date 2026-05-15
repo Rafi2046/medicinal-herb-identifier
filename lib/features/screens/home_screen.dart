@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
+import 'package:medical_herb/core/constants/app_text_styles.dart';
 
 import 'package:medical_herb/features/screens/bottom_nav_screen.dart';
 import 'package:medical_herb/features/screens/widgets/featured_herbs_section.dart';
@@ -19,16 +20,19 @@ class HomeScreen extends StatelessWidget {
         AppSpacing.w16,
         16 + BottomNavScreen.tabContentBottomInset(context),
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          WelcomeCardWidget(),
-          SizedBox(height: AppSpacing.h16),
-          QuickAccessWidget(),
-          SizedBox(height: AppSpacing.h16),
-          OptionWidget(),
-          SizedBox(height: AppSpacing.h24),
-          FeaturedHerbsSection(),
+          const WelcomeCardWidget(),
+          const SizedBox(height: AppSpacing.h16),
+          Text('CHOOSE AN OPTION', style: AppTextStyles.heading4),
+
+          const OptionWidget(),
+          const SizedBox(height: AppSpacing.h16),
+          Text('QUICK ACCESS', style: AppTextStyles.heading4),
+          const QuickAccessWidget(),
+          const SizedBox(height: AppSpacing.h24),
+          const FeaturedHerbsSection(),
         ],
       ),
     );
