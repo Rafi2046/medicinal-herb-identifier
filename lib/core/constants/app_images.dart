@@ -2,7 +2,7 @@ class AppImages {
   //herb
 
   static const String cardImage = 'assets/background_image/card_image.webp';
-  static const String uploadIcon = 'assets/icons/upload_icon.webp';
+  static const String uploadIcon = 'assets/app_icons/upload_icon.webp';
   static const String cameraIcon = 'assets/icons/camera_icon.webp';
   static const String containerImage =
       'assets/background_image/containerImage.webp';
