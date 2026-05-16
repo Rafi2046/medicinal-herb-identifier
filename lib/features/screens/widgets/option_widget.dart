@@ -4,43 +4,49 @@ import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 
 class OptionWidget extends StatelessWidget {
-  const OptionWidget({super.key});
+  final VoidCallback? onPressed;
+
+  const OptionWidget({super.key, this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(AppImages.herbBanner),
-                  fit: BoxFit.cover,
-                ),
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.surface,
-                ),
+        InkWell(
+          onTap: onPressed,
+          child: Expanded(
+            child: Card(
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
               ),
-              child: Column(
-                spacing: AppSpacing.s4,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image(
-                    image: AssetImage(AppImages.cameraIcon),
-                    width: 48,
-                    height: 48,
+              child: Container(
+                height: 150,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(AppImages.herbBanner),
+                    fit: BoxFit.cover,
                   ),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                ),
+                child: Column(
+                  spacing: AppSpacing.s4,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(
+                      image: AssetImage(AppImages.cameraIcon),
+                      width: 48,
+                      height: 48,
+                    ),
 
-                  Text('Scan Herb', style: AppTextStyles.scanText),
+                    Text('Scan Herb', style: AppTextStyles.scanText),
 
-                  Text('Use camera', style: AppTextStyles.uploadCameraText),
-                ],
+                    Text('Use camera', style: AppTextStyles.uploadCameraText),
+                  ],
+                ),
               ),
             ),
           ),

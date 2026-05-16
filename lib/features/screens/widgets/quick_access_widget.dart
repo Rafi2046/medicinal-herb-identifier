@@ -1,110 +1,100 @@
-// import 'package:flutter/material.dart';
-// import 'package:medical_herb/core/constants/app_images.dart';
-// import 'package:medical_herb/core/constants/app_spacing.dart';
-// import 'package:medical_herb/core/constants/app_text_styles.dart';
-//
-// class QuickAccessWidget extends StatelessWidget {
-//   const QuickAccessWidget({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       children: [
-//         Expanded(
-//           child: Container(
-//             padding: const EdgeInsets.all(12),
-//             height: 90,
-//             decoration: BoxDecoration(
-//               color: Colors.white,
-//               borderRadius: BorderRadius.circular(16),
-//               boxShadow: [
-//                 BoxShadow(
-//                   color: Colors.black12,
-//                   blurRadius: 8,
-//                   offset: Offset(0, 4),
-//                 ),
-//               ],
-//             ),
-//             child: Row(
-//               children: [
-//                 Image.asset(AppImages.favoriteIcon, height: 40, width: 40),
-//
-//                 const SizedBox(width: AppSpacing.w12),
-//
-//                 Column(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text("Favorites", style: AppTextStyles.buttonText),
-//                     Text("0 Saved herbs", style: AppTextStyles.quickSubTile),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//
-//         const SizedBox(width: AppSpacing.w12),
-//
-//         Expanded(
-//           child: Container(
-//             padding: const EdgeInsets.all(12),
-//             height: 90,
-//             decoration: BoxDecoration(
-//               color: Colors.white,
-//               borderRadius: BorderRadius.circular(16),
-//               boxShadow: [
-//                 BoxShadow(
-//                   color: Colors.black12,
-//                   blurRadius: 8,
-//                   offset: Offset(0, 4),
-//                 ),
-//               ],
-//             ),
-//             child: Row(
-//               children: [
-//                 Image.asset(AppImages.historyIcon, height: 40, width: 40),
-//
-//                 const SizedBox(width: AppSpacing.w12),
-//
-//                 Column(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text("History", style: AppTextStyles.buttonText),
-//                     Text("Recent scans", style: AppTextStyles.quickSubTile),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
+
+import 'package:medical_herb/core/constants/app_images.dart';
+import 'package:medical_herb/core/constants/app_spacing.dart';
+import 'package:medical_herb/core/constants/app_text_styles.dart';
+import 'package:medical_herb/core/theme/app_colors.dart';
 
 class QuickAccessWidget extends StatelessWidget {
   const QuickAccessWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 4)),
-        ],
-      ),
-      child: Row(
-        children: [
-          Text('fsa')
-        ],
-      ),
+    return Row(
+      spacing: 8,
+      children: [
+        Expanded(
+          child: Container(
+            height: 80,
+            clipBehavior: Clip.antiAlias,
+
+            decoration: BoxDecoration(
+              border: Border.all(width: 2, color: Colors.teal),
+              borderRadius: BorderRadius.circular(20),
+              color: AppColors.white,
+            ),
+
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                spacing: AppSpacing.s8,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image(
+                    image: AssetImage(AppImages.favoriteIcon),
+                    width: AppSpacing.w40,
+                    height: AppSpacing.h40,
+                  ),
+
+                  Column(
+                    spacing: AppSpacing.s2,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Favorites', style: AppTextStyles.uploadText),
+
+                      SizedBox(height: AppSpacing.s4),
+
+                      Text('0 saved herbs', style: AppTextStyles.quickSubTile),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+
+        Expanded(
+          child: Container(
+            height: 80,
+            clipBehavior: Clip.antiAlias,
+
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              border: Border.all(width: 2, color: Colors.teal),
+              borderRadius: BorderRadius.circular(20),
+            ),
+
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                spacing: AppSpacing.s8,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image(
+                    image: AssetImage(AppImages.historyIcon),
+                    width: AppSpacing.w40,
+                    height: AppSpacing.h40,
+                  ),
+
+                  Column(
+                    spacing: AppSpacing.s2,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('History', style: AppTextStyles.uploadText),
+
+                      SizedBox(height: AppSpacing.s4),
+
+                      Text('Recent scans', style: AppTextStyles.quickSubTile),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
