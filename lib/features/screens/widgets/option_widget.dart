@@ -13,9 +13,9 @@ class OptionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        InkWell(
-          onTap: onPressed,
-          child: Expanded(
+        Expanded(
+          child: InkWell(
+            onTap: onPressed,
             child: Card(
               clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(

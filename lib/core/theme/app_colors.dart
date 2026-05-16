@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
 
   static const Color primaryColor = Color(0xFF3bbcfa);
-  static const Color secondaryColor = Color(0xFFF28A21);
+  static const Color secondaryColor = Color(0xFFF28A21); // herb
   static const Color borderColor = Color(0xFFD6E2EF);
   static const Color black = Color(0xFF161F2C);
   static const Color black60 = Color(0xFF545C66);
@@ -14,6 +14,12 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color backgroundColor = Color(0xFFF2F4F5);
   static const Color green = Color(0xFF4b7c60); // herb
+    static const Color detailsText = Color(0xFFc1d1c6); // herb
+    static const Color herbName = Color(0xFF14532c); // herb
+    static const Color herbScientific = Color(0xFF4b7c59); // herb
+    static const Color  borderColors = Color(0xFFe2f0e5); // herb
+    static const Color  herbColorsName = Color(0xFFfef7e7); // herb
+
   static const Color containerColorRed = Color(0xFFFBEBEC);
   static const Color titleColorXL = Color(0xFFFBEBEC);
   static const Color previousButtonColor = Color(0x1A087C7C);

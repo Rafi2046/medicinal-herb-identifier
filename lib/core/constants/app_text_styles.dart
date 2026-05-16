@@ -164,11 +164,39 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.black40,
   );
-  static TextStyle uploadText = TextStyle(
+  static TextStyle uploadText = TextStyle(   // herb
     fontSize: 14,
     fontWeight: FontWeight.bold,
     color: AppColors.green,
   );
+
+  static TextStyle  detailsText = TextStyle(   // herb
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: AppColors.detailsText,
+  );
+
+  static TextStyle  herbName= TextStyle(   // herb
+    fontSize: 35,
+    fontWeight: FontWeight.bold,
+    color: AppColors.herbName,
+  );
+
+  static TextStyle  herbNameScientific= TextStyle(   // herb
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    color: AppColors.secondaryColor,
+  );
+
+
+
+  static TextStyle  detailsTextT = TextStyle(   // herb
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: AppColors.herbScientific ,
+  );
+
+
   static TextStyle uploadCameraText = TextStyle(
     fontSize: 11,
     fontWeight: FontWeight.w500,
