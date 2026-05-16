@@ -15,7 +15,6 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   static const double _toolbarHeight = 65;
   static const double _logoSize = 60;
-  static const double _logoAlphabeticBaselineFromTop = _logoSize * 0.90;
 
   static const double _leadingWidth = 100;
 
@@ -96,79 +95,75 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 ),
               )
             : Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
                 children: [
-                  Baseline(
-                    baseline: _logoAlphabeticBaselineFromTop,
-                    baselineType: TextBaseline.alphabetic,
-                    child: SizedBox(
-                      height: _logoSize,
-                      width: _logoSize,
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Image.asset(
-                          AppImages.mediLeafLogo,
-                          height: 55,
-                          width: 55,
-                          fit: BoxFit.contain,
-                          filterQuality: FilterQuality.medium,
-                        ),
+                  SizedBox(
+                    height: _logoSize,
+                    width: _logoSize,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Image.asset(
+                        AppImages.mediLeafLogo,
+                        height: 55,
+                        width: 55,
+                        fit: BoxFit.contain,
+                        filterQuality: FilterQuality.medium,
                       ),
                     ),
                   ),
 
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: colorScheme.onSurface,
-                          height: 1.0,
-                        ),
-                      ),
+                  const SizedBox(width: 8),
 
-                      Text(
-                        subtitle,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: colorScheme.onSurface.withOpacity(0.6),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.only(left: AppSpacing.w115),
-                    child: Row(
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                          onTap: () =>
-                              context.read<ThemeProvider>().toggleTheme(),
-                          child: Image.asset(
-                            context.watch<ThemeProvider>().isDark
-                                ? AppImages.lightButton
-                                : AppImages.darkLight,
-                            height: AppSpacing.h40,
-                            width: AppSpacing.w40,
+                        Text(
+                          title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: colorScheme.onSurface,
+                            height: 1.0,
                           ),
                         ),
-                        const SizedBox(width: AppSpacing.w8),
-                        Image.asset(
-                          AppImages.threeDot,
-                          height: AppSpacing.h40,
-                          width: AppSpacing.w40,
+
+                        Text(
+                          subtitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: colorScheme.onSurface.withOpacity(0.6),
+                          ),
                         ),
                       ],
                     ),
+                  ),
+
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      GestureDetector(
+                        onTap: () =>
+                            context.read<ThemeProvider>().toggleTheme(),
+                        child: Image.asset(
+                          context.watch<ThemeProvider>().isDark
+                              ? AppImages.lightButton
+                              : AppImages.darkLight,
+                          height: AppSpacing.h40,
+                          width: AppSpacing.w40,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.w8),
+                      Image.asset(
+                        AppImages.threeDot,
+                        height: AppSpacing.h40,
+                        width: AppSpacing.w40,
+                      ),
+                    ],
                   ),
                 ],
               ),
