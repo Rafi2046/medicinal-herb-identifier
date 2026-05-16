@@ -31,6 +31,9 @@ class AppImages {
   static const String herbBanner = 'assets/background_image/herb_banner.webp';
 
 
+  static const String arrowbackIcon =
+      'assets/app_icons/arrowbackIcon.webp';   // herb
+
 
 
 
@@ -67,9 +70,6 @@ class AppImages {
 
   static const String paymentReceiptIcon = 'assets/icons/receipt.png';
   static const String paymentInvoiceIcon = 'assets/icons/invoice.png';
-
-  static const String arrowPreviousIcon =
-      'assets/icons/arrow_previous_arrow.webp';
   static const String arrowNextIcon = 'assets/icons/arrow_next_white.webp';
   static const String dropdownIcon = 'assets/icons/dropdown_icon.webp';
   static const String occupiedIcon = 'assets/icons/occupied_icon.webp';
@@ -130,25 +130,6 @@ class AppImages {
   static const String printerIcon = 'assets/icons/printer_icon.webp';
   static const String submittedIcon = 'assets/icons/submitted_icon.webp';
   static const String editPen = 'assets/icons/edit_pen.webp';
-
-  //drawer Screen
-
-  static const String drawerCashManagementIcon =
-      'assets/icons/drawer_cash_management_icon.webp';
-  static const String drawerDashboardIcon =
-      'assets/icons/drawer_dashboard_icon.webp';
-  static const String drawerDocumentIcon =
-      'assets/icons/drawer_document_icon.webp';
-  static const String drawerLogoutIcon = 'assets/icons/drawer_logout_icon.webp';
-  static const String drawerProfileSettingsIcon =
-      'assets/icons/drawer_profile_settings_icon.webp';
-  static const String drawerPropertiesIcon =
-      'assets/icons/drawer_properties_icon.webp';
-  static const String drawerReportIcon = 'assets/icons/drawer_report_icon.webp';
-  static const String drawerTenantsIcon =
-      'assets/icons/drawer_tenants_icon.webp';
-  static const String drawerTransactionIcon =
-      'assets/icons/drawer_transaction_icon.webp';
 
   // Tenants Panel Dashboard
   static const String purchaseIcon = 'assets/icons/purchase_icon.webp';

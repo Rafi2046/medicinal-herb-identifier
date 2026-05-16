@@ -12,9 +12,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String? subtitle;
 
   static const double _toolbarHeight = 65;
-  static const double _logoSize = 60;
-  static const double _logoAlphabeticBaselineFromTop = _logoSize * 0.90;
-
   static const double _leadingWidth = 100;
 
   const AppBarWidget({
@@ -90,51 +87,43 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 ),
               )
             : Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
                 children: [
-                  Baseline(
-                    baseline: _logoAlphabeticBaselineFromTop,
-                    baselineType: TextBaseline.alphabetic,
-                    child: SizedBox(
-                      height: _logoSize,
-                      width: _logoSize,
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Image.asset(
-                          AppImages.mediLeafLogo,
-                          height: 55,
-                          width: 55,
-                          fit: BoxFit.contain,
-                          filterQuality: FilterQuality.medium,
+                  IconButton(
+                    icon: Image.asset(
+                      AppImages.arrowbackIcon,
+                      height: 28,
+                      width: 28,
+                    ),
+                    iconSize: 28,
+                    onPressed: () => Navigator.pop(context),
+                  ),
+
+                  const SizedBox(width: 4),
+
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title ?? '',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.appBar,
                         ),
-                      ),
+
+                        Text(
+                          subtitle ?? '',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: colorScheme.onSurface.withOpacity(0.6),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title ?? '',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.appBar
-                      ),
-
-                      Text(
-                        subtitle ?? '',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: colorScheme.onSurface.withOpacity(0.6),
-                        ),
-                      ),
-                    ],
-                  ),
-
                 ],
               ),
       ),

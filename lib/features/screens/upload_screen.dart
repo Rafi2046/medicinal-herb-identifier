@@ -3,8 +3,6 @@ import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:medical_herb/features/common_widgets/app_bar_widget.dart';
 
-import '../common_widgets/topbar_widget.dart';
-
 class UploadScreen extends StatelessWidget {
   const UploadScreen({super.key});
 
@@ -29,23 +27,24 @@ class UploadScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Column(
-
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'IDENTIFIED AS ',
-                            style: AppTextStyles.detailsText,
-                          ),
-                          Text('Akando ', style: AppTextStyles.herbName),
-                          Text(
-                            'Origanum vulgare ',
-                            style: AppTextStyles.detailsTextT,
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'IDENTIFIED AS ',
+                              style: AppTextStyles.detailsText,
+                            ),
+                            Text('Akando ', style: AppTextStyles.herbName),
+                            Text(
+                              'Origanum vulgare ',
+                              style: AppTextStyles.detailsTextT,
+                            ),
+                          ],
+                        ),
                       ),
                       Container(
                         height: 45,
