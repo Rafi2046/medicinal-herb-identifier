@@ -9,10 +9,8 @@ class UploadScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          AppBarWidget(title: 'Details Screen'),
-          Padding(
+      appBar: AppBarWidget(title: 'Details Screen'),
+      body: Padding(
             padding: const EdgeInsets.all(20),
             child: Card(
               shape: RoundedRectangleBorder(
@@ -66,8 +64,6 @@ class UploadScreen extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      ),
     );
   }
 }

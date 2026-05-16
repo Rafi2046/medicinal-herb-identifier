@@ -12,7 +12,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String? subtitle;
 
   static const double _toolbarHeight = 65;
-  static const double _leadingWidth = 100;
 
   const AppBarWidget({
     super.key,
@@ -31,29 +30,16 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final colorScheme = Theme.of(context).colorScheme;
-    final bool showBack = backArrow == true;
-
-    final shadowColor = isDark
-        ? Colors.black.withOpacity(0.3)
-        : Colors.black.withOpacity(0.03);
-
     final topBarBg = isDark ? colorScheme.surface : Colors.white;
 
     return Container(
       decoration: BoxDecoration(
         color: topBarBg,
-        border: Border(bottom: BorderSide(color: Colors.teal, width: 2)),
+        border: const Border(bottom: BorderSide(color: Colors.teal, width: 2)),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: shadowColor,
-            offset: const Offset(0, 4),
-            blurRadius: 12,
-          ),
-        ],
       ),
       child: AppBar(
         scrolledUnderElevation: 0,
@@ -67,65 +53,40 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         toolbarHeight: _toolbarHeight,
         centerTitle: false,
         automaticallyImplyLeading: false,
-        leadingWidth: showBack ? _leadingWidth : 0,
-        leading: showBack
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: resetForm && onPopOut != null
-                    ? onPopOut
-                    : () => Navigator.maybePop(context),
-              )
-            : null,
-        titleSpacing: showBack ? NavigationToolbar.kMiddleSpacing : 0,
-        title: showBack
-            ? Text(
-                title ?? '',
+        leadingWidth: 56,
+        leading: IconButton(
+          icon: Image.asset(
+            AppImages.arrowbackIcon,
+            height: 32,
+            width: 32,
+          ),
+          iconSize: 12,
+          onPressed: () => Navigator.pop(context),
+        ),
+        titleSpacing: 0,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              title ?? '',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.appBar,
+            ),
+            if (subtitle != null)
+              Text(
+                subtitle!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: colorScheme.onSurface,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
-              )
-            : Row(
-                children: [
-                  IconButton(
-                    icon: Image.asset(
-                      AppImages.arrowbackIcon,
-                      height: 28,
-                      width: 28,
-                    ),
-                    iconSize: 28,
-                    onPressed: () => Navigator.pop(context),
-                  ),
-
-                  const SizedBox(width: 4),
-
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title ?? '',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTextStyles.appBar,
-                        ),
-
-                        Text(
-                          subtitle ?? '',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: colorScheme.onSurface.withOpacity(0.6),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
               ),
+          ],
+        ),
       ),
     );
   }
