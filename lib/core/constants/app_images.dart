@@ -8,9 +8,9 @@ class AppImages {
       'assets/background_image/containerImage.webp';
   static const String containerWhite =
       'assets/background_image/cointainerWhite.webp';
-  static const String historyIcon = 'assets/icons/upload_icon.webp';
-  static const String favoriteIcon = 'assets/icons/favorite_icon.webp';
-  static const String whiteColor = 'assets/background_image/white.webp';
+  static const String historyIcon = 'assets/app_icons/history_icon.webp';
+  static const String favoriteIcon = 'assets/app_icons/favorite_icon.webp';
+
 
 
 
