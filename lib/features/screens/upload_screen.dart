@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:medical_herb/core/constants/app_images.dart';
+import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:medical_herb/features/common_widgets/app_bar_widget.dart';
+import 'package:medical_herb/features/common_widgets/custom_button.dart';
+import 'package:medical_herb/features/screens/widgets/confidence_score_card_widget.dart';
+import 'package:medical_herb/features/screens/widgets/key_traits_widget.dart';
+
+import 'herb_full_details_screen.dart';
 
 class UploadScreen extends StatelessWidget {
   const UploadScreen({super.key});
@@ -11,8 +18,11 @@ class UploadScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBarWidget(title: 'Details Screen'),
       body: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Card(
+        padding: const EdgeInsets.all(20),
+
+        child: Column(
+          children: [
+            Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(color: AppColors.borderColors),
@@ -20,7 +30,6 @@ class UploadScreen extends StatelessWidget {
               child: SizedBox(
                 height: 135,
                 width: double.infinity,
-
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Row(
@@ -63,7 +72,59 @@ class UploadScreen extends StatelessWidget {
                 ),
               ),
             ),
-          ),
+            SizedBox(height: 8),
+            const ConfidenceScoreCardWidget(),
+            SizedBox(height: 8),
+            KeyTraitsWidget(),
+            SizedBox(height: 8),
+            CustomButton(
+              text: 'View Full Details',
+              trailIcon: true,
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>  HerbFullDetailsScreen() ));
+              },
+            ),
+            SizedBox(height: 20),
+
+            Row(
+              children: [
+                Expanded(
+                  child: CustomButton(
+                    backgroundColor: Colors.white,
+                    showBorder: true,
+                    borderColor: AppColors.borderColors,
+                    text: 'Favorite',
+                    textColor: AppColors.herbScientific,
+                    onPressed: () {},
+                    leading: Image.asset(
+                      AppImages.favorites,
+                      height: AppSpacing.h16,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(width: 16),
+
+                Expanded(
+                  child: CustomButton(
+                    backgroundColor: Colors.white,
+                    showBorder: true,
+                    borderColor: AppColors.borderColors,
+                    text: 'Scan Again',
+                    textColor: AppColors.herbScientific,
+                    onPressed: () {},
+                    leading: Image.asset(
+                      AppImages.cameraIcon,
+                      height: AppSpacing.h16,
+                      color: Colors.green,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

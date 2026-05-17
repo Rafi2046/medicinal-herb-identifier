@@ -14,6 +14,12 @@ class AppTextStyles {
     color: AppColors.white,
   );
 
+  static TextStyle buttonWhite = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.white,
+  );
+
   static TextStyle heading3 = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
@@ -169,6 +175,12 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
     color: AppColors.green,
   );
+  static TextStyle characterText = TextStyle(   // herb
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: AppColors.characterName,
+  );
+
 
   static TextStyle  detailsText = TextStyle(   // herb
     fontSize: 14,
@@ -176,17 +188,68 @@ class AppTextStyles {
     color: AppColors.detailsText,
   );
 
+  static TextStyle  detailsText2 = TextStyle(   // herb
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: AppColors.activeColor,
+  );
+
+
+  static TextStyle  desText= TextStyle(   // herb
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: AppColors.desText,
+  );
+
+
+
   static TextStyle  herbName= TextStyle(   // herb
     fontSize: 35,
     fontWeight: FontWeight.bold,
     color: AppColors.herbName,
   );
 
+  static TextStyle  confidenceName= TextStyle(   // herb
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.herbName,
+  );
+
+  static TextStyle  keyTraits= TextStyle(   // herb
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.keyTraits,
+  );
+
+
+
+
+
+  static TextStyle  progressName= TextStyle(   // herb
+    fontSize: 35,
+    fontWeight: FontWeight.bold,
+    color: AppColors.progressColor,
+  );
+
+  static TextStyle  progressName2= TextStyle(   // herb
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.progressColor,
+  );
+
+
   static TextStyle  herbNameScientific= TextStyle(   // herb
     fontSize: 14,
     fontWeight: FontWeight.w700,
     color: AppColors.secondaryColor,
   );
+
+  static TextStyle  herbProgressScientific= TextStyle(   // herb
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    color: AppColors.herbProgressColor,
+  );
+
 
 
 

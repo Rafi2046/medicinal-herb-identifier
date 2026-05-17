@@ -11,12 +11,7 @@ class AppImages {
   static const String historyIcon = 'assets/app_icons/history_icon.webp';
   static const String favoriteIcon = 'assets/app_icons/favorite_icon.webp';
 
-
-
-
-
-
-//splash screen
+  //splash screen
   static const String splashImage = 'assets/app_logo/splash.webp';
   static const String splashLogo = 'assets/app_logo/final_logo.png';
   static const String mediLeafLogo = 'assets/app_logo/medileaf_logo.webp';
@@ -26,38 +21,15 @@ class AppImages {
   static const String lightButton = 'assets/app_icons/light_button.webp';
   static const String threeDot = 'assets/app_icons/3_dot_button.webp';
 
-
   //home screen
   static const String herbBanner = 'assets/background_image/herb_banner.webp';
 
-
   static const String arrowbackIcon =
-      'assets/app_icons/arrowbackIcon.webp';   // herb
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      'assets/app_icons/arrowbackIcon.webp'; // herb
+  static const String favorites =
+      'assets/app_icons/favorite_.webp'; // herb
   //herb meedileaf
-
-
+  static const String tickSign = 'assets/app_icons/tick_sign.webp';
   //homescreen
   static const String bellIcon = 'assets/icons/bell_icon.webp';
   static const String menuIcon = 'assets/icons/menu_icon.webp';
@@ -65,6 +37,22 @@ class AppImages {
   //all property icons
   static const String locationPinIcon = "assets/icons/starIcon.webp";
   static const String starIcon = "assets/icons/starIcon.webp";
+
+  //herb details
+
+  static const String characterIcon = "assets/app_icons/charactertics.webp";
+  static const String descriptionIcon = "assets/app_icons/description.webp";
+  static const String detailsTickIcon = "assets/app_icons/details_tick.webp";
+  static const String medicinalIcon = "assets/app_icons/medicinal_uses.webp";
+
+  //herb_botanical_info
+
+  static const String botanicalInfoIcon = "assets/app_icons/botanical_info.webp";
+  static const String scientificIcon = "assets/app_icons/scientific_name.webp";
+  static const String plantFamilyIcon = "assets/app_icons/plant_family_icon.webp";
+  static const String nativeRegionIcon = "assets/app_icons/native_region_icon.webp";
+  static const String confidenceIcon = "assets/app_icons/confidence_icon.webp";
+
 
   //property_screen
 
@@ -90,7 +78,8 @@ class AppImages {
   static const String addIcon = 'assets/icons/add_icon.webp';
   static const String saveIcon = 'assets/icons/save_icon.webp';
   static const String attachmentIcon = 'assets/icons/attachment_icon.webp';
-  static const String attachmentIconTwo = 'assets/icons/attachment_icon_two.webp';
+  static const String attachmentIconTwo =
+      'assets/icons/attachment_icon_two.webp';
 
   //bottom nav updateIcons
 
@@ -111,7 +100,8 @@ class AppImages {
   static const String notificationIcon = "assets/icons/notification_icon.webp";
   static const String mapLocation = 'assets/icons/map_ location_icon.webp';
 
-  static const String noProfilePicture = 'assets/dummy_images/no_profile_photo.webp';
+  static const String noProfilePicture =
+      'assets/dummy_images/no_profile_photo.webp';
 
   //tenants list
   static const String phoneCallIcon = 'assets/icons/phone_call_icon.webp';
@@ -141,11 +131,9 @@ class AppImages {
   static const String invoiceIcon = 'assets/icons/invoice_icons.webp';
 
   //tenants notice board details  icons
-  static const String viewIcon= 'assets/icons/view_icon.webp';
+  static const String viewIcon = 'assets/icons/view_icon.webp';
   static const String downloadsIcon = 'assets/icons/downloads_icon.webp';
   static const String detailsIcon = 'assets/icons/details_icon.webp';
-
-
 
   // Tenants Panel Dashboard drawer
 
@@ -155,19 +143,16 @@ class AppImages {
   static const String maintenanceRequestIcon =
       'assets/icons/maintenance_request_icon.webp';
   static const String noticeBoardIcon = 'assets/icons/notice_board_icon.webp';
-  static const String singleProfileIcon = 'assets/icons/single_profile_icon.webp';
+  static const String singleProfileIcon =
+      'assets/icons/single_profile_icon.webp';
   static const String clockIcon = 'assets/icons/clock_icon.webp';
   static const String renewalTerminationIcon =
       'assets/icons/renewal_termination_icon.webp';
   static const String reviewFeedbackIcon =
       'assets/icons/review_feedback_icon.webp';
 
-  static const String manIcon =
-      'assets/icons/man_icon.webp';
+  static const String manIcon = 'assets/icons/man_icon.webp';
 
   //Universal
-  static const String noData='assets/icons/no_data.webp';
-
-
-
+  static const String noData = 'assets/icons/no_data.webp';
 }
