@@ -26,6 +26,13 @@ class AppImages {
   static const String exploreImage = 'assets/background_image/moringa.jpg'; // herb
 
 
+  //herb saved
+
+  static const String savedIcon = 'assets/app_icons/saved_button.webp'; // herb
+  static const String deleteIcon = 'assets/app_icons/delete_button.webp'; // herb
+  static const String arrowForward = 'assets/app_icons/arrow_forwad.webp'; // herb
+
+
   static const String arrowbackIcon =
       'assets/app_icons/arrowbackIcon.webp'; // herb
   static const String favorites =

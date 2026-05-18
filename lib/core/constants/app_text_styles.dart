@@ -221,6 +221,12 @@ class AppTextStyles {
     color: AppColors.keyTraits,
   );
 
+  static TextStyle    savedText= TextStyle(   // herb
+    fontSize: 14,
+    fontWeight: FontWeight.w800,
+    color: AppColors.savedText,
+  );
+
 
 
 
