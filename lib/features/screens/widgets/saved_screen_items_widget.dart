@@ -23,8 +23,9 @@ class SavedScreenItemsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: AppColors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(12),
         side: BorderSide(color: AppColors.borderColor),
       ),
       child: Padding(
@@ -32,7 +33,6 @@ class SavedScreenItemsWidget extends StatelessWidget {
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(12),
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(width: 1, color: AppColors.borderColor),
@@ -56,9 +56,20 @@ class SavedScreenItemsWidget extends StatelessWidget {
                   Text(scientificName, style: AppTextStyles.desText),
                   Row(
                     children: [
-                      Image(image: AssetImage(AppImages.tickSign), width: 16, height: 16),
+                      Image(
+                        image: AssetImage(AppImages.tickSign),
+                        width: 16,
+                        height: 16,
+                      ),
                       const SizedBox(width: 4),
-                      Expanded(child: Text(family, style: AppTextStyles.savedText, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                      Expanded(
+                        child: Text(
+                          family,
+                          style: AppTextStyles.savedText,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                       Text('•', style: AppTextStyles.savedText),
                       const SizedBox(width: 4),
                       Text('2h ago', style: AppTextStyles.savedText),
@@ -67,11 +78,19 @@ class SavedScreenItemsWidget extends StatelessWidget {
                 ],
               ),
             ),
-            Image(image: AssetImage(AppImages.arrowForward), width: 24, height: 24),
+            Image(
+              image: AssetImage(AppImages.arrowForward),
+              width: 30,
+              height: 30,
+            ),
             const SizedBox(width: AppSpacing.s4),
             GestureDetector(
               onTap: onDelete,
-              child: Image(image: AssetImage(AppImages.deleteIcon), width: 24, height: 24),
+              child: Image(
+                image: AssetImage(AppImages.deleteIcon),
+                width: 30,
+                height: 30,
+              ),
             ),
           ],
         ),
