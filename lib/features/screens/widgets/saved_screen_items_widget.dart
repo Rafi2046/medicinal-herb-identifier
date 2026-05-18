@@ -3,6 +3,8 @@ import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
+import 'package:medical_herb/features/screens/herb_full_details_screen.dart';
+import 'package:medical_herb/features/screens/upload_screen.dart';
 
 class SavedScreenItemsWidget extends StatelessWidget {
   final String herbName;
@@ -78,11 +80,21 @@ class SavedScreenItemsWidget extends StatelessWidget {
                 ],
               ),
             ),
-            Image(
-              image: AssetImage(AppImages.arrowForward),
-              width: 30,
-              height: 30,
+
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HerbFullDetailsScreen()),
+                );
+              },
+              child: Image(
+                image: AssetImage(AppImages.arrowForward),
+                width: 30,
+                height: 30,
+              ),
             ),
+
             const SizedBox(width: AppSpacing.s4),
             GestureDetector(
               onTap: onDelete,
