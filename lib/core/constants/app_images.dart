@@ -22,7 +22,9 @@ class AppImages {
   static const String threeDot = 'assets/app_icons/3_dot_button.webp';
 
   //home screen
-  static const String herbBanner = 'assets/background_image/herb_banner.webp';
+  static const String herbBanner = 'assets/background_image/herb_banner.webp'; // herb
+  static const String exploreImage = 'assets/background_image/moringa.jpg'; // herb
+
 
   static const String arrowbackIcon =
       'assets/app_icons/arrowbackIcon.webp'; // herb
