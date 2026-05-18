@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:medical_herb/features/main/presentation/models/nav_item.dart';
+import 'package:medical_herb/features/screens/explore_screen.dart';
+import 'package:medical_herb/features/screens/history_screen.dart';
+import 'package:medical_herb/features/screens/home_screen.dart';
+import 'package:medical_herb/features/screens/saved_screen.dart';
+import 'package:medical_herb/features/screens/scan_screen.dart';
 
-class BottomNavScreen extends StatelessWidget {
-  const BottomNavScreen({
-    super.key,
-    required this.items,
-    required this.currentIndex,
-    required this.bottomInset,
-    required this.onTap,
-  });
-
-  final List<NavItem> items;
-  final int currentIndex;
-  final double bottomInset;
-  final ValueChanged<int> onTap;
+class BottomNavScreen extends StatefulWidget {
+  const BottomNavScreen({super.key});
 
   static const double barBodyHeight = 64;
   static const double fabOverhang = 28;
@@ -23,20 +17,56 @@ class BottomNavScreen extends StatelessWidget {
   }
 
   @override
+  State<BottomNavScreen> createState() => _BottomNavScreenState();
+}
+
+class _BottomNavScreenState extends State<BottomNavScreen> {
+  int _currentIndex = 0;
+
+  final List<Widget> _screens = const [
+    HomeScreen(),
+    ExploreScreen(),
+    ScanScreen(),
+    SavedScreen(),
+    HistoryScreen(),
+  ];
+
+  static const List<NavItem> _navItems = [
+    NavItem(title: 'Home', icon: Icons.home_outlined),
+    NavItem(title: 'Explore', icon: Icons.menu_book_outlined),
+    NavItem(
+      title: 'Scan',
+      icon: Icons.camera_alt_outlined,
+      style: MainNavTabStyle.centerFab,
+    ),
+    NavItem(title: 'Saved', icon: Icons.favorite_border),
+    NavItem(title: 'History', icon: Icons.schedule_outlined),
+  ];
+
+  @override
   Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.paddingOf(context).bottom;
+
+    return Scaffold(
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
+      ),
+      bottomNavigationBar: _buildNavBar(bottomInset),
+    );
+  }
+
+  Widget _buildNavBar(double bottomInset) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final navBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
-    final borderColor = isDark
-        ? Colors.white.withOpacity(0.08)
-        : Colors.black.withOpacity(0.04);
     final shadowColor = isDark
-        ? Colors.black.withOpacity(0.3)
-        : Colors.black.withOpacity(0.03);
+        ? Colors.black.withValues(alpha: 0.3)
+        : Colors.black.withValues(alpha: 0.03);
 
     return Material(
       color: Colors.transparent,
       child: SizedBox(
-        height: barBodyHeight + bottomInset + fabOverhang,
+        height: BottomNavScreen.barBodyHeight + bottomInset + BottomNavScreen.fabOverhang,
         child: Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.bottomCenter,
@@ -45,7 +75,7 @@ class BottomNavScreen extends StatelessWidget {
               left: 0,
               right: 0,
               bottom: 0,
-              height: barBodyHeight + bottomInset,
+              height: BottomNavScreen.barBodyHeight + bottomInset,
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: navBg,
@@ -65,9 +95,9 @@ class BottomNavScreen extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      for (var i = 0; i < items.length; i++)
+                      for (var i = 0; i < _navItems.length; i++)
                         Expanded(
-                          child: _navEntry(context, item: items[i], index: i),
+                          child: _navEntry(context, item: _navItems[i], index: i),
                         ),
                     ],
                   ),
@@ -85,20 +115,20 @@ class BottomNavScreen extends StatelessWidget {
     required NavItem item,
     required int index,
   }) {
-    final selected = currentIndex == index;
+    final selected = _currentIndex == index;
     if (item.style == MainNavTabStyle.centerFab) {
       return _ScanNavTile(
         label: item.title,
         icon: item.icon,
         selected: selected,
-        onTap: () => onTap(index),
+        onTap: () => setState(() => _currentIndex = index),
       );
     }
     return _SideNavTile(
       label: item.title,
       icon: item.icon,
       selected: selected,
-      onTap: () => onTap(index),
+      onTap: () => setState(() => _currentIndex = index),
     );
   }
 }
@@ -120,13 +150,13 @@ class _SideNavTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inactive = Theme.of(context).colorScheme.onSurface.withOpacity(0.4);
+    final inactive = Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4);
     final color = selected ? _active : inactive;
 
     return InkWell(
       onTap: onTap,
       highlightColor: Colors.transparent,
-      splashColor: _active.withOpacity(0.1),
+      splashColor: _active.withValues(alpha: 0.1),
       child: Container(
         height: BottomNavScreen.barBodyHeight,
         alignment: Alignment.bottomCenter,
@@ -207,7 +237,7 @@ class _ScanNavTile extends StatelessWidget {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: _scanGreen.withOpacity(0.3),
+                            color: _scanGreen.withValues(alpha: 0.3),
                             blurRadius: 12,
                             offset: const Offset(0, 6),
                           ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medical_herb/features/screens/bottom_nav_screen.dart';
+import 'package:medical_herb/features/bottom_nav/bottom_nav_screen.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 
 class ScanScreen extends StatelessWidget {

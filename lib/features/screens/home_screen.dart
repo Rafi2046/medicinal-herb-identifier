@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 
-import 'package:medical_herb/features/screens/bottom_nav_screen.dart';
 import 'package:medical_herb/features/screens/upload_screen.dart';
 import 'package:medical_herb/features/screens/widgets/featured_herbs_section.dart';
 import 'package:medical_herb/features/screens/widgets/option_widget.dart';
@@ -14,8 +13,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.paddingOf(context).bottom + 64 + 28;
     return SingleChildScrollView(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(20, 20, 20, bottomInset + 20),
       child: Column(
         spacing: 4,
         crossAxisAlignment: CrossAxisAlignment.stretch,
