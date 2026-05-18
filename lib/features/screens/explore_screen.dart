@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:medical_herb/features/bottom_nav/bottom_nav_screen.dart';
-
+import 'package:medical_herb/features/screens/widgets/explore_screen_widget.dart';
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final p = BottomNavScreen.tabContentBottomInset(context);
-    return ColoredBox(
-      color: const Color(0xFFF5F2F8),
-      child: Padding(
-        padding: EdgeInsets.only(bottom: p),
-        child: const Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('hdgdsudfsuiuifadsuifadsui')
-          ],
-        ),
+    return  Scaffold(
+      body: Column(
+        children: [
+          ExploreScreenWidget()
+        ],
       ),
     );
   }
