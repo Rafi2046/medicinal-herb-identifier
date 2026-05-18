@@ -20,8 +20,9 @@ class ExploreScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: AppColors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(12),
         side: BorderSide(color: AppColors.borderColor),
       ),
       child: Padding(
@@ -29,10 +30,9 @@ class ExploreScreenWidget extends StatelessWidget {
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(4),
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(width: 2, color: AppColors.borderColor),
+                  border: Border.all(width: 1, color: AppColors.borderColor),
                 ),
                 child: Image(
                   image: AssetImage(imagePath ?? AppImages.exploreImage),
