@@ -21,7 +21,7 @@ class ExploreScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(8),
         side: BorderSide(color: AppColors.borderColor),
       ),
       child: Padding(
@@ -29,7 +29,7 @@ class ExploreScreenWidget extends StatelessWidget {
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(4),
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(width: 2, color: AppColors.borderColor),
@@ -44,24 +44,37 @@ class ExploreScreenWidget extends StatelessWidget {
             ),
             const SizedBox(width: AppSpacing.s8),
             Expanded(
-              child: Column(
-                spacing: AppSpacing.s4,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(herbName ?? 'Moringa', style: AppTextStyles.confidenceName),
-                  Text(scientificName ?? 'Ocimum basilicum', style: AppTextStyles.desText),
-                ],
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '${herbName ?? 'Moringa'}\n',
+                      style: AppTextStyles.confidenceName,
+                    ),
+                    TextSpan(
+                      text: scientificName ?? 'Ocimum basilicum',
+                      style: AppTextStyles.desText,
+                    ),
+                  ],
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HerbFullDetailsScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => const HerbFullDetailsScreen(),
+                  ),
                 );
               },
-              child: Icon(Icons.arrow_forward_ios, size: 16, color: AppColors.borderColor),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: AppColors.borderColor,
+              ),
             ),
           ],
         ),
