@@ -4,6 +4,7 @@ class AppImages {
   static const String cardImage = 'assets/background_image/card_image.webp';
   static const String uploadIcon = 'assets/app_icons/upload_icon.webp';
   static const String cameraIcon = 'assets/icons/camera_icon.webp';
+  static const String camera = 'assets/app_icons/camera.webp';
   static const String containerImage =
       'assets/background_image/containerImage.webp';
   static const String containerWhite =
@@ -31,6 +32,13 @@ class AppImages {
   static const String savedIcon = 'assets/app_icons/saved_button.webp'; // herb
   static const String deleteIcon = 'assets/app_icons/delete_button.webp'; // herb
   static const String arrowForward = 'assets/app_icons/arrow_forwad.webp'; // herb
+  //history screen
+
+  static const String greenDot = 'assets/app_icons/green_dot.webp'; // herb
+  static const String clearButton = 'assets/app_icons/Clear_Button.webp'; // herb
+  static const String yellowButton = 'assets/app_icons/yellow_dot.webp'; // herb
+  static const String camara = 'assets/app_icons/camera.webp'; // herb
+  static const String upload = 'assets/app_icons/upload.webp'; // herb
 
 
   static const String arrowbackIcon =
