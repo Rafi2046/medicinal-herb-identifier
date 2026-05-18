@@ -3,10 +3,22 @@ import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
-import 'package:medical_herb/features/screens/herb_full_details_screen.dart';
 
 class SavedScreenItemsWidget extends StatelessWidget {
-  const SavedScreenItemsWidget({super.key});
+  final String herbName;
+  final String scientificName;
+  final String family;
+  final String imagePath;
+  final VoidCallback onDelete;
+
+  const SavedScreenItemsWidget({
+    super.key,
+    required this.herbName,
+    required this.scientificName,
+    required this.family,
+    required this.imagePath,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +32,7 @@ class SavedScreenItemsWidget extends StatelessWidget {
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: BorderRadius.circular(12),
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(width: 1, color: AppColors.borderColor),
@@ -40,53 +52,26 @@ class SavedScreenItemsWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Moringa', style: AppTextStyles.confidenceName),
-                  Text('Ocimum basilicum', style: AppTextStyles.desText),
+                  Text(herbName, style: AppTextStyles.confidenceName),
+                  Text(scientificName, style: AppTextStyles.desText),
                   Row(
-                    spacing: 8.0,
                     children: [
-                      Image(
-                        image: AssetImage(AppImages.tickSign),
-                        width: 16,
-                        height: 16,
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Origanum vulgare',
-                          style: AppTextStyles.savedText,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+                      Image(image: AssetImage(AppImages.tickSign), width: 16, height: 16),
+                      const SizedBox(width: 4),
+                      Expanded(child: Text(family, style: AppTextStyles.savedText, maxLines: 1, overflow: TextOverflow.ellipsis)),
                       Text('•', style: AppTextStyles.savedText),
+                      const SizedBox(width: 4),
                       Text('2h ago', style: AppTextStyles.savedText),
                     ],
                   ),
                 ],
               ),
             ),
-
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HerbFullDetailsScreen(),
-                  ),
-                );
-              },
-              child: Image(
-                image: AssetImage(AppImages.arrowForward),
-                width: 24,
-                height: 24,
-              ),
-            ),
-
+            Image(image: AssetImage(AppImages.arrowForward), width: 24, height: 24),
             const SizedBox(width: AppSpacing.s4),
-            Image(
-              image: AssetImage(AppImages.deleteIcon),
-              width: 24,
-              height: 24,
+            GestureDetector(
+              onTap: onDelete,
+              child: Image(image: AssetImage(AppImages.deleteIcon), width: 24, height: 24),
             ),
           ],
         ),
