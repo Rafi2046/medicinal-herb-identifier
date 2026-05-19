@@ -4,22 +4,44 @@ import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 
 class HistoryWidget extends StatelessWidget {
+  final String? id;
   final String? herbName;
   final String? imagePath;
   final String? imagePath2;
   final String? imagePath3;
+  final String? time;
+  final String? confidence;
+  final VoidCallback? onDelete;
 
   const HistoryWidget({
     super.key,
+    this.id,
     this.herbName,
     this.imagePath,
     this.imagePath2,
     this.imagePath3,
+    this.time,
+    this.confidence,
+    this.onDelete,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Dismissible(
+      key: Key(id ?? ''),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 20),
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Icon(Icons.delete, color: Colors.white, size: 30),
+      ),
+      onDismissed: (_) => onDelete?.call(),
+      child: Card(
       color: AppColors.white,
       margin: const EdgeInsets.symmetric(vertical: 8),
       shape: RoundedRectangleBorder(
@@ -76,14 +98,14 @@ class HistoryWidget extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: '10:32 AM  ●  ',
+                              text: '${time ?? '00:00 AM'}  ●  ',
                               style: TextStyle(
                                 color: AppColors.detailsText,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            const TextSpan(
-                              text: '94%',
+                            TextSpan(
+                              text: confidence ?? '0%',
                               style: TextStyle(
                                 color: Colors.green,
                                 fontWeight: FontWeight.bold,
@@ -100,14 +122,18 @@ class HistoryWidget extends StatelessWidget {
 
             const SizedBox(width: 12),
 
-            Image(
-              image: AssetImage(AppImages.deleteIcon),
-              width: 40,
-              height: 40,
+            GestureDetector(
+              onTap: onDelete,
+              child: Image(
+                image: AssetImage(AppImages.deleteIcon),
+                width: 40,
+                height: 40,
+              ),
             ),
           ],
         ),
       ),
+    ),
     );
   }
 }
