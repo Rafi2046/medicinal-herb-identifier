@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'core/providers/history_provider.dart';
 import 'core/providers/theme_provider.dart';
 import 'features/splash/presentations/page/splash_screen.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => HistoryProvider()),
+      ],
       child: const MyApp(),
     ),
   );
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -28,6 +31,8 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
+      themeMode: themeProvider.themeMode,
 
       theme: ThemeData(
         useMaterial3: false,
@@ -64,7 +69,7 @@ class MyApp extends StatelessWidget {
           surface: _darkSurface,
         ),
 
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           backgroundColor: _darkSurface,
           surfaceTintColor: _darkSurface,
         ),
@@ -74,8 +79,6 @@ class MyApp extends StatelessWidget {
           indicatorColor: Colors.teal.withValues(alpha: 0.2),
         ),
       ),
-
-      themeMode: themeProvider.themeMode,
 
       home: const SplashScreen(),
     );
