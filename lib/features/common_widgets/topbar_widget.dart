@@ -40,19 +40,18 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
         ? Colors.black.withOpacity(0.3)
         : Colors.black.withOpacity(0.03);
 
-    // Update status bar style
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: AppColors.containerColorGreen,
-      statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-      statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: AppColors.containerColorGreen,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+        statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+      ),
+    );
 
     return Container(
       decoration: BoxDecoration(
         color: AppColors.containerColorGreen,
-        border: const Border(
-          bottom: BorderSide(color: Colors.teal, width: 2),
-        ),
+        border: const Border(bottom: BorderSide(color: Colors.teal, width: 2)),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
@@ -65,19 +64,19 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-      // Account for status bar height + toolbar height
       height: statusBarHeight + _toolbarHeight,
       child: Padding(
         padding: EdgeInsets.only(top: statusBarHeight),
         child: SizedBox(
           height: _toolbarHeight,
-          child: showBack ? _buildBackBar(context, colorScheme) : _buildMainBar(context, colorScheme, isDark),
+          child: showBack
+              ? _buildBackBar(context, colorScheme)
+              : _buildMainBar(context, colorScheme, isDark),
         ),
       ),
     );
   }
 
-  // Back arrow bar
   Widget _buildBackBar(BuildContext context, ColorScheme colorScheme) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,8 +100,11 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // Main bar with logo, title/subtitle, and icons
-  Widget _buildMainBar(BuildContext context, ColorScheme colorScheme, bool isDark) {
+  Widget _buildMainBar(
+    BuildContext context,
+    ColorScheme colorScheme,
+    bool isDark,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
@@ -157,21 +159,92 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // Theme toggle
+              // Theme toggle
               GestureDetector(
                 onTap: () => context.read<ThemeProvider>().toggleTheme(),
-                child: Image.asset(
-                  context.watch<ThemeProvider>().isDark
-                      ? AppImages.lightButton
-                      : AppImages.darkLight,
-                  height: AppSpacing.h40,
-                  width: AppSpacing.w40,
+                child: Container(
+                  height: 38,
+                  width: 38,
+                  decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    context.watch<ThemeProvider>().isDark
+                        ? Icons.light_mode
+                        : Icons.dark_mode,
+                    color: Colors.green,
+                    size: 20,
+                  ),
                 ),
               ),
-              const SizedBox(width: AppSpacing.w8),
-              Image.asset(
-                AppImages.threeDot,
-                height: AppSpacing.h40,
-                width: AppSpacing.w40,
+
+              const SizedBox(width: 8),
+
+              PopupMenuButton<String>(
+                onSelected: (value) {
+                  switch (value) {
+                    case 'about':
+                      break;
+                    case 'settings':
+                      break;
+                    case 'rate':
+                      break;
+                  }
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                color: colorScheme.surface,
+                elevation: 4,
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 'about',
+                    child: Text(
+                      'About App',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
+                  const PopupMenuDivider(),
+                  PopupMenuItem(
+                    value: 'settings',
+                    child: Text(
+                      'Settings',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
+                  const PopupMenuDivider(),
+                  PopupMenuItem(
+                    value: 'rate',
+                    child: Text(
+                      'Rate Us',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
+                ],
+                child: Container(
+                  height: 38,
+                  width: 38,
+                  decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.more_vert,
+                    color: Colors.green,
+                    size: 20,
+                  ),
+                ),
               ),
             ],
           ),
