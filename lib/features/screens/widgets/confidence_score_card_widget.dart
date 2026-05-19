@@ -8,15 +8,24 @@ class ConfidenceScoreCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color darkGreenText = Color(0xFF0F3D26);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     const Color primaryGreen = Color(0xFF13C366);
     const Color lightGreenBg = Color(0xFFE2F6EB);
     const Color greyText = Color(0xFF8E9E96);
 
+    final cardColor = isDark ? const Color(0xFF1E293B) : AppColors.white;
+    final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColors;
+    final pillColor = isDark ? const Color(0xFF334155) : AppColors.herbProgressColors;
+    final titleColor = isDark ? Colors.white : AppColors.herbName;
+    final subtitleColor = isDark ? Colors.white70 : AppColors.desText;
+    final darkSubtitleColor = isDark ? Colors.white54 : const Color(0xFF8E9E96);
+    final dividerColor = isDark ? const Color(0xFF334155) : const Color(0xFFE8ECE9);
+
     return Card(
+      color: cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: AppColors.borderColors),
+        side: BorderSide(color: borderColor),
       ),
       child: Padding(
         padding: EdgeInsets.all(20),
@@ -27,24 +36,24 @@ class ConfidenceScoreCardWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text('Confidence Score', style: AppTextStyles.confidenceName),
+                Text('Confidence Score', style: AppTextStyles.confidenceName.copyWith(color: titleColor)),
                 Spacer(),
                 Container(
                   height: 45,
                   decoration: BoxDecoration(
-                    color: AppColors.herbProgressColors,
+                    color: pillColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(15),
                     child: Text(
                       'Very High',
-                      style: AppTextStyles.herbProgressScientific,
+                      style: AppTextStyles.herbProgressScientific.copyWith(color: isDark ? Colors.white : null),
                     ),
                   ),
                 ),
                 const SizedBox(width: 10),
-                Text('91%', style: AppTextStyles.progressName),
+                Text('91%', style: AppTextStyles.progressName.copyWith(color: isDark ? Colors.white : null)),
               ],
             ),
 
@@ -52,7 +61,7 @@ class ConfidenceScoreCardWidget extends StatelessWidget {
             LinearPercentIndicator(
               lineHeight: 14.0,
               percent: 0.75,
-              backgroundColor: lightGreenBg,
+              backgroundColor: isDark ? const Color(0xFF334155) : lightGreenBg,
               progressColor: primaryGreen,
 
               barRadius: const Radius.circular(20),
@@ -67,8 +76,8 @@ class ConfidenceScoreCardWidget extends StatelessWidget {
                   .map(
                     (text) => Text(
                       text,
-                      style: const TextStyle(
-                        color: greyText,
+                      style: TextStyle(
+                        color: isDark ? Colors.white54 : greyText,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
@@ -77,7 +86,7 @@ class ConfidenceScoreCardWidget extends StatelessWidget {
                   .toList(),
             ),
             const SizedBox(height: 20),
-            const Divider(color: Color(0xFFE8ECE9), thickness: 1.5),
+            Divider(color: dividerColor, thickness: 1.5),
             const SizedBox(height: 10),
 
             Row(
@@ -85,21 +94,21 @@ class ConfidenceScoreCardWidget extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    Text('91%', style: AppTextStyles.progressName2),
-                    Text('Visual Match', style: AppTextStyles.detailsText2),
+                    Text('91%', style: AppTextStyles.progressName2.copyWith(color: isDark ? Colors.white : null)),
+                    Text('Visual Match', style: AppTextStyles.detailsText2.copyWith(color: darkSubtitleColor)),
                   ],
                 ),
 
                 Column(
                   children: [
-                    Text('91%', style: AppTextStyles.progressName2),
-                    Text('Leaf Shape', style: AppTextStyles.detailsText2),
+                    Text('91%', style: AppTextStyles.progressName2.copyWith(color: isDark ? Colors.white : null)),
+                    Text('Leaf Shape', style: AppTextStyles.detailsText2.copyWith(color: darkSubtitleColor)),
                   ],
                 ),
                 Column(
                   children: [
-                    Text('91%', style: AppTextStyles.progressName2),
-                    Text('Color Match', style: AppTextStyles.detailsText2),
+                    Text('91%', style: AppTextStyles.progressName2.copyWith(color: isDark ? Colors.white : null)),
+                    Text('Color Match', style: AppTextStyles.detailsText2.copyWith(color: darkSubtitleColor)),
                   ],
                 ),
               ],
