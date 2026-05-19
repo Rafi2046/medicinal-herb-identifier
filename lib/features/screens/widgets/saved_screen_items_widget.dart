@@ -23,11 +23,15 @@ class SavedScreenItemsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDark ? const Color(0xFF1E293B) : AppColors.white;
+    final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColor;
+
     return Card(
-      color: AppColors.white,
+      color: cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.borderColor),
+        side: BorderSide(color: borderColor),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),

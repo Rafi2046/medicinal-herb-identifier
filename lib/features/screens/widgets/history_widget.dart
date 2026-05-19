@@ -27,6 +27,11 @@ class HistoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDark ? const Color(0xFF1E293B) : AppColors.white;
+    final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColor;
+    final textColor = isDark ? Colors.white : Colors.black;
+
     return Dismissible(
       key: Key(id ?? ''),
       direction: DismissDirection.endToStart,
@@ -42,11 +47,11 @@ class HistoryWidget extends StatelessWidget {
       ),
       onDismissed: (_) => onDelete?.call(),
       child: Card(
-      color: AppColors.white,
+      color: cardColor,
       margin: const EdgeInsets.symmetric(vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.borderColor),
+        side: BorderSide(color: borderColor),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -92,15 +97,15 @@ class HistoryWidget extends StatelessWidget {
 
                       RichText(
                         text: TextSpan(
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
-                            color: Colors.black,
+                            color: textColor,
                           ),
                           children: [
                             TextSpan(
                               text: '${time ?? '00:00 AM'}  ●  ',
                               style: TextStyle(
-                                color: AppColors.detailsText,
+                                color: isDark ? Colors.white60 : AppColors.detailsText,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),

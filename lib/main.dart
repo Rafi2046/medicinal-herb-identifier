@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
   static const Color _primaryTeal = Color(0xFF00897B);
 
   static const Color _lightBg = Color(0xFFF0FDF4);
-  static const Color _darkBg = Color(0xFF121212);
-  static const Color _darkSurface = Color(0xFF1E1E1E);
-  static const Color _darkCard = Color(0xFF2C2C2C);
+  static const Color _darkBg = Color(0xFF0F172A);
+  static const Color _darkSurface = Color(0xFF1E293B);
+  static const Color _darkCard = Color(0xFF334155);
 
   @override
   Widget build(BuildContext context) {
