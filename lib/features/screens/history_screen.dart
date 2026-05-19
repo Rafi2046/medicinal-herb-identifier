@@ -21,22 +21,14 @@ class HistoryScreen extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
+        top: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TabScreenHeader(
               title: 'History',
               subtitle: '${historyProvider.items.length} scans',
-              actions: [
-                TabScreenPillAction(
-                  label: 'Clear',
-                  icon: Icons.delete_outline_rounded,
-                  onTap: historyProvider.items.isEmpty
-                      ? null
-                      : () => historyProvider.resetItems(),
-                ),
-                const TabScreenIconAction(icon: Icons.history_rounded),
-              ],
+              actions: [],
             ),
             Expanded(
               child: RefreshIndicator(
@@ -58,7 +50,8 @@ class HistoryScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const HerbFullDetailsScreen(),
+                                  builder: (context) =>
+                                      const HerbFullDetailsScreen(),
                                 ),
                               );
                             },
@@ -70,7 +63,8 @@ class HistoryScreen extends StatelessWidget {
                               imagePath3: item.iconImage,
                               time: item.time,
                               confidence: item.confidence,
-                              onDelete: () => historyProvider.removeItem(item.id),
+                              onDelete: () =>
+                                  historyProvider.removeItem(item.id),
                             ),
                           ),
                         ),
@@ -83,7 +77,8 @@ class HistoryScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const HerbFullDetailsScreen(),
+                                  builder: (context) =>
+                                      const HerbFullDetailsScreen(),
                                 ),
                               );
                             },
@@ -95,7 +90,8 @@ class HistoryScreen extends StatelessWidget {
                               imagePath3: item.iconImage,
                               time: item.time,
                               confidence: item.confidence,
-                              onDelete: () => historyProvider.removeItem(item.id),
+                              onDelete: () =>
+                                  historyProvider.removeItem(item.id),
                             ),
                           ),
                         ),
@@ -108,7 +104,8 @@ class HistoryScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const HerbFullDetailsScreen(),
+                                  builder: (context) =>
+                                      const HerbFullDetailsScreen(),
                                 ),
                               );
                             },
@@ -120,7 +117,8 @@ class HistoryScreen extends StatelessWidget {
                               imagePath3: item.iconImage,
                               time: item.time,
                               confidence: item.confidence,
-                              onDelete: () => historyProvider.removeItem(item.id),
+                              onDelete: () =>
+                                  historyProvider.removeItem(item.id),
                             ),
                           ),
                         ),
