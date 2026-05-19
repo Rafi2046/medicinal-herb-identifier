@@ -19,11 +19,15 @@ class ExploreScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDark ? const Color(0xFF1E293B) : AppColors.white;
+    final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColor;
+
     return Card(
-      color: AppColors.white,
+      color: cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.borderColor),
+        side: BorderSide(color: borderColor),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -73,7 +77,7 @@ class ExploreScreenWidget extends StatelessWidget {
               child: Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
-                color: AppColors.borderColor,
+                color: isDark ? Colors.white70 : AppColors.borderColor,
               ),
             ),
           ],
