@@ -17,11 +17,18 @@ class TabScreenHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.paddingOf(context).top;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final headerBg = isDark 
+        ? const Color(0xFF1a2e1a) 
+        : AppColors.containerColorGreen;
+    final titleColor = isDark ? Colors.white : AppColors.herbName;
+    final subtitleColor = isDark ? Colors.white70 : const Color(0xFF545C66);
 
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.containerColorGreen,
+        color: headerBg,
         border: const Border(
           bottom: BorderSide(color: Colors.teal, width: 2),
         ),
@@ -45,7 +52,7 @@ class TabScreenHeader extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppTextStyles.appBar.copyWith(
-                      color: AppColors.herbName,
+                      color: titleColor,
                       height: 1.0,
                     ),
                   ),
@@ -54,7 +61,9 @@ class TabScreenHeader extends StatelessWidget {
                     subtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.appBarSubTile,
+                    style: AppTextStyles.appBarSubTile.copyWith(
+                      color: subtitleColor,
+                    ),
                   ),
                 ],
               ),
