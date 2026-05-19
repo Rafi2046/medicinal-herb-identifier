@@ -107,4 +107,81 @@ class HistoryProvider extends ChangeNotifier {
     _items.removeWhere((item) => item.id == id);
     notifyListeners();
   }
+
+  void resetItems() {
+    _items.clear();
+    _items.addAll([
+      HistoryItem(
+        id: '1',
+        herbName: 'Mint',
+        dotImage: AppImages.greenDot,
+        herbImage: 'assets/background_image/joba.webp',
+        iconImage: AppImages.upload,
+        time: '10:32 AM',
+        confidence: '94%',
+        category: 'TODAY',
+      ),
+      HistoryItem(
+        id: '2',
+        herbName: 'Mint',
+        dotImage: AppImages.yellowDot,
+        herbImage: 'assets/background_image/joba.webp',
+        iconImage: AppImages.upload,
+        time: '11:00 AM',
+        confidence: '85%',
+        category: 'TODAY',
+      ),
+      HistoryItem(
+        id: '3',
+        herbName: 'Mint',
+        dotImage: AppImages.greenDot,
+        herbImage: 'assets/background_image/joba.webp',
+        iconImage: AppImages.camara,
+        time: '09:15 AM',
+        confidence: '92%',
+        category: 'YESTERDAY',
+      ),
+      HistoryItem(
+        id: '4',
+        herbName: 'Mint',
+        dotImage: AppImages.yellowDot,
+        herbImage: 'assets/background_image/joba.webp',
+        iconImage: AppImages.camara,
+        time: '02:30 PM',
+        confidence: '78%',
+        category: 'YESTERDAY',
+      ),
+      HistoryItem(
+        id: '5',
+        herbName: 'Mint',
+        dotImage: AppImages.greenDot,
+        herbImage: 'assets/background_image/joba.webp',
+        iconImage: AppImages.upload,
+        time: '04:00 PM',
+        confidence: '96%',
+        category: 'THIS WEEK',
+      ),
+      HistoryItem(
+        id: '6',
+        herbName: 'Mint',
+        dotImage: AppImages.yellowDot,
+        herbImage: 'assets/background_image/joba.webp',
+        iconImage: AppImages.camara,
+        time: '11:45 AM',
+        confidence: '88%',
+        category: 'THIS WEEK',
+      ),
+      HistoryItem(
+        id: '7',
+        herbName: 'Mint',
+        dotImage: AppImages.yellowDot,
+        herbImage: 'assets/background_image/joba.webp',
+        iconImage: AppImages.upload,
+        time: '03:20 PM',
+        confidence: '72%',
+        category: 'THIS WEEK',
+      ),
+    ]);
+    notifyListeners();
+  }
 }
