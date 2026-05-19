@@ -26,6 +26,9 @@ class SavedScreenItemsWidget extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardColor = isDark ? const Color(0xFF1E293B) : AppColors.white;
     final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColor;
+    final titleColor = isDark ? Colors.white : AppColors.herbName;
+    final subtitleColor = isDark ? Colors.white70 : AppColors.desText;
+    final smallTextColor = isDark ? Colors.white60 : AppColors.savedText;
 
     return Card(
       color: cardColor,
@@ -40,7 +43,7 @@ class SavedScreenItemsWidget extends StatelessWidget {
             ClipRRect(
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: AppColors.borderColor),
+                  border: Border.all(width: 1, color: borderColor),
                 ),
                 child: Image(
                   image: AssetImage(AppImages.exploreImage),
@@ -57,27 +60,28 @@ class SavedScreenItemsWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(herbName, style: AppTextStyles.confidenceName),
-                  Text(scientificName, style: AppTextStyles.desText),
+                  Text(herbName, style: AppTextStyles.confidenceName.copyWith(color: titleColor)),
+                  Text(scientificName, style: AppTextStyles.desText.copyWith(color: subtitleColor)),
                   Row(
                     children: [
                       Image(
                         image: AssetImage(AppImages.tickSign),
                         width: 16,
                         height: 16,
+                        color: isDark ? Colors.white : null,
                       ),
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
                           family,
-                          style: AppTextStyles.savedText,
+                          style: AppTextStyles.savedText.copyWith(color: smallTextColor),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text('•', style: AppTextStyles.savedText),
+                      Text('•', style: AppTextStyles.savedText.copyWith(color: smallTextColor)),
                       const SizedBox(width: 4),
-                      Text('2h ago', style: AppTextStyles.savedText),
+                      Text('2h ago', style: AppTextStyles.savedText.copyWith(color: smallTextColor)),
                     ],
                   ),
                 ],

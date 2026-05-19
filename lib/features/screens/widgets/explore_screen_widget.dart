@@ -22,6 +22,8 @@ class ExploreScreenWidget extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardColor = isDark ? const Color(0xFF1E293B) : AppColors.white;
     final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColor;
+    final titleColor = isDark ? Colors.white : AppColors.herbName;
+    final subtitleColor = isDark ? Colors.white70 : AppColors.desText;
 
     return Card(
       color: cardColor,
@@ -36,7 +38,7 @@ class ExploreScreenWidget extends StatelessWidget {
             ClipRRect(
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: AppColors.borderColor),
+                  border: Border.all(width: 1, color: borderColor),
                 ),
                 child: Image(
                   image: AssetImage(imagePath ?? AppImages.exploreImage),
@@ -53,11 +55,11 @@ class ExploreScreenWidget extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: '${herbName ?? 'Moringa'}\n',
-                      style: AppTextStyles.confidenceName,
+                      style: AppTextStyles.confidenceName.copyWith(color: titleColor),
                     ),
                     TextSpan(
                       text: scientificName ?? 'Ocimum basilicum',
-                      style: AppTextStyles.desText,
+                      style: AppTextStyles.desText.copyWith(color: subtitleColor),
                     ),
                   ],
                 ),
