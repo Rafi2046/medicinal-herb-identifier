@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
-import 'package:medical_herb/core/constants/app_text_styles.dart';
+import 'package:medical_herb/features/bottom_nav/bottom_nav_screen.dart';
 import 'package:medical_herb/features/screens/widgets/saved_screen_items_widget.dart';
+import 'package:medical_herb/features/screens/widgets/tab_screen_header.dart';
 
 class SavedHerb {
   final String herbName;
@@ -77,48 +78,52 @@ class _SavedScreenState extends State<SavedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bottomInset = BottomNavScreen.tabContentBottomInset(context);
+
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            spacing: 8,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Saved Herbs', style: AppTextStyles.confidenceName),
-
-              Expanded(
-                child: RefreshIndicator(
-                  onRefresh: _handleRefresh,
-                  child: _savedItems.isEmpty
-                      ? SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.5,
-                            alignment: Alignment.center,
-                            child: const Text('No saved items'),
-                          ),
-                        )
-                      : ListView.separated(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemCount: _savedItems.length,
-                          separatorBuilder: (_, _) =>
-                              const SizedBox(height: AppSpacing.s8),
-                          itemBuilder: (context, index) {
-                            final item = _savedItems[index];
-                            return SavedScreenItemsWidget(
-                              herbName: item.herbName,
-                              scientificName: item.scientificName,
-                              family: item.family,
-                              imagePath: item.imagePath,
-                              onDelete: () => _removeItem(index),
-                            );
-                          },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TabScreenHeader(
+              title: 'Saved',
+              subtitle: '${_savedItems.length} herbs in your collection',
+              actions: const [
+                TabScreenIconAction(icon: Icons.favorite_border_rounded),
+              ],
+            ),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: _handleRefresh,
+                child: _savedItems.isEmpty
+                    ? SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.fromLTRB(20, 16, 20, bottomInset + 20),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          alignment: Alignment.center,
+                          child: const Text('No saved items'),
                         ),
-                ),
+                      )
+                    : ListView.separated(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.fromLTRB(20, 16, 20, bottomInset + 20),
+                        itemCount: _savedItems.length,
+                        separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.s8),
+                        itemBuilder: (context, index) {
+                          final item = _savedItems[index];
+                          return SavedScreenItemsWidget(
+                            herbName: item.herbName,
+                            scientificName: item.scientificName,
+                            family: item.family,
+                            imagePath: item.imagePath,
+                            onDelete: () => _removeItem(index),
+                          );
+                        },
+                      ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
