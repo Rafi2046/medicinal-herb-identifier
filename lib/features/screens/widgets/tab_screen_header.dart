@@ -16,16 +16,20 @@ class TabScreenHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.paddingOf(context).top;
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppColors.containerColorGreen,
         border: Border(
-          bottom: BorderSide(color: AppColors.borderColors.withValues(alpha: 0.7)),
+          bottom: BorderSide(
+            color: AppColors.borderColors.withValues(alpha: 0.7),
+          ),
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 14, 20, 18),
+        padding: EdgeInsets.fromLTRB(20, statusBarHeight + 14, 20, 18),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -54,7 +58,6 @@ class TabScreenHeader extends StatelessWidget {
               ),
             ),
             if (actions.isNotEmpty) ...[
-              const SizedBox(width: 12),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -159,4 +162,3 @@ class TabScreenPillAction extends StatelessWidget {
     );
   }
 }
-

@@ -14,6 +14,7 @@ class ExploreScreen extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
+        top: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

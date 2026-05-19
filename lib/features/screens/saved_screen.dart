@@ -82,6 +82,7 @@ class _SavedScreenState extends State<SavedScreen> {
 
     return Scaffold(
       body: SafeArea(
+        top: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -89,7 +90,7 @@ class _SavedScreenState extends State<SavedScreen> {
               title: 'Saved',
               subtitle: '${_savedItems.length} herbs in your collection',
               actions: const [
-                TabScreenIconAction(icon: Icons.favorite_border_rounded),
+
               ],
             ),
             Expanded(
