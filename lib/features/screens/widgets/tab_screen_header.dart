@@ -22,10 +22,12 @@ class TabScreenHeader extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppColors.containerColorGreen,
-        border: Border(
-          bottom: BorderSide(
-            color: AppColors.borderColors.withValues(alpha: 0.7),
-          ),
+        border: const Border(
+          bottom: BorderSide(color: Colors.teal, width: 2),
+        ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
         ),
       ),
       child: Padding(
