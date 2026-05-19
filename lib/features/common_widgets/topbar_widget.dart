@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/providers/theme_provider.dart';
+import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 
 class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -37,19 +38,13 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final bool showBack = backArrow == true;
 
-
-    final borderColor = isDark
-        ? Colors.white.withOpacity(0.08)
-        : Colors.black.withOpacity(0.08);
     final shadowColor = isDark
         ? Colors.black.withOpacity(0.3)
         : Colors.black.withOpacity(0.03);
 
-    final topBarBg = isDark ? colorScheme.surface : Colors.white;
-
     return Container(
       decoration: BoxDecoration(
-        color: topBarBg,
+        color: AppColors.containerColorGreen,
         border: Border(bottom: BorderSide(color: Colors.teal, width: 2)),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(20),
@@ -68,7 +63,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: topBarBg,
+          statusBarColor: AppColors.containerColorGreen,
           statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
           statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
         ),
@@ -145,6 +140,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
                   Row(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
                         onTap: () =>

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
+import 'package:medical_herb/core/theme/app_colors.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
@@ -30,11 +31,10 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final colorScheme = Theme.of(context).colorScheme;
-    final topBarBg = isDark ? colorScheme.surface : Colors.white;
 
     return Container(
       decoration: BoxDecoration(
-        color: topBarBg,
+        color: AppColors.containerColorGreen,
         border: const Border(bottom: BorderSide(color: Colors.teal, width: 2)),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(20),
@@ -46,7 +46,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: topBarBg,
+          statusBarColor: AppColors.containerColorGreen,
           statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
           statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
         ),
