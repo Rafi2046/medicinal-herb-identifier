@@ -61,13 +61,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         automaticallyImplyLeading: false,
         leadingWidth: 56,
         leading: IconButton(
-          icon: Image.asset(
-            AppImages.arrowbackIcon,
-            height: 32,
-            width: 32,
-            color: isDark ? Colors.white : null,
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: isDark ? Colors.white : Colors.black,
+            size: 28,
           ),
-          iconSize: 12,
           onPressed: () => Navigator.pop(context),
         ),
         titleSpacing: 0,
