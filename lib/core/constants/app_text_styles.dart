@@ -209,11 +209,34 @@ class AppTextStyles {
     color: AppColors.herbName,
   );
 
+
+  static TextStyle  herbDay= TextStyle(   // herb
+    fontSize: 40,
+    fontWeight: FontWeight.bold,
+    color: AppColors.white
+  );
+
+
+
   static TextStyle  confidenceName= TextStyle(   // herb
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: FontWeight.bold,
     color: AppColors.herbName,
   );
+
+
+  static TextStyle  herbDaySub= TextStyle(   // herb
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: AppColors.backgroundColor,
+  );
+
+  static TextStyle  herbDaySub2= TextStyle(   // herb
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: AppColors.backgroundColor,
+  );
+
 
   static TextStyle  keyTraits= TextStyle(   // herb
     fontSize: 16,
