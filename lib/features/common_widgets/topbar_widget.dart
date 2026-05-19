@@ -40,9 +40,13 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
         ? Colors.black.withOpacity(0.3)
         : Colors.black.withOpacity(0.03);
 
+    final topBarBg = isDark 
+        ? const Color(0xFF1a2e1a) 
+        : AppColors.containerColorGreen;
+
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: AppColors.containerColorGreen,
+        statusBarColor: topBarBg,
         statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
         statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
       ),
@@ -50,7 +54,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.containerColorGreen,
+        color: topBarBg,
         border: const Border(bottom: BorderSide(color: Colors.teal, width: 2)),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(20),
@@ -135,7 +139,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
-                    color: colorScheme.onSurface,
+                    color: isDark ? Colors.white : colorScheme.onSurface,
                     height: 1.2,
                   ),
                 ),
@@ -146,7 +150,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: colorScheme.onSurface.withOpacity(0.6),
+                    color: isDark ? Colors.white70 : colorScheme.onSurface.withOpacity(0.6),
                     height: 1.2,
                   ),
                 ),

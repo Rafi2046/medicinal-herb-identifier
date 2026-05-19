@@ -32,9 +32,15 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final colorScheme = Theme.of(context).colorScheme;
 
+    final headerBg = isDark 
+        ? const Color(0xFF1a2e1a) 
+        : AppColors.containerColorGreen;
+    final titleColor = isDark ? Colors.white : AppColors.herbName;
+    final subtitleColor = isDark ? Colors.white70 : const Color(0xFF545C66);
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.containerColorGreen,
+        color: headerBg,
         border: const Border(bottom: BorderSide(color: Colors.teal, width: 2)),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(20),
@@ -46,7 +52,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: AppColors.containerColorGreen,
+          statusBarColor: headerBg,
           statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
           statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
         ),
@@ -59,6 +65,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             AppImages.arrowbackIcon,
             height: 32,
             width: 32,
+            color: isDark ? Colors.white : null,
           ),
           iconSize: 12,
           onPressed: () => Navigator.pop(context),
@@ -72,7 +79,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               title ?? '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: AppTextStyles.appBar,
+              style: AppTextStyles.appBar.copyWith(color: titleColor),
             ),
             if (subtitle != null)
               Text(
@@ -82,7 +89,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: colorScheme.onSurface.withValues(alpha: 0.6),
+                  color: subtitleColor,
                 ),
               ),
           ],
