@@ -9,10 +9,17 @@ class KeyTraitsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDark ? const Color(0xFF1E293B) : AppColors.white;
+    final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColors;
+    final titleColor = isDark ? Colors.white : AppColors.herbName;
+    final textColor = isDark ? Colors.white70 : AppColors.keyTraits;
+
     return Card(
+      color: cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: AppColors.borderColors),
+        side: BorderSide(color: borderColor),
       ),
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -20,7 +27,7 @@ class KeyTraitsWidget extends StatelessWidget {
           spacing: 8,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Key Traits', style: AppTextStyles.confidenceName),
+            Text('Key Traits', style: AppTextStyles.confidenceName.copyWith(color: titleColor)),
 
             Row(
               spacing: AppSpacing.s8,
@@ -29,8 +36,9 @@ class KeyTraitsWidget extends StatelessWidget {
                   image: AssetImage(AppImages.tickSign),
                   height: 20,
                   width: 20,
+                  color: isDark ? Colors.white : null,
                 ),
-                Text('Bright green color', style: AppTextStyles.keyTraits),
+                Text('Bright green color', style: AppTextStyles.keyTraits.copyWith(color: textColor)),
               ],
             ),
             Row(
@@ -40,8 +48,9 @@ class KeyTraitsWidget extends StatelessWidget {
                   image: AssetImage(AppImages.tickSign),
                   height: 20,
                   width: 20,
+                  color: isDark ? Colors.white : null,
                 ),
-                Text('Bright green color', style: AppTextStyles.keyTraits),
+                Text('Bright green color', style: AppTextStyles.keyTraits.copyWith(color: textColor)),
               ],
             ),
             Row(
@@ -51,8 +60,9 @@ class KeyTraitsWidget extends StatelessWidget {
                   image: AssetImage(AppImages.tickSign),
                   height: 20,
                   width: 20,
+                  color: isDark ? Colors.white : null,
                 ),
-                Text('Bright green color', style: AppTextStyles.keyTraits),
+                Text('Bright green color', style: AppTextStyles.keyTraits.copyWith(color: textColor)),
               ],
             ),
           ],

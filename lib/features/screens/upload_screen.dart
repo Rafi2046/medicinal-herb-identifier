@@ -15,6 +15,15 @@ class UploadScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDark ? const Color(0xFF1E293B) : AppColors.white;
+    final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColors;
+    final pillColor = isDark ? const Color(0xFF334155) : AppColors.herbColorsName;
+    final titleColor = isDark ? Colors.white : AppColors.herbName;
+    final subtitleColor = isDark ? Colors.white70 : AppColors.desText;
+    final buttonBg = isDark ? const Color(0xFF1E293B) : Colors.white;
+    final buttonTextColor = isDark ? Colors.white : AppColors.herbScientific;
+
     return Scaffold(
       appBar: AppBarWidget(title: 'Details Screen'),
       body: Padding(
@@ -23,9 +32,10 @@ class UploadScreen extends StatelessWidget {
         child: Column(
           children: [
             Card(
+              color: cardColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
-                side: BorderSide(color: AppColors.borderColors),
+                side: BorderSide(color: borderColor),
               ),
               child: SizedBox(
                 height: 135,
@@ -43,12 +53,12 @@ class UploadScreen extends StatelessWidget {
                           children: [
                             Text(
                               'IDENTIFIED AS ',
-                              style: AppTextStyles.detailsText,
+                              style: AppTextStyles.detailsText.copyWith(color: subtitleColor),
                             ),
-                            Text('Akando ', style: AppTextStyles.herbName),
+                            Text('Akando ', style: AppTextStyles.herbName.copyWith(color: titleColor)),
                             Text(
                               'Origanum vulgare ',
-                              style: AppTextStyles.detailsTextT,
+                              style: AppTextStyles.detailsTextT.copyWith(color: subtitleColor),
                             ),
                           ],
                         ),
@@ -56,14 +66,14 @@ class UploadScreen extends StatelessWidget {
                       Container(
                         height: 45,
                         decoration: BoxDecoration(
-                          color: AppColors.herbColorsName,
+                          color: pillColor,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(15),
                           child: Text(
                             'Lamiaceae',
-                            style: AppTextStyles.herbNameScientific,
+                            style: AppTextStyles.herbNameScientific.copyWith(color: isDark ? Colors.white70 : null),
                           ),
                         ),
                       ),
@@ -90,15 +100,16 @@ class UploadScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomButton(
-                    backgroundColor: Colors.white,
+                    backgroundColor: buttonBg,
                     showBorder: true,
-                    borderColor: AppColors.borderColors,
+                    borderColor: borderColor,
                     text: 'Favorite',
-                    textColor: AppColors.herbScientific,
+                    textColor: buttonTextColor,
                     onPressed: () {},
                     leading: Image.asset(
                       AppImages.favorites,
                       height: AppSpacing.h16,
+                      color: isDark ? Colors.white : null,
                     ),
                   ),
                 ),
@@ -107,11 +118,11 @@ class UploadScreen extends StatelessWidget {
 
                 Expanded(
                   child: CustomButton(
-                    backgroundColor: Colors.white,
+                    backgroundColor: buttonBg,
                     showBorder: true,
-                    borderColor: AppColors.borderColors,
+                    borderColor: borderColor,
                     text: 'Scan Again',
-                    textColor: AppColors.herbScientific,
+                    textColor: buttonTextColor,
                     onPressed: () {},
                     leading: Image.asset(
                       AppImages.cameraIcon,
