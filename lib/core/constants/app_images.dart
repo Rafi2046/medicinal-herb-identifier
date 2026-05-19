@@ -36,7 +36,7 @@ class AppImages {
 
   static const String greenDot = 'assets/app_icons/green_dot.webp'; // herb
   static const String clearButton = 'assets/app_icons/Clear_Button.webp'; // herb
-  static const String yellowButton = 'assets/app_icons/yellow_dot.webp'; // herb
+  static const String yellowDot = 'assets/app_icons/yellow_dot.webp'; // herb
   static const String camara = 'assets/app_icons/camera.webp'; // herb
   static const String upload = 'assets/app_icons/upload.webp'; // herb
 

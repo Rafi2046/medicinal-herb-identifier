@@ -4,7 +4,18 @@ import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 
 class HistoryWidget extends StatelessWidget {
-  const HistoryWidget({super.key});
+  final String? herbName;
+  final String? imagePath;
+  final String? imagePath2;
+  final String? imagePath3;
+
+  const HistoryWidget({
+    super.key,
+    this.herbName,
+    this.imagePath,
+    this.imagePath2,
+    this.imagePath3,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +30,7 @@ class HistoryWidget extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            Image(image: AssetImage(AppImages.greenDot), width: 8, height: 8),
+            Image(image: AssetImage(imagePath ?? ''), width: 8, height: 8),
 
             const SizedBox(width: 12),
 
@@ -28,8 +39,8 @@ class HistoryWidget extends StatelessWidget {
               height: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                image: const DecorationImage(
-                  image: AssetImage('assets/background_image/joba.webp'),
+                image: DecorationImage(
+                  image: AssetImage(imagePath2 ?? ''),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -42,14 +53,14 @@ class HistoryWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Joba', style: AppTextStyles.confidenceName),
+                  Text(herbName ?? '', style: AppTextStyles.confidenceName),
 
                   const SizedBox(height: 6),
 
                   Row(
                     children: [
                       Image(
-                        image: AssetImage(AppImages.camera),
+                        image: AssetImage(imagePath3 ?? ''),
                         width: 18,
                         height: 18,
                         color: AppColors.green,
