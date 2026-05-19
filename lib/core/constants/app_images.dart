@@ -39,6 +39,7 @@ class AppImages {
   static const String yellowDot = 'assets/app_icons/yellow_dot.webp'; // herb
   static const String camara = 'assets/app_icons/camera.webp'; // herb
   static const String upload = 'assets/app_icons/upload.webp'; // herb
+  static const String herbOfDay = 'assets/app_icons/mint 3.webp'; // herb
 
 
   static const String arrowbackIcon =
