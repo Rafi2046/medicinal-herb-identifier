@@ -28,13 +28,21 @@ class HistoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
     final cardColor = isDark ? const Color(0xFF1E293B) : AppColors.white;
-    final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColor;
+
+    final borderColor = isDark
+        ? const Color(0xFF334155)
+        : AppColors.borderColor;
+
     final textColor = isDark ? Colors.white : Colors.black;
 
+    final titleColor = isDark ? Colors.white : AppColors.herbName;
+
     return Dismissible(
-      key: Key(id ?? ''),
+      key: Key(id ?? herbName ?? UniqueKey().toString()),
       direction: DismissDirection.endToStart,
+
       background: Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20),
@@ -45,100 +53,118 @@ class HistoryWidget extends StatelessWidget {
         ),
         child: const Icon(Icons.delete, color: Colors.white, size: 30),
       ),
+
       onDismissed: (_) => onDelete?.call(),
+
       child: Card(
-      color: cardColor,
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: borderColor),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Image(image: AssetImage(imagePath ?? ''), width: 8, height: 8),
+        color: cardColor,
+        margin: const EdgeInsets.symmetric(vertical: 8),
 
-            const SizedBox(width: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: borderColor),
+        ),
 
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                  image: AssetImage(imagePath2 ?? ''),
-                  fit: BoxFit.cover,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+
+          child: Row(
+            children: [
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  image: imagePath != null
+                      ? DecorationImage(
+                          image: AssetImage(imagePath!),
+                          fit: BoxFit.cover,
+                        )
+                      : null,
+                  color: Colors.grey.shade200,
                 ),
               ),
-            ),
 
-            const SizedBox(width: 14),
+              const SizedBox(width: 14),
 
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(herbName ?? '', style: AppTextStyles.confidenceName),
-
-                  const SizedBox(height: 6),
-
-                  Row(
-                    children: [
-                      Image(
-                        image: AssetImage(imagePath3 ?? ''),
-                        width: 18,
-                        height: 18,
-                        color: AppColors.green,
+              /// Text Section
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    /// Herb Name
+                    Text(
+                      herbName ?? '',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.confidenceName.copyWith(
+                        color: titleColor,
                       ),
+                    ),
 
-                      const SizedBox(width: 6),
+                    const SizedBox(height: 8),
 
-                      RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: textColor,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: '${time ?? '00:00 AM'}  ●  ',
-                              style: TextStyle(
-                                color: isDark ? Colors.white60 : AppColors.detailsText,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            TextSpan(
-                              text: confidence ?? '0%',
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                    /// Time + Confidence
+                    Row(
+                      children: [
+                        Image(
+                          image: AssetImage(imagePath3 ?? AppImages.greenDot),
+                          width: 18,
+                          height: 18,
+                          color: AppColors.green,
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
 
-            const SizedBox(width: 12),
+                        const SizedBox(width: 6),
 
-            GestureDetector(
-              onTap: onDelete,
-              child: Image(
-                image: AssetImage(AppImages.deleteIcon),
-                width: 40,
-                height: 40,
+                        Expanded(
+                          child: RichText(
+                            overflow: TextOverflow.ellipsis,
+                            text: TextSpan(
+                              style: TextStyle(fontSize: 14, color: textColor),
+                              children: [
+                                TextSpan(
+                                  text: '${time ?? '00:00 AM'}  ●  ',
+                                  style: TextStyle(
+                                    color: isDark
+                                        ? Colors.white60
+                                        : AppColors.detailsText,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+
+                                TextSpan(
+                                  text: confidence ?? '0%',
+                                  style: const TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+
+              const SizedBox(width: 12),
+
+              /// Delete Button
+              GestureDetector(
+                onTap: onDelete,
+                child: Image(
+                  image: AssetImage(AppImages.deleteIcon),
+                  width: 40,
+                  height: 40,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
