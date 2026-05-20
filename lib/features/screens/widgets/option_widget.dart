@@ -5,9 +5,9 @@ import 'package:medical_herb/core/constants/app_text_styles.dart';
 
 class OptionWidget extends StatelessWidget {
   final VoidCallback? onPressed;
+  final VoidCallback? onUploadPressed;
 
-  const OptionWidget({super.key, this.onPressed,
-  });
+  const OptionWidget({super.key, this.onPressed, this.onUploadPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -55,25 +55,28 @@ class OptionWidget extends StatelessWidget {
         const SizedBox(width: AppSpacing.w12),
 
         Expanded(
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: SizedBox(
-              height: 150,
-              child: Column(
-                spacing: AppSpacing.s4,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image(
-                    image: AssetImage(AppImages.uploadIcon),
-                    width: 48,
-                    height: 48,
-                  ),
-                  Text('Upload Image', style: AppTextStyles.uploadText),
-                  Text('Form gallery', style: AppTextStyles.uploadCameraText),
-                ],
+          child: InkWell(
+            onTap: onUploadPressed,
+            child: Card(
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: SizedBox(
+                height: 150,
+                child: Column(
+                  spacing: AppSpacing.s4,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(
+                      image: AssetImage(AppImages.uploadIcon),
+                      width: 48,
+                      height: 48,
+                    ),
+                    Text('Upload Image', style: AppTextStyles.uploadText),
+                    Text('Form gallery', style: AppTextStyles.uploadCameraText),
+                  ],
+                ),
               ),
             ),
           ),
