@@ -60,14 +60,16 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         centerTitle: false,
         automaticallyImplyLeading: false,
         leadingWidth: 56,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_rounded,
-            color: isDark ? Colors.white : Colors.black,
-            size: 28,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
+        leading: backArrow == true
+            ? IconButton(
+                icon: Icon(
+                  Icons.arrow_back_rounded,
+                  color: isDark ? Colors.white : Colors.black,
+                  size: 28,
+                ),
+                onPressed: () => Navigator.pop(context),
+              )
+            : null,
         titleSpacing: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

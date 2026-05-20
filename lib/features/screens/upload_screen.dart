@@ -25,7 +25,10 @@ class UploadScreen extends StatelessWidget {
     final buttonTextColor = isDark ? Colors.white : AppColors.herbScientific;
 
     return Scaffold(
-      appBar: AppBarWidget(title: 'Details Screen'),
+      appBar: const AppBarWidget(
+        title: 'Details Screen',
+        backArrow: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
 
