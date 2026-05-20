@@ -7,7 +7,8 @@ import 'package:medical_herb/features/screens/widgets/description_widget.dart';
 import 'package:medical_herb/features/screens/widgets/medicinal_uses_widget.dart';
 
 class HerbFullDetailsScreen extends StatelessWidget {
-  const HerbFullDetailsScreen({super.key});
+  final String? herbName;
+  const HerbFullDetailsScreen({super.key, this.herbName});
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,22 @@ import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ConfidenceScoreCardWidget extends StatelessWidget {
-  const ConfidenceScoreCardWidget({super.key});
+  final double confidence;
+  final bool showDetailedMetrics;
+
+  const ConfidenceScoreCardWidget({
+    super.key,
+    this.confidence = 91.0,
+    this.showDetailedMetrics = false,
+  });
+
+  String _confidenceLabel() {
+    if (confidence >= 90) return 'Very High';
+    if (confidence >= 70) return 'High';
+    if (confidence >= 50) return 'Medium';
+    if (confidence >= 30) return 'Low';
+    return 'Very Low';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +32,6 @@ class ConfidenceScoreCardWidget extends StatelessWidget {
     final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColors;
     final pillColor = isDark ? const Color(0xFF334155) : AppColors.herbProgressColors;
     final titleColor = isDark ? Colors.white : AppColors.herbName;
-    final subtitleColor = isDark ? Colors.white70 : AppColors.desText;
     final darkSubtitleColor = isDark ? Colors.white54 : const Color(0xFF8E9E96);
     final dividerColor = isDark ? const Color(0xFF334155) : const Color(0xFFE8ECE9);
 
@@ -29,10 +43,8 @@ class ConfidenceScoreCardWidget extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.all(20),
-
         child: Column(
           mainAxisSize: MainAxisSize.min,
-
           children: [
             Row(
               children: [
@@ -47,23 +59,21 @@ class ConfidenceScoreCardWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(15),
                     child: Text(
-                      'Very High',
+                      _confidenceLabel(),
                       style: AppTextStyles.herbProgressScientific.copyWith(color: isDark ? Colors.white : null),
                     ),
                   ),
                 ),
                 const SizedBox(width: 10),
-                Text('91%', style: AppTextStyles.progressName.copyWith(color: isDark ? Colors.white : null)),
+                Text('${confidence.toStringAsFixed(1)}%', style: AppTextStyles.progressName.copyWith(color: isDark ? Colors.white : null)),
               ],
             ),
-
             SizedBox(height: 12),
             LinearPercentIndicator(
               lineHeight: 14.0,
-              percent: 0.75,
+              percent: confidence / 100,
               backgroundColor: isDark ? const Color(0xFF334155) : lightGreenBg,
               progressColor: primaryGreen,
-
               barRadius: const Radius.circular(20),
               padding: EdgeInsets.zero,
               animation: true,
@@ -85,34 +95,34 @@ class ConfidenceScoreCardWidget extends StatelessWidget {
                   )
                   .toList(),
             ),
-            const SizedBox(height: 20),
-            Divider(color: dividerColor, thickness: 1.5),
-            const SizedBox(height: 10),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Text('91%', style: AppTextStyles.progressName2.copyWith(color: isDark ? Colors.white : null)),
-                    Text('Visual Match', style: AppTextStyles.detailsText2.copyWith(color: darkSubtitleColor)),
-                  ],
-                ),
-
-                Column(
-                  children: [
-                    Text('91%', style: AppTextStyles.progressName2.copyWith(color: isDark ? Colors.white : null)),
-                    Text('Leaf Shape', style: AppTextStyles.detailsText2.copyWith(color: darkSubtitleColor)),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text('91%', style: AppTextStyles.progressName2.copyWith(color: isDark ? Colors.white : null)),
-                    Text('Color Match', style: AppTextStyles.detailsText2.copyWith(color: darkSubtitleColor)),
-                  ],
-                ),
-              ],
-            ),
+            if (showDetailedMetrics) ...[
+              const SizedBox(height: 20),
+              Divider(color: dividerColor, thickness: 1.5),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Text('${confidence.toStringAsFixed(1)}%', style: AppTextStyles.progressName2.copyWith(color: isDark ? Colors.white : null)),
+                      Text('Visual Match', style: AppTextStyles.detailsText2.copyWith(color: darkSubtitleColor)),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text('${confidence.toStringAsFixed(1)}%', style: AppTextStyles.progressName2.copyWith(color: isDark ? Colors.white : null)),
+                      Text('Leaf Shape', style: AppTextStyles.detailsText2.copyWith(color: darkSubtitleColor)),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text('${confidence.toStringAsFixed(1)}%', style: AppTextStyles.progressName2.copyWith(color: isDark ? Colors.white : null)),
+                      Text('Color Match', style: AppTextStyles.detailsText2.copyWith(color: darkSubtitleColor)),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ],
         ),
       ),
