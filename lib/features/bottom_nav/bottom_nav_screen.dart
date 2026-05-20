@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:medical_herb/core/providers/scan_provider.dart';
 import 'package:medical_herb/features/main/presentation/models/nav_item.dart';
 import 'package:medical_herb/features/screens/explore_screen.dart';
 import 'package:medical_herb/features/screens/history_screen.dart';
 import 'package:medical_herb/features/screens/home_screen.dart';
 import 'package:medical_herb/features/screens/saved_screen.dart';
-import 'package:medical_herb/features/screens/scan_screen.dart';
+import 'package:medical_herb/features/screens/upload_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
   const BottomNavScreen({super.key});
@@ -26,7 +29,6 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   final List<Widget> _screens = const [
     HomeScreen(),
     ExploreScreen(),
-    ScanScreen(),
     SavedScreen(),
     HistoryScreen(),
   ];
@@ -42,6 +44,47 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     NavItem(title: 'Saved', icon: Icons.favorite_border),
     NavItem(title: 'History', icon: Icons.schedule_outlined),
   ];
+
+  Future<void> _onScanTap() async {
+    final XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (image == null) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
+    final provider = context.read<ScanProvider>();
+    await provider.predict(image.path);
+
+    if (!mounted) return;
+    Navigator.pop(context);
+
+    if (provider.predictionResult != null) {
+      if (!mounted) return;
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => UploadScreen(
+            imagePath: provider.imagePath,
+            predictionResult: provider.predictionResult,
+          ),
+        ),
+      );
+      provider.reset();
+    } else if (provider.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(provider.error!)),
+      );
+      provider.reset();
+    }
+  }
+
+  int _screenIndex(int navIndex) {
+    if (navIndex < 2) return navIndex;
+    return navIndex - 1;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +140,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                     children: [
                       for (var i = 0; i < _navItems.length; i++)
                         Expanded(
-                          child: _navEntry(context, item: _navItems[i], index: i),
+                          child: _navEntry(context, item: _navItems[i], navIndex: i),
                         ),
                     ],
                   ),
@@ -113,22 +156,21 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   Widget _navEntry(
     BuildContext context, {
     required NavItem item,
-    required int index,
+    required int navIndex,
   }) {
-    final selected = _currentIndex == index;
     if (item.style == MainNavTabStyle.centerFab) {
       return _ScanNavTile(
         label: item.title,
         icon: item.icon,
-        selected: selected,
-        onTap: () => setState(() => _currentIndex = index),
+        onTap: _onScanTap,
       );
     }
+    final selected = _currentIndex == _screenIndex(navIndex);
     return _SideNavTile(
       label: item.title,
       icon: item.icon,
       selected: selected,
-      onTap: () => setState(() => _currentIndex = index),
+      onTap: () => setState(() => _currentIndex = _screenIndex(navIndex)),
     );
   }
 }
@@ -186,13 +228,11 @@ class _ScanNavTile extends StatelessWidget {
   const _ScanNavTile({
     required this.label,
     required this.icon,
-    required this.selected,
     required this.onTap,
   });
 
   final String label;
   final IconData icon;
-  final bool selected;
   final VoidCallback onTap;
 
   static const Color _scanGreen = Color(0xFF27AE60);
@@ -203,7 +243,6 @@ class _ScanNavTile extends StatelessWidget {
     final iconColor = Theme.of(context).brightness == Brightness.dark
         ? const Color(0xFF1E1E1E)
         : Colors.white;
-    final labelWeight = selected ? FontWeight.w700 : FontWeight.w600;
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
@@ -231,10 +270,6 @@ class _ScanNavTile extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: _scanGreen,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: selected ? Colors.white : Colors.transparent,
-                          width: selected ? 2 : 0,
-                        ),
                         boxShadow: [
                           BoxShadow(
                             color: _scanGreen.withValues(alpha: 0.3),
@@ -254,7 +289,7 @@ class _ScanNavTile extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: 11,
-                fontWeight: labelWeight,
+                fontWeight: FontWeight.w600,
                 color: _scanGreen,
               ),
             ),

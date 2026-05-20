@@ -1,10 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
-import 'package:medical_herb/core/network/api_services.dart';
-import 'package:medical_herb/core/network/prediction_model.dart';
+import 'package:medical_herb/core/providers/scan_provider.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:medical_herb/features/main/presentation/widgets/main_app_top_bar.dart';
 import 'package:medical_herb/features/screens/history_screen.dart';
@@ -14,59 +13,51 @@ import 'package:medical_herb/features/screens/widgets/option_widget.dart';
 import 'package:medical_herb/features/screens/widgets/quick_access_widget.dart';
 import 'package:medical_herb/features/screens/widgets/welcome_card_widget.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final ImagePicker _picker = ImagePicker();
-
-  Future<void> _scanHerb() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+  Future<void> _scanHerb(BuildContext context) async {
+    final XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
     if (image == null) return;
-    await _predictAndNavigate(File(image.path));
+    _predictAndNavigate(context, image.path);
   }
 
-  Future<void> _uploadImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+  Future<void> _uploadImage(BuildContext context) async {
+    final XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
-    await _predictAndNavigate(File(image.path));
+    _predictAndNavigate(context, image.path);
   }
 
-  Future<void> _predictAndNavigate(File imageFile) async {
+  Future<void> _predictAndNavigate(BuildContext context, String imagePath) async {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => const Center(
-        child: CircularProgressIndicator(),
-      ),
+      builder: (_) => const Center(child: CircularProgressIndicator()),
     );
 
-    final result = await ApiService.uploadAndPredict(imageFile);
+    final provider = context.read<ScanProvider>();
+    await provider.predict(imagePath);
 
-    if (!mounted) return;
+    if (!context.mounted) return;
     Navigator.pop(context);
 
-    if (result != null) {
-      final predictionResult = PredictionResult.fromJson(result);
-      if (!mounted) return;
-      Navigator.push(
+    if (provider.predictionResult != null) {
+      if (!context.mounted) return;
+      await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (_) => UploadScreen(
-            imagePath: imageFile.path,
-            predictionResult: predictionResult,
+            imagePath: provider.imagePath,
+            predictionResult: provider.predictionResult,
           ),
         ),
       );
-    } else {
-      if (!mounted) return;
+      provider.reset();
+    } else if (provider.error != null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to identify plant. Please try again.')),
+        SnackBar(content: Text(provider.error!)),
       );
+      provider.reset();
     }
   }
 
@@ -86,8 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: AppSpacing.h16),
               Text('CHOOSE AN OPTION', style: AppTextStyles.heading4),
               OptionWidget(
-                onPressed: _scanHerb,
-                onUploadPressed: _uploadImage,
+                onPressed: () => _scanHerb(context),
+                onUploadPressed: () => _uploadImage(context),
               ),
               Text('QUICK ACCESS', style: AppTextStyles.heading4),
               const SizedBox(height: AppSpacing.h4),
