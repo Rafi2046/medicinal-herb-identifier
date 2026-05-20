@@ -8,11 +8,13 @@ class TabScreenHeader extends StatelessWidget {
     required this.title,
     required this.subtitle,
     this.actions = const [],
+    this.showBackButton = false,
   });
 
   final String title;
   final String subtitle;
   final List<Widget> actions;
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,17 @@ class TabScreenHeader extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            if (showBackButton) ...[
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: titleColor,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
+            ],
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

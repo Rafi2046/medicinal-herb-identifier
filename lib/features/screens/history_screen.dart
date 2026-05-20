@@ -7,8 +7,27 @@ import 'package:medical_herb/features/screens/widgets/history_widget.dart';
 import 'package:medical_herb/features/screens/widgets/tab_screen_header.dart';
 import 'herb_full_details_screen.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
+
+  @override
+  State<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+  bool _showBackButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {
+          _showBackButton = Navigator.canPop(context);
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +45,7 @@ class HistoryScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TabScreenHeader(
-
+              showBackButton: _showBackButton,
               title: 'History',
               subtitle: '${historyProvider.items.length} scans',
               actions: [],

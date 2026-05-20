@@ -20,6 +20,7 @@ class HerbFullDetailsScreen extends StatelessWidget {
           const AppBarWidget(
             title: 'Herb Details',
             subtitle: 'Complete Botanical Information',
+            backArrow: true,
           ),
           Expanded(
             child: SingleChildScrollView(
