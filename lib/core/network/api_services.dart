@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 
 class ApiService {
-  static const String apiUrl = "http://10.0.2.2:8000/predict";
+  static const String apiUrl = "http://192.168.86.48:8000/predict";
 
   static final Dio _dio = Dio();
 
-  static Future<Map<String, dynamic>?> uploadImage(File imageFile) async {
+  static Future<Map<String, dynamic>?> uploadAndPredict(File imageFile) async {
     try {
       String fileName = imageFile.path.split('/').last;
 
@@ -17,33 +17,16 @@ class ApiService {
         ),
       });
 
-      print("🚀 Sending image to AI Backend via Dio...");
-
-      Response response = await _dio.post(
-        apiUrl,
-        data: formData,
-
-        options: Options(
-          sendTimeout: const Duration(seconds: 15),
-          receiveTimeout: const Duration(seconds: 15),
-        ),
-      );
+      Response response = await _dio.post(apiUrl, data: formData);
 
       if (response.statusCode == 200) {
-        print("✅ AI Response: ${response.data}");
         return response.data;
       } else {
-        print("❌ Server Error: ${response.statusCode}");
+        print("API Error: Status Code ${response.statusCode}");
         return null;
       }
-    } on DioException catch (e) {
-      print("⚠️ Dio API Error: ${e.message}");
-      if (e.response != null) {
-        print("Server Data: ${e.response?.data}");
-      }
-      return null;
     } catch (e) {
-      print("⚠️ Unknown Error: $e");
+      print("Exception during API call: $e");
       return null;
     }
   }
