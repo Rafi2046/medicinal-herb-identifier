@@ -10,11 +10,13 @@ class CharacteristicsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Card(
+      color: isDark ? const Color(0xFF0F172A) : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: AppColors.borderColors,),
-
+        side: BorderSide(color: isDark ? const Color(0xFF1E293B) : AppColors.borderColors),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +31,9 @@ class CharacteristicsWidget extends StatelessWidget {
                   height: 35,
                 ),
                 const SizedBox(width: 8),
-                Text('Characteristics', style: AppTextStyles.confidenceName),
+                Text('Characteristics', style: AppTextStyles.confidenceName.copyWith(
+                  color: isDark ? Colors.white : AppColors.herbName,
+                )),
               ],
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:medical_herb/features/common_widgets/app_bar_widget.dart';
 import 'package:medical_herb/features/screens/widgets/botanical_info_widget.dart' show BotanicalInfoWidget;
 import 'package:medical_herb/features/screens/widgets/characteristics_widget.dart';
@@ -10,6 +11,8 @@ class HerbFullDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

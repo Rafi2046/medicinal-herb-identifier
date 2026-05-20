@@ -8,10 +8,13 @@ class DescriptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Card(
+      color: isDark ? const Color(0xFF0F172A) : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: AppColors.borderColors),
+        side: BorderSide(color: isDark ? const Color(0xFF1E293B) : AppColors.borderColors),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +31,9 @@ class DescriptionWidget extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   'Description',
-                  style: AppTextStyles.confidenceName,
+                  style: AppTextStyles.confidenceName.copyWith(
+                    color: isDark ? Colors.white : AppColors.herbName,
+                  ),
                 ),
               ],
             ),
@@ -38,7 +43,9 @@ class DescriptionWidget extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Text(
               'Basil is a fragrant herb from the mint family. It has bright green, tender leaves and a sweet, slightly peppery flavor that transforms dishes.',
-              style: AppTextStyles.desText,
+              style: AppTextStyles.desText.copyWith(
+                color: isDark ? Colors.white70 : AppColors.desText,
+              ),
             ),
           ),
         ],

@@ -26,6 +26,7 @@ class HistoryScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TabScreenHeader(
+
               title: 'History',
               subtitle: '${historyProvider.items.length} scans',
               actions: [],

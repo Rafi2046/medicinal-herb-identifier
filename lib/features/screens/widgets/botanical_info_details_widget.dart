@@ -16,6 +16,8 @@ class BotanicalInfoDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -33,8 +35,12 @@ class BotanicalInfoDetailsWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 4,
                 children: [
-                  Text(title ?? '', style: AppTextStyles.detailsText),
-                  Text(subtitle ?? '', style: AppTextStyles.desText),
+                  Text(title ?? '', style: AppTextStyles.detailsText.copyWith(
+                    color: isDark ? Colors.white70 : null,
+                  )),
+                  Text(subtitle ?? '', style: AppTextStyles.desText.copyWith(
+                    color: isDark ? Colors.white : null,
+                  )),
                 ],
               ),
             ],

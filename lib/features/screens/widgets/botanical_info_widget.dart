@@ -10,6 +10,8 @@ class BotanicalInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     final customDivider = Divider(
       height: 0.5,
       thickness: 0.5,
@@ -19,9 +21,10 @@ class BotanicalInfoWidget extends StatelessWidget {
     );
 
     return Card(
+      color: isDark ? const Color(0xFF0F172A) : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: AppColors.borderColors),
+        side: BorderSide(color: isDark ? const Color(0xFF1E293B) : AppColors.borderColors),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +39,9 @@ class BotanicalInfoWidget extends StatelessWidget {
                   height: 35,
                 ),
                 const SizedBox(width: 8),
-                Text('Botanical Info', style: AppTextStyles.confidenceName),
+                Text('Botanical Info', style: AppTextStyles.confidenceName.copyWith(
+                  color: isDark ? Colors.white : AppColors.herbName,
+                )),
               ],
             ),
           ),

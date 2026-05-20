@@ -8,10 +8,13 @@ class MedicinalUsesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Card(
+      color: isDark ? const Color(0xFF0F172A) : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: AppColors.borderColors),
+        side: BorderSide(color: isDark ? const Color(0xFF1E293B) : AppColors.borderColors),
       ),
       child: Column(
 
@@ -28,7 +31,9 @@ class MedicinalUsesWidget extends StatelessWidget {
                   height: 35,
                 ),
 
-                Text(' Medicinal Uses', style: AppTextStyles.confidenceName),
+                Text(' Medicinal Uses', style: AppTextStyles.confidenceName.copyWith(
+                  color: isDark ? Colors.white : AppColors.herbName,
+                )),
               ],
             ),
           ),
@@ -49,7 +54,9 @@ class MedicinalUsesWidget extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'Italian cuisine (pesto, tomato dishes)',
-                        style: AppTextStyles.desText,
+                        style: AppTextStyles.desText.copyWith(
+                          color: isDark ? Colors.white70 : AppColors.desText,
+                        ),
                       ),
                     ),
                   ],
@@ -65,7 +72,9 @@ class MedicinalUsesWidget extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'Asian cooking (Thai basil)',
-                        style: AppTextStyles.desText,
+                        style: AppTextStyles.desText.copyWith(
+                          color: isDark ? Colors.white70 : AppColors.desText,
+                        ),
                       ),
                     ),
                   ],
@@ -79,7 +88,9 @@ class MedicinalUsesWidget extends StatelessWidget {
                       width: 20,
                     ),
                     Expanded(
-                      child: Text('Herbal tea', style: AppTextStyles.desText),
+                      child: Text('Herbal tea', style: AppTextStyles.desText.copyWith(
+                        color: isDark ? Colors.white70 : AppColors.desText,
+                      )),
                     ),
                   ],
                 ),
@@ -94,7 +105,9 @@ class MedicinalUsesWidget extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'Anti-inflammatory properties',
-                        style: AppTextStyles.desText,
+                        style: AppTextStyles.desText.copyWith(
+                          color: isDark ? Colors.white70 : AppColors.desText,
+                        ),
                       ),
                     ),
                   ],
