@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/providers/history_provider.dart';
+import 'core/providers/scan_provider.dart';
 import 'core/providers/theme_provider.dart';
 import 'features/splash/presentations/page/splash_screen.dart';
 
@@ -10,6 +11,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => HistoryProvider()),
+        ChangeNotifierProvider(create: (_) => ScanProvider()),
       ],
       child: const MyApp(),
     ),
