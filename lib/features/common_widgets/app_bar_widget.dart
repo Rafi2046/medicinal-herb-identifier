@@ -32,8 +32,8 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final colorScheme = Theme.of(context).colorScheme;
 
-    final headerBg = isDark 
-        ? const Color(0xFF1a2e1a) 
+    final headerBg = isDark
+        ? const Color(0xFF1a2e1a)
         : AppColors.containerColorGreen;
     final titleColor = isDark ? Colors.white : AppColors.herbName;
     final subtitleColor = isDark ? Colors.white70 : const Color(0xFF545C66);
@@ -81,6 +81,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             ),
             if (subtitle != null)
               Text(
+
                 subtitle!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
