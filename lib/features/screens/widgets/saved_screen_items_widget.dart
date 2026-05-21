@@ -3,6 +3,7 @@ import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/data/plant_database.dart';
+import 'package:medical_herb/core/data/plant_images.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:medical_herb/features/screens/herb_full_details_screen.dart';
 
@@ -29,7 +30,7 @@ class SavedScreenItemsWidget extends StatelessWidget {
     final sciName = plant?.scientificName ?? '';
     final family = plant?.family ?? '';
 
-    void _openDetails() {
+    void openDetails() {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -46,7 +47,7 @@ class SavedScreenItemsWidget extends StatelessWidget {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: _openDetails,
+        onTap: openDetails,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -57,7 +58,7 @@ class SavedScreenItemsWidget extends StatelessWidget {
                     border: Border.all(width: 1, color: borderColor),
                   ),
                   child: Image(
-                    image: AssetImage(AppImages.exploreImage),
+                    image: AssetImage(imageForPlant(herbName)),
                     width: 100,
                     height: 100,
                     fit: BoxFit.cover,
@@ -100,7 +101,7 @@ class SavedScreenItemsWidget extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: _openDetails,
+                onTap: openDetails,
                 child: Image(
                   image: AssetImage(AppImages.arrowForward),
                   width: 30,
