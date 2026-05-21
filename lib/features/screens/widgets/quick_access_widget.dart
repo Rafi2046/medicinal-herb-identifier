@@ -87,10 +87,7 @@ class QuickAccessWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'History',
-                            style: AppTextStyles.uploadText,
-                          ),
+                          Text('History', style: AppTextStyles.uploadText),
 
                           SizedBox(height: AppSpacing.s4),
 
