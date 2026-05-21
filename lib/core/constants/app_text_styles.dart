@@ -219,7 +219,7 @@ class AppTextStyles {
 
 
   static TextStyle  confidenceName= TextStyle(   // herb
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: FontWeight.bold,
     color: AppColors.herbName,
   );
