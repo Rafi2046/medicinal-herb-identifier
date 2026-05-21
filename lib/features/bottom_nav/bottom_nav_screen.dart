@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:medical_herb/core/network/prediction_model.dart';
+import 'package:medical_herb/core/providers/history_provider.dart';
 import 'package:medical_herb/core/providers/scan_provider.dart';
 import 'package:medical_herb/features/main/presentation/models/nav_item.dart';
 import 'package:medical_herb/features/screens/explore_screen.dart';
@@ -46,13 +48,28 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   ];
 
   Future<void> _onScanTap() async {
+    final picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    if (image == null || !mounted) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
     final provider = context.read<ScanProvider>();
-    final result = await provider.processImage(ImageSource.camera);
-    if (!mounted || result == null) return;
+    final result = await provider.processPickedImage(image.path);
+
+    if (!mounted) return;
+    Navigator.pop(context);
 
     if (result['success'] == true) {
       final imagePath = result['imagePath'] as String;
-      final predictionResult = result['predictionResult'];
+      final predictionResult = result['predictionResult'] as PredictionResult;
+      final herbName = predictionResult.primaryPrediction;
+      final confidence = predictionResult.primaryConfidence;
+      context.read<HistoryProvider>().addScan(herbName, confidence, ScanSource.camera);
       await Navigator.push(
         context,
         MaterialPageRoute(

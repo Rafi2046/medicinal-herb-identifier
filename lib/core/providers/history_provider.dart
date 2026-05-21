@@ -1,106 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:medical_herb/core/constants/app_images.dart';
+
+enum ScanSource { camera, gallery }
 
 class HistoryItem {
   final String id;
   final String herbName;
-  final String dotImage;
-  final String herbImage;
-  final String iconImage;
-  final String time;
-  final String confidence;
-  final String category;
+  final double confidence;
+  final DateTime scannedAt;
+  final ScanSource source;
 
   HistoryItem({
     required this.id,
     required this.herbName,
-    required this.dotImage,
-    required this.herbImage,
-    required this.iconImage,
-    required this.time,
     required this.confidence,
-    required this.category,
+    required this.scannedAt,
+    required this.source,
   });
+
+  String get category {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+    final scanDate = DateTime(scannedAt.year, scannedAt.month, scannedAt.day);
+
+    if (scanDate == today) return 'TODAY';
+    if (scanDate == yesterday) return 'YESTERDAY';
+    if (scanDate.isAfter(today.subtract(const Duration(days: 7)))) return 'THIS WEEK';
+    return 'OLDER';
+  }
+
+  String get time {
+    final hour = scannedAt.hour > 12 ? scannedAt.hour - 12 : scannedAt.hour;
+    final period = scannedAt.hour >= 12 ? 'PM' : 'AM';
+    final minute = scannedAt.minute.toString().padLeft(2, '0');
+    return '$hour:$minute $period';
+  }
 }
 
 class HistoryProvider extends ChangeNotifier {
-  final List<HistoryItem> _items = [
-    HistoryItem(
-      id: '1',
-      herbName: 'Mint',
-      dotImage: AppImages.greenDot,
-      herbImage: 'assets/background_image/joba.webp',
-      iconImage: AppImages.upload,
-      time: '10:32 AM',
-      confidence: '94%',
-      category: 'TODAY',
-    ),
-    HistoryItem(
-      id: '2',
-      herbName: 'Mint',
-      dotImage: AppImages.yellowDot,
-      herbImage: 'assets/background_image/joba.webp',
-      iconImage: AppImages.upload,
-      time: '11:00 AM',
-      confidence: '85%',
-      category: 'TODAY',
-    ),
-    HistoryItem(
-      id: '3',
-      herbName: 'Mint',
-      dotImage: AppImages.greenDot,
-      herbImage: 'assets/background_image/joba.webp',
-      iconImage: AppImages.camara,
-      time: '09:15 AM',
-      confidence: '92%',
-      category: 'YESTERDAY',
-    ),
-    HistoryItem(
-      id: '4',
-      herbName: 'Mint',
-      dotImage: AppImages.yellowDot,
-      herbImage: 'assets/background_image/joba.webp',
-      iconImage: AppImages.camara,
-      time: '02:30 PM',
-      confidence: '78%',
-      category: 'YESTERDAY',
-    ),
-    HistoryItem(
-      id: '5',
-      herbName: 'Mint',
-      dotImage: AppImages.greenDot,
-      herbImage: 'assets/background_image/joba.webp',
-      iconImage: AppImages.upload,
-      time: '04:00 PM',
-      confidence: '96%',
-      category: 'THIS WEEK',
-    ),
-    HistoryItem(
-      id: '6',
-      herbName: 'Mint',
-      dotImage: AppImages.yellowDot,
-      herbImage: 'assets/background_image/joba.webp',
-      iconImage: AppImages.camara,
-      time: '11:45 AM',
-      confidence: '88%',
-      category: 'THIS WEEK',
-    ),
-    HistoryItem(
-      id: '7',
-      herbName: 'Mint',
-      dotImage: AppImages.yellowDot,
-      herbImage: 'assets/background_image/joba.webp',
-      iconImage: AppImages.upload,
-      time: '03:20 PM',
-      confidence: '72%',
-      category: 'THIS WEEK',
-    ),
-  ];
+  final List<HistoryItem> _items = [];
 
-  List<HistoryItem> get items => _items;
+  List<HistoryItem> get items => List.unmodifiable(_items);
 
-  List<HistoryItem> getItemsByCategory(String category) {
-    return _items.where((item) => item.category == category).toList();
+  void addScan(String herbName, double confidence, ScanSource source) {
+    _items.insert(0, HistoryItem(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      herbName: herbName,
+      confidence: confidence,
+      scannedAt: DateTime.now(),
+      source: source,
+    ));
+    notifyListeners();
   }
 
   void removeItem(String id) {
@@ -108,80 +58,12 @@ class HistoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetItems() {
+  List<HistoryItem> getItemsByCategory(String category) {
+    return _items.where((item) => item.category == category).toList();
+  }
+
+  void clearAll() {
     _items.clear();
-    _items.addAll([
-      HistoryItem(
-        id: '1',
-        herbName: 'Mint',
-        dotImage: AppImages.greenDot,
-        herbImage: 'assets/background_image/joba.webp',
-        iconImage: AppImages.upload,
-        time: '10:32 AM',
-        confidence: '94%',
-        category: 'TODAY',
-      ),
-      HistoryItem(
-        id: '2',
-        herbName: 'Mint',
-        dotImage: AppImages.yellowDot,
-        herbImage: 'assets/background_image/joba.webp',
-        iconImage: AppImages.upload,
-        time: '11:00 AM',
-        confidence: '85%',
-        category: 'TODAY',
-      ),
-      HistoryItem(
-        id: '3',
-        herbName: 'Mint',
-        dotImage: AppImages.greenDot,
-        herbImage: 'assets/background_image/joba.webp',
-        iconImage: AppImages.camara,
-        time: '09:15 AM',
-        confidence: '92%',
-        category: 'YESTERDAY',
-      ),
-      HistoryItem(
-        id: '4',
-        herbName: 'Mint',
-        dotImage: AppImages.yellowDot,
-        herbImage: 'assets/background_image/joba.webp',
-        iconImage: AppImages.camara,
-        time: '02:30 PM',
-        confidence: '78%',
-        category: 'YESTERDAY',
-      ),
-      HistoryItem(
-        id: '5',
-        herbName: 'Mint',
-        dotImage: AppImages.greenDot,
-        herbImage: 'assets/background_image/joba.webp',
-        iconImage: AppImages.upload,
-        time: '04:00 PM',
-        confidence: '96%',
-        category: 'THIS WEEK',
-      ),
-      HistoryItem(
-        id: '6',
-        herbName: 'Mint',
-        dotImage: AppImages.yellowDot,
-        herbImage: 'assets/background_image/joba.webp',
-        iconImage: AppImages.camara,
-        time: '11:45 AM',
-        confidence: '88%',
-        category: 'THIS WEEK',
-      ),
-      HistoryItem(
-        id: '7',
-        herbName: 'Mint',
-        dotImage: AppImages.yellowDot,
-        herbImage: 'assets/background_image/joba.webp',
-        iconImage: AppImages.upload,
-        time: '03:20 PM',
-        confidence: '72%',
-        category: 'THIS WEEK',
-      ),
-    ]);
     notifyListeners();
   }
 }
