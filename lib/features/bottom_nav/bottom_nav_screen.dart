@@ -52,17 +52,10 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     final XFile? image = await picker.pickImage(source: ImageSource.camera);
     if (image == null || !mounted) return;
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
-    );
-
     final provider = context.read<ScanProvider>();
     final result = await provider.processPickedImage(image.path);
 
     if (!mounted) return;
-    Navigator.pop(context);
 
     if (result['success'] == true) {
       final imagePath = result['imagePath'] as String;
