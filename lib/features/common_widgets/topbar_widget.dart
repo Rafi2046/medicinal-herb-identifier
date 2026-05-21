@@ -40,8 +40,8 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
         ? Colors.black.withOpacity(0.3)
         : Colors.black.withOpacity(0.03);
 
-    final topBarBg = isDark 
-        ? const Color(0xFF1a2e1a) 
+    final topBarBg = isDark
+        ? const Color(0xFF1a2e1a)
         : AppColors.containerColorGreen;
 
     SystemChrome.setSystemUIOverlayStyle(
@@ -150,7 +150,9 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: isDark ? Colors.white70 : colorScheme.onSurface.withOpacity(0.6),
+                    color: isDark
+                        ? Colors.white70
+                        : colorScheme.onSurface.withOpacity(0.6),
                     height: 1.2,
                   ),
                 ),
@@ -190,10 +192,13 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 onSelected: (value) {
                   switch (value) {
                     case 'about':
+                      _showAboutDialog(context);
                       break;
-                    case 'settings':
+                    case 'contact':
+                      _showContactDialog(context);
                       break;
                     case 'rate':
+                      _showRateDialog(context);
                       break;
                   }
                 },
@@ -203,36 +208,36 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 color: colorScheme.surface,
                 elevation: 4,
                 itemBuilder: (context) => [
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'about',
-                    child: Text(
-                      'About App',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: colorScheme.onSurface,
-                      ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.info_outline, size: 20),
+                        SizedBox(width: 12),
+                        Text('About App'),
+                      ],
                     ),
                   ),
                   const PopupMenuDivider(),
-                  PopupMenuItem(
-                    value: 'settings',
-                    child: Text(
-                      'Settings',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: colorScheme.onSurface,
-                      ),
+                  const PopupMenuItem(
+                    value: 'contact',
+                    child: Row(
+                      children: [
+                        Icon(Icons.mail_outline, size: 20),
+                        SizedBox(width: 12),
+                        Text('Contact Us'),
+                      ],
                     ),
                   ),
                   const PopupMenuDivider(),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'rate',
-                    child: Text(
-                      'Rate Us',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: colorScheme.onSurface,
-                      ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.star_outline, size: 20),
+                        SizedBox(width: 12),
+                        Text('Rate Us'),
+                      ],
                     ),
                   ),
                 ],
@@ -251,6 +256,117 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAboutDialog(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(
+          children: [
+            Image.asset(AppImages.mediLeafLogo, height: 32, width: 32),
+            const SizedBox(width: 12),
+            const Text('MediLeaf'),
+          ],
+        ),
+        content: const SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'MediLeaf is an intelligent medicinal herb identification app powered by AI. Simply capture or upload a photo of any herb, and MediLeaf will instantly identify it, providing detailed information about its medicinal properties, benefits, side effects, and botanical classification.',
+                style: TextStyle(fontSize: 14, height: 1.5),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Explore a database of 24+ medicinal herbs, save your favorites, and build your personal herb knowledge collection — all in one place.',
+                style: TextStyle(fontSize: 14, height: 1.5),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showContactDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Row(
+          children: [
+            Icon(Icons.mail_outline),
+            SizedBox(width: 12),
+            Text('Contact Us'),
+          ],
+        ),
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Have questions, feedback, or suggestions? We\'d love to hear from you!',
+              style: TextStyle(fontSize: 14),
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Email: support@medileaf.app',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showRateDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Row(
+          children: [
+            Icon(Icons.star_outline, color: Colors.amber),
+            SizedBox(width: 12),
+            Text('Rate Us'),
+          ],
+        ),
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.construction, size: 48, color: Colors.orange),
+            SizedBox(height: 16),
+            Text(
+              'MediLeaf is coming soon to the App Store and Google Play! Stay tuned — once we launch, we\'d love for you to rate and review the app.',
+              style: TextStyle(fontSize: 14, height: 1.5),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Got it'),
           ),
         ],
       ),
