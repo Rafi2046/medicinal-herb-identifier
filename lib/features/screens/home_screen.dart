@@ -17,47 +17,37 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   Future<void> _scanHerb(BuildContext context) async {
-    final XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (image == null) return;
-    _predictAndNavigate(context, image.path);
+    final provider = context.read<ScanProvider>();
+    final result = await provider.processImage(ImageSource.camera);
+    if (!context.mounted || result == null) return;
+    _handleResult(context, provider, result);
   }
 
   Future<void> _uploadImage(BuildContext context) async {
-    final XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image == null) return;
-    _predictAndNavigate(context, image.path);
+    final provider = context.read<ScanProvider>();
+    final result = await provider.processImage(ImageSource.gallery);
+    if (!context.mounted || result == null) return;
+    _handleResult(context, provider, result);
   }
 
-  Future<void> _predictAndNavigate(BuildContext context, String imagePath) async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
-    );
-
-    final provider = context.read<ScanProvider>();
-    await provider.predict(imagePath);
-
-    if (!context.mounted) return;
-    Navigator.pop(context);
-
-    if (provider.predictionResult != null) {
-      if (!context.mounted) return;
-      await Navigator.push(
+  void _handleResult(BuildContext context, ScanProvider provider, Map<String, dynamic> result) {
+    if (result['success'] == true) {
+      final imagePath = result['imagePath'] as String;
+      final predictionResult = result['predictionResult'];
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (_) => UploadScreen(
-            imagePath: provider.imagePath,
-            predictionResult: provider.predictionResult,
+            imagePath: imagePath,
+            predictionResult: predictionResult,
           ),
         ),
       );
-      provider.reset();
-    } else if (provider.error != null) {
+    } else {
+      final message = result['message'] as String? ?? 'Failed to identify plant.';
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(provider.error!)),
+        SnackBar(content: Text(message)),
       );
-      provider.reset();
     }
   }
 

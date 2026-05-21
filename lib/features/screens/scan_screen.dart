@@ -1,33 +1,42 @@
+// lib/features/screens/scan_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:medical_herb/features/bottom_nav/bottom_nav_screen.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
-import 'package:medical_herb/core/theme/app_colors.dart';
+import 'package:medical_herb/core/providers/scan_provider.dart';
 import 'package:medical_herb/features/common_widgets/custom_button.dart';
+import 'package:medical_herb/features/screens/upload_screen.dart';
 
-class ScanScreen extends StatefulWidget {
+class ScanScreen extends StatelessWidget {
   const ScanScreen({super.key});
 
-  @override
-  State<ScanScreen> createState() => _ScanScreenState();
-}
 
-class _ScanScreenState extends State<ScanScreen> {
-  final ImagePicker _picker = ImagePicker();
+  Future<void> _handleScan(BuildContext context, ImageSource source) async {
+    final provider = context.read<ScanProvider>();
+    final result = await provider.processImage(source);
 
-  Future<void> _openCamera() async {
-    try {
-      final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-      if (image != null && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Image captured: ${image.path}')),
+    if (result != null && context.mounted) {
+      if (result['success'] == true) {
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UploadScreen(
+              imagePath: result['imagePath'],
+              predictionResult: result['predictionResult'],
+            ),
+          ),
         );
-      }
-    } catch (e) {
-      if (mounted) {
+      } else {
+
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Camera error: $e')),
+          SnackBar(
+            content: Text(result['message']),
+            backgroundColor: result['message'].contains('Unknown') ? Colors.orange : Colors.red,
+          ),
         );
       }
     }
@@ -37,6 +46,10 @@ class _ScanScreenState extends State<ScanScreen> {
   Widget build(BuildContext context) {
     final p = BottomNavScreen.tabContentBottomInset(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
+
+    final isLoading = context.watch<ScanProvider>().isLoading;
+
     return ColoredBox(
       color: isDark ? const Color(0xFF0F172A) : const Color(0xFFF5F2F8),
       child: Padding(
@@ -65,10 +78,24 @@ class _ScanScreenState extends State<ScanScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: AppSpacing.h32),
-                CustomButton(
+
+
+                isLoading
+                    ? const CircularProgressIndicator(color: Color(0xFF2D9E61))
+                    : CustomButton(
                   text: 'Open Camera',
-                  onPressed: _openCamera,
+                  onPressed: () => _handleScan(context, ImageSource.camera),
                 ),
+
+                const SizedBox(height: AppSpacing.h16),
+
+
+                if (!isLoading)
+                  OutlinedButton.icon(
+                    onPressed: () => _handleScan(context, ImageSource.gallery),
+                    icon: const Icon(Icons.photo_library),
+                    label: const Text('Upload from Gallery'),
+                  )
               ],
             ),
           ),
