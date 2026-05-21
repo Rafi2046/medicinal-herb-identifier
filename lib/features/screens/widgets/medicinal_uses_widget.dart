@@ -4,7 +4,8 @@ import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 
 class MedicinalUsesWidget extends StatelessWidget {
-  const MedicinalUsesWidget({super.key});
+  final List<String> uses;
+  const MedicinalUsesWidget({super.key, this.uses = const []});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,6 @@ class MedicinalUsesWidget extends StatelessWidget {
         side: BorderSide(color: isDark ? const Color(0xFF1E293B) : AppColors.borderColors),
       ),
       child: Column(
-
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
@@ -30,10 +30,12 @@ class MedicinalUsesWidget extends StatelessWidget {
                   width: 35,
                   height: 35,
                 ),
-
-                Text(' Medicinal Uses', style: AppTextStyles.confidenceName.copyWith(
-                  color: isDark ? Colors.white : AppColors.herbName,
-                )),
+                Text(
+                  ' Medicinal Uses',
+                  style: AppTextStyles.confidenceName.copyWith(
+                    color: isDark ? Colors.white : AppColors.herbName,
+                  ),
+                ),
               ],
             ),
           ),
@@ -42,8 +44,8 @@ class MedicinalUsesWidget extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Column(
               spacing: 8,
-              children: [
-                Row(
+              children: uses.map((use) {
+                return Row(
                   spacing: 8,
                   children: [
                     Image(
@@ -53,66 +55,15 @@ class MedicinalUsesWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        'Italian cuisine (pesto, tomato dishes)',
+                        use,
                         style: AppTextStyles.desText.copyWith(
                           color: isDark ? Colors.white70 : AppColors.desText,
                         ),
                       ),
                     ),
                   ],
-                ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    Image(
-                      image: AssetImage(AppImages.detailsTickIcon),
-                      height: 20,
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Asian cooking (Thai basil)',
-                        style: AppTextStyles.desText.copyWith(
-                          color: isDark ? Colors.white70 : AppColors.desText,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    Image(
-                      image: AssetImage(AppImages.detailsTickIcon),
-                      height: 20,
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Text('Herbal tea', style: AppTextStyles.desText.copyWith(
-                        color: isDark ? Colors.white70 : AppColors.desText,
-                      )),
-                    ),
-                  ],
-                ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    Image(
-                      image: AssetImage(AppImages.detailsTickIcon),
-                      height: 20,
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Anti-inflammatory properties',
-                        style: AppTextStyles.desText.copyWith(
-                          color: isDark ? Colors.white70 : AppColors.desText,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                );
+              }).toList(),
             ),
           ),
         ],

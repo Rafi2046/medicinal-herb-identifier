@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
-
 import 'botanical_info_details_widget.dart';
 
 class BotanicalInfoWidget extends StatelessWidget {
-  const BotanicalInfoWidget({super.key});
+  final String scientificName;
+  final String family;
+  final String region;
+
+  const BotanicalInfoWidget({
+    super.key,
+    this.scientificName = '',
+    this.family = '',
+    this.region = '',
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,35 +54,22 @@ class BotanicalInfoWidget extends StatelessWidget {
             ),
           ),
           Divider(height: 0.5, thickness: 0.5, color: AppColors.borderColors),
-
           BotanicalInfoDetailsWidget(
             imagePath: AppImages.scientificIcon,
             title: 'SCIENTIFIC NAME',
-            subtitle: 'Ocimum basilicum',
+            subtitle: scientificName,
           ),
-
           customDivider,
-
           BotanicalInfoDetailsWidget(
             imagePath: AppImages.plantFamilyIcon,
             title: 'PLANT FAMILY',
-            subtitle: 'Lamiaceae',
+            subtitle: family,
           ),
-
           customDivider,
-
           BotanicalInfoDetailsWidget(
             imagePath: AppImages.nativeRegionIcon,
             title: 'NATIVE REGION',
-            subtitle: 'Central Africa to SE Asia',
-          ),
-
-          customDivider,
-
-          BotanicalInfoDetailsWidget(
-            imagePath: AppImages.confidenceIcon,
-            title: 'CONFIDENCE SCORE',
-            subtitle: '96% Match',
+            subtitle: region,
           ),
         ],
       ),

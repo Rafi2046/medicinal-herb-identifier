@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
-
 import 'character_container_widget.dart';
 
 class CharacteristicsWidget extends StatelessWidget {
-  const CharacteristicsWidget({super.key});
+  final List<String> traits;
+  const CharacteristicsWidget({super.key, this.traits = const []});
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +38,10 @@ class CharacteristicsWidget extends StatelessWidget {
             ),
           ),
           const Divider(height: 0.5, thickness: 0.5),
-
           Padding(
             padding: EdgeInsets.all(16),
             child: Wrap(
-
-              children: [
-                CharacterContainerWidget(title: 'Bright green oval leaves'),
-                CharacterContainerWidget(title: 'Strong aromatic scent'),
-                CharacterContainerWidget(title: 'White or purple flowers'),
-
-                CharacterContainerWidget(title: 'Tender texture'),
-              ],
+              children: traits.map((t) => CharacterContainerWidget(title: t)).toList(),
             ),
           ),
         ],
