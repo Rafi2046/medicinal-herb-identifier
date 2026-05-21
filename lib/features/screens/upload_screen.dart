@@ -17,18 +17,18 @@ class UploadScreen extends StatelessWidget {
   final String? imagePath;
   final PredictionResult? predictionResult;
 
-  const UploadScreen({
-    super.key,
-    this.imagePath,
-    this.predictionResult,
-  });
+  const UploadScreen({super.key, this.imagePath, this.predictionResult});
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardColor = isDark ? const Color(0xFF1E293B) : AppColors.white;
-    final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColors;
-    final pillColor = isDark ? const Color(0xFF334155) : AppColors.herbColorsName;
+    final borderColor = isDark
+        ? const Color(0xFF334155)
+        : AppColors.borderColors;
+    final pillColor = isDark
+        ? const Color(0xFF334155)
+        : AppColors.herbColorsName;
     final titleColor = isDark ? Colors.white : AppColors.herbName;
     final subtitleColor = isDark ? Colors.white70 : AppColors.desText;
     final buttonBg = isDark ? const Color(0xFF1E293B) : Colors.white;
@@ -39,10 +39,7 @@ class UploadScreen extends StatelessWidget {
     final otherPredictions = predictionResult?.allPredictions ?? [];
 
     return Scaffold(
-      appBar: const AppBarWidget(
-        title: 'Details Screen',
-        backArrow: true,
-      ),
+      appBar: const AppBarWidget(title: 'Details Screen', backArrow: true),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
@@ -81,15 +78,21 @@ class UploadScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'IDENTIFIED AS ',
-                                style: AppTextStyles.detailsText.copyWith(color: subtitleColor),
+                                style: AppTextStyles.detailsText.copyWith(
+                                  color: subtitleColor,
+                                ),
                               ),
                               Text(
                                 primaryName,
-                                style: AppTextStyles.herbName.copyWith(color: titleColor),
+                                style: AppTextStyles.herbName.copyWith(
+                                  color: titleColor,
+                                ),
                               ),
                               Text(
                                 'Confidence: ${confidence.toStringAsFixed(1)}%',
-                                style: AppTextStyles.detailsTextT.copyWith(color: subtitleColor),
+                                style: AppTextStyles.detailsTextT.copyWith(
+                                  color: subtitleColor,
+                                ),
                               ),
                             ],
                           ),
@@ -135,39 +138,53 @@ class UploadScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Other Predictions',
-                          style: AppTextStyles.confidenceName.copyWith(color: titleColor),
+                          style: AppTextStyles.confidenceName.copyWith(
+                            color: titleColor,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         ...otherPredictions
-                            .where((p) => p.className != predictionResult?.primaryPrediction)
-                            .map((p) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.circle,
-                                        size: 8,
-                                        color: isDark ? Colors.white54 : AppColors.keyTraits,
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Expanded(
-                                        child: Text(
-                                          p.className,
-                                          style: AppTextStyles.keyTraits.copyWith(
-                                            color: isDark ? Colors.white70 : AppColors.keyTraits,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        '${p.confidence.toStringAsFixed(1)}%',
+                            .where(
+                              (p) =>
+                                  p.className !=
+                                  predictionResult?.primaryPrediction,
+                            )
+                            .map(
+                              (p) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.circle,
+                                      size: 8,
+                                      color: isDark
+                                          ? Colors.white54
+                                          : AppColors.keyTraits,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Text(
+                                        p.className,
                                         style: AppTextStyles.keyTraits.copyWith(
-                                          color: isDark ? Colors.white54 : AppColors.desText,
-                                          fontWeight: FontWeight.w600,
+                                          color: isDark
+                                              ? Colors.white70
+                                              : AppColors.keyTraits,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                )),
+                                    ),
+                                    Text(
+                                      '${p.confidence.toStringAsFixed(1)}%',
+                                      style: AppTextStyles.keyTraits.copyWith(
+                                        color: isDark
+                                            ? Colors.white54
+                                            : AppColors.desText,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                       ],
                     ),
                   ),
@@ -181,9 +198,8 @@ class UploadScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HerbFullDetailsScreen(
-                        herbName: primaryName,
-                      ),
+                      builder: (context) =>
+                          HerbFullDetailsScreen(herbName: primaryName),
                     ),
                   );
                 },
@@ -196,16 +212,24 @@ class UploadScreen extends StatelessWidget {
                       builder: (context, favs, _) {
                         final saved = favs.isFavorite(primaryName);
                         return CustomButton(
-                          backgroundColor: saved ? const Color(0xFFE2F6EB) : buttonBg,
+                          backgroundColor: saved
+                              ? const Color(0xFFE2F6EB)
+                              : buttonBg,
                           showBorder: true,
                           borderColor: borderColor,
                           text: saved ? 'Saved' : 'Favorite',
-                          textColor: saved ? const Color(0xFF13C366) : buttonTextColor,
+                          textColor: saved
+                              ? const Color(0xFF13C366)
+                              : buttonTextColor,
                           onPressed: () {
                             favs.toggle(primaryName);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(saved ? 'Removed from favorites' : '$primaryName saved to favorites'),
+                                content: Text(
+                                  saved
+                                      ? 'Removed from favorites'
+                                      : '$primaryName saved to favorites',
+                                ),
                                 duration: const Duration(seconds: 1),
                               ),
                             );
@@ -213,7 +237,9 @@ class UploadScreen extends StatelessWidget {
                           leading: Image.asset(
                             AppImages.favorites,
                             height: AppSpacing.h16,
-                            color: saved ? const Color(0xFF13C366) : (isDark ? Colors.white : null),
+                            color: saved
+                                ? const Color(0xFF13C366)
+                                : (isDark ? Colors.white : null),
                           ),
                         );
                       },

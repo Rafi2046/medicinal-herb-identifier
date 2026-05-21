@@ -166,7 +166,7 @@ class AppTextStyles {
     color: AppColors.white,
   );
   static TextStyle quickSubTile = TextStyle(
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: FontWeight.w600,
     color: AppColors.black40,
   );

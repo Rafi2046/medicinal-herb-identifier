@@ -3,6 +3,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
+import 'package:medical_herb/core/network/prediction_model.dart';
+import 'package:medical_herb/core/providers/favorites_provider.dart';
+import 'package:medical_herb/core/providers/history_provider.dart';
 import 'package:medical_herb/core/providers/scan_provider.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:medical_herb/features/main/presentation/widgets/main_app_top_bar.dart';
@@ -16,28 +19,17 @@ import 'package:medical_herb/features/screens/widgets/welcome_card_widget.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  Future<void> _scanHerb(BuildContext context) async {
-    final provider = context.read<ScanProvider>();
-    final result = await provider.processImage(ImageSource.camera);
-    if (!context.mounted || result == null) return;
-    _handleResult(context, provider, result);
-  }
-
-  Future<void> _uploadImage(BuildContext context) async {
-    final provider = context.read<ScanProvider>();
-    final result = await provider.processImage(ImageSource.gallery);
-    if (!context.mounted || result == null) return;
-    _handleResult(context, provider, result);
-  }
-
   void _handleResult(
     BuildContext context,
-    ScanProvider provider,
     Map<String, dynamic> result,
+    ScanSource source,
   ) {
     if (result['success'] == true) {
       final imagePath = result['imagePath'] as String;
-      final predictionResult = result['predictionResult'];
+      final predictionResult = result['predictionResult'] as PredictionResult;
+      final herbName = predictionResult.primaryPrediction;
+      final confidence = predictionResult.primaryConfidence;
+      context.read<HistoryProvider>().addScan(herbName, confidence, source);
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -50,10 +42,31 @@ class HomeScreen extends StatelessWidget {
     } else {
       final message =
           result['message'] as String? ?? 'Failed to identify plant.';
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
     }
+  }
+
+  Future<void> _pickAndProcess(BuildContext context, ImageSource source) async {
+    final picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: source);
+    if (image == null || !context.mounted) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
+    final provider = context.read<ScanProvider>();
+    final result = await provider.processPickedImage(image.path);
+
+    if (!context.mounted) return;
+    Navigator.pop(context);
+
+    final scanSource =
+        source == ImageSource.camera ? ScanSource.camera : ScanSource.gallery;
+    _handleResult(context, result, scanSource);
   }
 
   @override
@@ -72,8 +85,9 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.h16),
               Text('CHOOSE AN OPTION', style: AppTextStyles.heading4),
               OptionWidget(
-                onPressed: () => _scanHerb(context),
-                onUploadPressed: () => _uploadImage(context),
+                onPressed: () => _pickAndProcess(context, ImageSource.camera),
+                onUploadPressed: () =>
+                    _pickAndProcess(context, ImageSource.gallery),
               ),
               Text('QUICK ACCESS', style: AppTextStyles.heading4),
               const SizedBox(height: AppSpacing.h4),

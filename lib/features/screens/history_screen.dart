@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/providers/history_provider.dart';
 import 'package:medical_herb/features/bottom_nav/bottom_nav_screen.dart';
+import 'package:medical_herb/features/screens/herb_full_details_screen.dart';
 import 'package:medical_herb/features/screens/widgets/history_widget.dart';
 import 'package:medical_herb/features/screens/widgets/tab_screen_header.dart';
-import 'herb_full_details_screen.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -29,6 +29,30 @@ class _HistoryScreenState extends State<HistoryScreen> {
     });
   }
 
+  Widget _buildSection(String title, List<HistoryItem> items) {
+    if (items.isEmpty) return const SizedBox.shrink();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: AppTextStyles.heading4),
+        ...items.map((item) => HistoryWidget(
+          id: item.id,
+          herbName: item.herbName,
+          confidence: '${item.confidence.toStringAsFixed(1)}%',
+          time: item.time,
+          source: item.source,
+          onDelete: () => context.read<HistoryProvider>().removeItem(item.id),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => HerbFullDetailsScreen(herbName: item.herbName),
+            ),
+          ),
+        )),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final historyProvider = context.watch<HistoryProvider>();
@@ -37,6 +61,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     final todayItems = historyProvider.getItemsByCategory('TODAY');
     final yesterdayItems = historyProvider.getItemsByCategory('YESTERDAY');
     final thisWeekItems = historyProvider.getItemsByCategory('THIS WEEK');
+    final olderItems = historyProvider.getItemsByCategory('OLDER');
 
     return Scaffold(
       body: SafeArea(
@@ -48,114 +73,50 @@ class _HistoryScreenState extends State<HistoryScreen> {
               showBackButton: _showBackButton,
               title: 'History',
               subtitle: '${historyProvider.items.length} scans',
-              actions: [],
             ),
             Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  await Future.delayed(const Duration(seconds: 1));
-                  historyProvider.resetItems();
-                },
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.fromLTRB(20, 16, 20, bottomInset + 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (todayItems.isNotEmpty) ...[
-                        Text('TODAY', style: AppTextStyles.heading4),
-                        ...todayItems.map(
-                          (item) => GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const HerbFullDetailsScreen(),
-                                ),
-                              );
-                            },
-                            child: HistoryWidget(
-                              id: item.id,
-                              herbName: item.herbName,
-                              imagePath: item.dotImage,
-                              imagePath2: item.herbImage,
-                              imagePath3: item.iconImage,
-                              time: item.time,
-                              confidence: item.confidence,
-                              onDelete: () =>
-                                  historyProvider.removeItem(item.id),
+              child: historyProvider.items.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.history, size: 64, color: Colors.grey[400]),
+                          const SizedBox(height: 16),
+                          Text(
+                            'No scan history yet',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey[500],
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                        ),
-                      ],
-                      if (yesterdayItems.isNotEmpty) ...[
-                        Text('YESTERDAY', style: AppTextStyles.heading4),
-                        ...yesterdayItems.map(
-                          (item) => GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const HerbFullDetailsScreen(),
-                                ),
-                              );
-                            },
-                            child: HistoryWidget(
-                              id: item.id,
-                              herbName: item.herbName,
-                              imagePath: item.dotImage,
-                              imagePath2: item.herbImage,
-                              imagePath3: item.iconImage,
-                              time: item.time,
-                              confidence: item.confidence,
-                              onDelete: () =>
-                                  historyProvider.removeItem(item.id),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Your scanned herbs will appear here',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[400],
                             ),
                           ),
+                        ],
+                      ),
+                    )
+                  : RefreshIndicator(
+                      onRefresh: () async {},
+                      child: SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.fromLTRB(20, 16, 20, bottomInset + 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildSection('TODAY', todayItems),
+                            _buildSection('YESTERDAY', yesterdayItems),
+                            _buildSection('THIS WEEK', thisWeekItems),
+                            _buildSection('OLDER', olderItems),
+                          ],
                         ),
-                      ],
-                      if (thisWeekItems.isNotEmpty) ...[
-                        Text('THIS WEEK', style: AppTextStyles.heading4),
-                        ...thisWeekItems.map(
-                          (item) => GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const HerbFullDetailsScreen(),
-                                ),
-                              );
-                            },
-                            child: HistoryWidget(
-                              id: item.id,
-                              herbName: item.herbName,
-                              imagePath: item.dotImage,
-                              imagePath2: item.herbImage,
-                              imagePath3: item.iconImage,
-                              time: item.time,
-                              confidence: item.confidence,
-                              onDelete: () =>
-                                  historyProvider.removeItem(item.id),
-                            ),
-                          ),
-                        ),
-                      ],
-                      if (todayItems.isEmpty &&
-                          yesterdayItems.isEmpty &&
-                          thisWeekItems.isEmpty)
-                        const Center(
-                          child: Padding(
-                            padding: EdgeInsets.all(40),
-                            child: Text('No history items'),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
+                      ),
+                    ),
             ),
           ],
         ),
