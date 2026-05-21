@@ -41,9 +41,7 @@ class OptionWidget extends StatelessWidget {
                       width: 48,
                       height: 48,
                     ),
-
                     Text('Scan Herb', style: AppTextStyles.scanText),
-
                     Text('Use camera', style: AppTextStyles.uploadCameraText),
                   ],
                 ),
@@ -51,9 +49,7 @@ class OptionWidget extends StatelessWidget {
             ),
           ),
         ),
-
         const SizedBox(width: AppSpacing.w12),
-
         Expanded(
           child: InkWell(
             onTap: onUploadPressed,
