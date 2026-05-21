@@ -7,7 +7,8 @@ import 'package:medical_herb/features/screens/widgets/saved_screen_items_widget.
 import 'package:medical_herb/features/screens/widgets/tab_screen_header.dart';
 
 class SavedScreen extends StatelessWidget {
-  const SavedScreen({super.key});
+  final bool showBackButton;
+  const SavedScreen({super.key, this.showBackButton = false});
 
   @override
   Widget build(BuildContext context) {
@@ -24,37 +25,45 @@ class SavedScreen extends StatelessWidget {
               children: [
                 TabScreenHeader(
                   title: 'Saved',
-                  subtitle: '${items.length} herbs in your collection',
+                  subtitle: '${items.length} herb${items.length == 1 ? '' : 's'} in your collection',
+                  showBackButton: showBackButton,
                 ),
                 Expanded(
                   child: items.isEmpty
-                      ? Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.favorite_border,
-                                size: 64,
-                                color: Colors.grey[400],
-                              ),
-                              const SizedBox(height: 16),
-                              Text(
-                                'No saved herbs yet',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.grey[500],
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                'Save herbs you identify to find them later',
-                                style: TextStyle(
-                                  fontSize: 14,
+                      ? SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+                                Icon(
+                                  Icons.favorite_border,
+                                  size: 64,
                                   color: Colors.grey[400],
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 16),
+                                Text(
+                                  'No saved herbs yet',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.grey[500],
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Save herbs you identify to find them later',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[400],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         )
                       : ListView.separated(
