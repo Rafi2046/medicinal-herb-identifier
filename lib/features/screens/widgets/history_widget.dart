@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
+import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
+import 'package:medical_herb/core/data/plant_images.dart';
 import 'package:medical_herb/core/providers/history_provider.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 
@@ -31,6 +33,8 @@ class HistoryWidget extends StatelessWidget {
     final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColor;
     final titleColor = isDark ? Colors.white : AppColors.herbName;
 
+    final plantName = herbName ?? 'Unknown';
+
     return Dismissible(
       key: Key(id ?? herbName ?? UniqueKey().toString()),
       direction: DismissDirection.endToStart,
@@ -56,49 +60,53 @@ class HistoryWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           onTap: onTap,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Icon(
-                  source == ScanSource.camera
-                      ? Icons.camera_alt_rounded
-                      : Icons.photo_library_rounded,
-                  color: source == ScanSource.camera
-                      ? const Color(0xFF27AE60)
-                      : Colors.blue,
-                  size: 22,
+                ClipRRect(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: borderColor),
+                    ),
+                    child: Image(
+                      image: AssetImage(imageForPlant(plantName)),
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-                const SizedBox(width: 14),
+                const SizedBox(width: AppSpacing.s8),
                 Expanded(
                   child: Column(
+                    spacing: AppSpacing.s4,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        herbName ?? '',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.confidenceName.copyWith(
-                          color: titleColor,
-                        ),
+                        plantName,
+                        style: AppTextStyles.confidenceName.copyWith(color: titleColor),
                       ),
-                      const SizedBox(height: 8),
                       Row(
                         children: [
-                          Text(
-                            '${time ?? '00:00 AM'}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: isDark ? Colors.white60 : AppColors.detailsText,
-                              fontWeight: FontWeight.w600,
-                            ),
+                          Icon(
+                            source == ScanSource.camera
+                                ? Icons.camera_alt_rounded
+                                : Icons.photo_library_rounded,
+                            color: source == ScanSource.camera
+                                ? const Color(0xFF27AE60)
+                                : Colors.blue,
+                            size: 16,
                           ),
-                          Text(
-                            '  ●  ${confidence ?? '0%'}',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold,
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              '${time ?? '00:00 AM'}  ●  ${confidence ?? '0%'}',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: isDark ? Colors.white60 : AppColors.detailsText,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ],
@@ -106,13 +114,13 @@ class HistoryWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.s4),
                 GestureDetector(
                   onTap: onDelete,
                   child: Image(
                     image: AssetImage(AppImages.deleteIcon),
-                    width: 40,
-                    height: 40,
+                    width: 30,
+                    height: 30,
                   ),
                 ),
               ],
