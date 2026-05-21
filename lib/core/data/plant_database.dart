@@ -73,10 +73,7 @@ final Map<String, PlantData> plantDatabase = {
       "Aids digestion and reduces constipation",
       "Moisturizes skin and hair",
     ],
-    goodSides: [
-      "Very safe for topical use",
-      "Can be grown easily at home",
-    ],
+    goodSides: ["Very safe for topical use", "Can be grown easily at home"],
     badSides: [
       "Oral consumption can cause cramping",
       "Latex from the leaf skin can be toxic",
@@ -178,10 +175,7 @@ final Map<String, PlantData> plantDatabase = {
       "Reduces blood pressure",
       "Promotes bone health",
     ],
-    goodSides: [
-      "Well-known heart tonic in Ayurveda",
-      "Rich in antioxidants",
-    ],
+    goodSides: ["Well-known heart tonic in Ayurveda", "Rich in antioxidants"],
     badSides: [
       "May lower blood pressure too much",
       "Not recommended during pregnancy",
@@ -203,10 +197,7 @@ final Map<String, PlantData> plantDatabase = {
       "Excellent for women's reproductive health",
       "Has mild sedative properties",
     ],
-    badSides: [
-      "May cause constipation",
-      "Should be taken under guidance",
-    ],
+    badSides: ["May cause constipation", "Should be taken under guidance"],
     scientificName: "Saraca asoca",
     family: "Fabaceae",
     region: "Indian Subcontinent",
@@ -262,14 +253,8 @@ final Map<String, PlantData> plantDatabase = {
       "Reduces anxiety and stress",
       "Treats skin conditions",
     ],
-    goodSides: [
-      "Excellent for skin health",
-      "Beneficial for brain function",
-    ],
-    badSides: [
-      "Can cause liver issues in high doses",
-      "May cause drowsiness",
-    ],
+    goodSides: ["Excellent for skin health", "Beneficial for brain function"],
+    badSides: ["Can cause liver issues in high doses", "May cause drowsiness"],
     scientificName: "Centella asiatica",
     family: "Apiaceae",
     region: "Asia and Africa",
@@ -283,10 +268,7 @@ final Map<String, PlantData> plantDatabase = {
       "Reduces inflammation",
       "Promotes wound healing",
     ],
-    goodSides: [
-      "Easy to propagate and grow",
-      "Quick relief for kidney stones",
-    ],
+    goodSides: ["Easy to propagate and grow", "Quick relief for kidney stones"],
     badSides: [
       "Can be toxic in very high doses",
       "Not recommended during pregnancy",
@@ -304,14 +286,8 @@ final Map<String, PlantData> plantDatabase = {
       "Helps with menstrual disorders",
       "Reduces inflammation",
     ],
-    goodSides: [
-      "Natural blood purifier",
-      "Effective for skin conditions",
-    ],
-    badSides: [
-      "May cause digestive upset",
-      "Should be used in moderation",
-    ],
+    goodSides: ["Natural blood purifier", "Effective for skin conditions"],
+    badSides: ["May cause digestive upset", "Should be used in moderation"],
     scientificName: "Rhododendron arboreum",
     family: "Ericaceae",
     region: "Himalayan region",
@@ -409,14 +385,8 @@ final Map<String, PlantData> plantDatabase = {
       "Helps with oral health",
       "Promotes wound healing",
     ],
-    goodSides: [
-      "Easy to grow as a houseplant",
-      "Quick relief for skin issues",
-    ],
-    badSides: [
-      "Sap is toxic if consumed",
-      "Can cause skin irritation",
-    ],
+    goodSides: ["Easy to grow as a houseplant", "Quick relief for skin issues"],
+    badSides: ["Sap is toxic if consumed", "Can cause skin irritation"],
     scientificName: "Euphorbia tithymaloides",
     family: "Euphorbiaceae",
     region: "Tropical Americas",
@@ -430,14 +400,8 @@ final Map<String, PlantData> plantDatabase = {
       "Boosts immunity",
       "Reduces stress",
     ],
-    goodSides: [
-      "Gentle and natural remedy",
-      "Used in traditional medicine",
-    ],
-    badSides: [
-      "More research needed on efficacy",
-      "Consult expert before use",
-    ],
+    goodSides: ["Gentle and natural remedy", "Used in traditional medicine"],
+    badSides: ["More research needed on efficacy", "Consult expert before use"],
     scientificName: "To be identified",
     family: "To be identified",
     region: "South Asia",
@@ -455,10 +419,7 @@ final Map<String, PlantData> plantDatabase = {
       "Natural health supplement",
       "Traditional remedy with proven benefits",
     ],
-    badSides: [
-      "Limited availability",
-      "Consult before regular use",
-    ],
+    badSides: ["Limited availability", "Consult before regular use"],
     scientificName: "To be identified",
     family: "To be identified",
     region: "South Asia",
@@ -493,10 +454,7 @@ final Map<String, PlantData> plantDatabase = {
       "Helps with headaches",
       "Acts as a cooling agent",
     ],
-    goodSides: [
-      "Beneficial for eye care",
-      "Natural cooling properties",
-    ],
+    goodSides: ["Beneficial for eye care", "Natural cooling properties"],
     badSides: [
       "Limited scientific validation",
       "Use under professional guidance",

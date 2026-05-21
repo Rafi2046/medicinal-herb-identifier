@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/network/prediction_model.dart';
+import 'package:medical_herb/core/providers/favorites_provider.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:medical_herb/features/common_widgets/app_bar_widget.dart';
 import 'package:medical_herb/features/common_widgets/custom_button.dart';
@@ -190,18 +192,31 @@ class UploadScreen extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: CustomButton(
-                      backgroundColor: buttonBg,
-                      showBorder: true,
-                      borderColor: borderColor,
-                      text: 'Favorite',
-                      textColor: buttonTextColor,
-                      onPressed: () {},
-                      leading: Image.asset(
-                        AppImages.favorites,
-                        height: AppSpacing.h16,
-                        color: isDark ? Colors.white : null,
-                      ),
+                    child: Consumer<FavoritesProvider>(
+                      builder: (context, favs, _) {
+                        final saved = favs.isFavorite(primaryName);
+                        return CustomButton(
+                          backgroundColor: saved ? const Color(0xFFE2F6EB) : buttonBg,
+                          showBorder: true,
+                          borderColor: borderColor,
+                          text: saved ? 'Saved' : 'Favorite',
+                          textColor: saved ? const Color(0xFF13C366) : buttonTextColor,
+                          onPressed: () {
+                            favs.toggle(primaryName);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(saved ? 'Removed from favorites' : '$primaryName saved to favorites'),
+                                duration: const Duration(seconds: 1),
+                              ),
+                            );
+                          },
+                          leading: Image.asset(
+                            AppImages.favorites,
+                            height: AppSpacing.h16,
+                            color: saved ? const Color(0xFF13C366) : (isDark ? Colors.white : null),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(width: 16),
