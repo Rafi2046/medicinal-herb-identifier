@@ -30,7 +30,11 @@ class HomeScreen extends StatelessWidget {
     _handleResult(context, provider, result);
   }
 
-  void _handleResult(BuildContext context, ScanProvider provider, Map<String, dynamic> result) {
+  void _handleResult(
+    BuildContext context,
+    ScanProvider provider,
+    Map<String, dynamic> result,
+  ) {
     if (result['success'] == true) {
       final imagePath = result['imagePath'] as String;
       final predictionResult = result['predictionResult'];
@@ -44,10 +48,11 @@ class HomeScreen extends StatelessWidget {
         ),
       );
     } else {
-      final message = result['message'] as String? ?? 'Failed to identify plant.';
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      final message =
+          result['message'] as String? ?? 'Failed to identify plant.';
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
     }
   }
 
@@ -73,7 +78,7 @@ class HomeScreen extends StatelessWidget {
               Text('QUICK ACCESS', style: AppTextStyles.heading4),
               const SizedBox(height: AppSpacing.h4),
               QuickAccessWidget(
-                onPressed: () {
+                onHistoryPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
