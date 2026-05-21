@@ -6,6 +6,14 @@ import 'package:medical_herb/core/constants/app_text_styles.dart';
 class WelcomeCardWidget extends StatelessWidget {
   const WelcomeCardWidget({super.key});
 
+  String _greeting() {
+    final hour = DateTime.now().hour;
+    if (hour >= 5 && hour < 12) return 'Good Morning';
+    if (hour >= 12 && hour < 17) return 'Good Afternoon';
+    if (hour >= 17 && hour < 21) return 'Good Evening';
+    return 'Good Night';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,7 +38,7 @@ class WelcomeCardWidget extends StatelessWidget {
           spacing: AppSpacing.s4,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Good Evening', style: AppTextStyles.welcomeText),
+            Text(_greeting(), style: AppTextStyles.welcomeText),
             Text(
               'What herb do you want to identify?',
               style: AppTextStyles.identifyText,
