@@ -48,18 +48,19 @@ class ConfidenceScoreCardWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                Flexible(
+                Expanded(
                   child: Text('Confidence Score', style: AppTextStyles.confidenceName.copyWith(color: titleColor)),
                 ),
                 const SizedBox(width: 8),
                 Container(
-                  height: 45,
+                  height: 40,
+                  constraints: const BoxConstraints(maxWidth: 120),
                   decoration: BoxDecoration(
                     color: pillColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
@@ -70,9 +71,12 @@ class ConfidenceScoreCardWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text('${confidence.toStringAsFixed(1)}%', style: AppTextStyles.progressName.copyWith(color: isDark ? Colors.white : null)),
+                Text(
+                  '${confidence.toStringAsFixed(1)}%',
+                  style: AppTextStyles.progressName.copyWith(
+                    color: isDark ? Colors.white : null,
+                    fontSize: 28,
+                  ),
                 ),
               ],
             ),
