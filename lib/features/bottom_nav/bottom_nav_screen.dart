@@ -46,38 +46,27 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   ];
 
   Future<void> _onScanTap() async {
-    final XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (image == null) return;
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
-    );
-
     final provider = context.read<ScanProvider>();
-    await provider.predict(image.path);
+    final result = await provider.processImage(ImageSource.camera);
+    if (!mounted || result == null) return;
 
-    if (!mounted) return;
-    Navigator.pop(context);
-
-    if (provider.predictionResult != null) {
-      if (!mounted) return;
+    if (result['success'] == true) {
+      final imagePath = result['imagePath'] as String;
+      final predictionResult = result['predictionResult'];
       await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (_) => UploadScreen(
-            imagePath: provider.imagePath,
-            predictionResult: provider.predictionResult,
+            imagePath: imagePath,
+            predictionResult: predictionResult,
           ),
         ),
       );
-      provider.reset();
-    } else if (provider.error != null) {
+    } else {
+      final message = result['message'] as String? ?? 'Failed to identify plant.';
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(provider.error!)),
+        SnackBar(content: Text(message)),
       );
-      provider.reset();
     }
   }
 
