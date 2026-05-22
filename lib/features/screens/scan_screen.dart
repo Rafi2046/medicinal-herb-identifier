@@ -18,7 +18,7 @@ class ScanScreen extends StatelessWidget {
     final provider = context.read<ScanProvider>();
     final result = await provider.processImage(source);
 
-    if (result != null && context.mounted) {
+    if (context.mounted) {
       if (result['success'] == true) {
 
         Navigator.push(

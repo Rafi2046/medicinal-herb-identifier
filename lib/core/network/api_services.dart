@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class ApiService {
 
@@ -30,11 +31,15 @@ class ApiService {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        print("API Error: Status Code ${response.statusCode}");
+        if (kDebugMode) {
+          debugPrint("API Error: Status Code ${response.statusCode}");
+        }
         return null;
       }
     } catch (e) {
-      print("Exception during API call: $e");
+      if (kDebugMode) {
+        print("Exception during API call: $e");
+      }
       return null;
     }
   }

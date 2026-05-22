@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 
@@ -30,7 +29,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final colorScheme = Theme.of(context).colorScheme;
+
 
     final headerBg = isDark
         ? const Color(0xFF1a2e1a)

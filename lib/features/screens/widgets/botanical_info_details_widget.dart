@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 
 class BotanicalInfoDetailsWidget extends StatelessWidget {

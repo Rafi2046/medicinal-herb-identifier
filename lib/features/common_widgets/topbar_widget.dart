@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
-import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/providers/theme_provider.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -37,8 +36,8 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     final shadowColor = isDark
-        ? Colors.black.withOpacity(0.3)
-        : Colors.black.withOpacity(0.03);
+        ? Colors.black.withValues(alpha: 0.3)
+        : Colors.black.withValues(alpha: 0.03);
 
     final topBarBg = isDark
         ? const Color(0xFF1a2e1a)
@@ -152,7 +151,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                     fontWeight: FontWeight.w400,
                     color: isDark
                         ? Colors.white70
-                        : colorScheme.onSurface.withOpacity(0.6),
+                        : colorScheme.onSurface.withValues(alpha: 0.6),
                     height: 1.2,
                   ),
                 ),
@@ -173,7 +172,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   height: 38,
                   width: 38,
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.15),
+                    color: Colors.green.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -245,7 +244,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   height: 38,
                   width: 38,
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.15),
+                    color: Colors.green.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -263,7 +262,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
   }
 
   void _showAboutDialog(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     showDialog(
       context: context,
       builder: (_) => AlertDialog(

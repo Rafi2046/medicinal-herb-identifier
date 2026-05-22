@@ -22,9 +22,9 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const Color _primaryTeal = Color(0xFF00897B);
 
-  static const Color _lightBg = Color(0xFFF0FDF4);
+
+
   static const Color _darkBg = Color(0xFF0F172A);
   static const Color _darkSurface = Color(0xFF1E293B);
   static const Color _darkCard = Color(0xFF334155);
