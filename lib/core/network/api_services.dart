@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 
 class ApiService {
-  static const String apiUrl = "http://192.168.86.48:8000/predict";
 
+  static String apiUrl = "https://ishmakrahatrafi-herb-backend.hf.space/predict";
   static final Dio _dio = Dio();
 
   static Future<Map<String, dynamic>?> uploadAndPredict(File imageFile) async {
@@ -17,7 +17,15 @@ class ApiService {
         ),
       });
 
-      Response response = await _dio.post(apiUrl, data: formData);
+      Response response = await _dio.post(
+        apiUrl,
+        data: formData,
+        options: Options(
+          headers: {
+            "Accept": "application/json",
+          },
+        ),
+      );
 
       if (response.statusCode == 200) {
         return response.data;
