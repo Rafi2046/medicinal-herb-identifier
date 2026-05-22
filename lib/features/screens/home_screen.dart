@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/network/prediction_model.dart';
-import 'package:medical_herb/core/providers/favorites_provider.dart';
 import 'package:medical_herb/core/providers/history_provider.dart';
 import 'package:medical_herb/core/providers/scan_provider.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';

@@ -35,7 +35,7 @@ class HerbOfDayWidget extends StatelessWidget {
             fit: BoxFit.cover,
             width: double.infinity,
             height: 200,
-            errorBuilder: (context, _, __) => Container(
+            errorBuilder: (context, _, _) => Container(
               height: 200,
               color: Colors.green.shade100,
             ),

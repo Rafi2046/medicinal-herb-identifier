@@ -4,7 +4,6 @@ import 'package:medical_herb/core/data/plant_images.dart';
 import 'package:medical_herb/features/bottom_nav/bottom_nav_screen.dart';
 import 'package:medical_herb/features/screens/herb_full_details_screen.dart';
 import 'package:medical_herb/features/screens/widgets/tab_screen_header.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class _PlantImage extends StatelessWidget {
   final String imagePath;
@@ -26,7 +25,7 @@ class _PlantImage extends StatelessWidget {
           width: 100,
           height: 100,
           fit: BoxFit.cover,
-          errorBuilder: (context, _, __) => Container(
+          errorBuilder: (context, _, _) => Container(
             width: 100,
             height: 100,
             color: Colors.grey.shade200,
@@ -46,7 +45,9 @@ class ExploreScreen extends StatelessWidget {
     final bottomInset = BottomNavScreen.tabContentBottomInset(context);
     final herbs = plantDatabase.keys.toList();
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final borderColor = isDark ? const Color(0xFF334155) : const Color(0xFFD6E2EF);
+    final borderColor = isDark
+        ? const Color(0xFF334155)
+        : const Color(0xFFD6E2EF);
 
     return Scaffold(
       body: SafeArea(
@@ -95,15 +96,25 @@ class ExploreScreen extends StatelessWidget {
                                   children: [
                                     TextSpan(
                                       text: '$name\n',
-                                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(
                                             fontWeight: FontWeight.bold,
-                                            color: isDark ? Colors.white : const Color(0xFF14532c),
+                                            color: isDark
+                                                ? Colors.white
+                                                : const Color(0xFF14532c),
                                           ),
                                     ),
                                     TextSpan(
                                       text: plant?.scientificName ?? '',
-                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                            color: isDark ? Colors.white70 : const Color(0xFF4b7c59),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                            color: isDark
+                                                ? Colors.white70
+                                                : const Color(0xFF4b7c59),
                                           ),
                                     ),
                                   ],
