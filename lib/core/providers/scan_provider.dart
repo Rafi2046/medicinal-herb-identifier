@@ -6,12 +6,18 @@ import 'package:medical_herb/core/network/prediction_model.dart';
 
 class ScanProvider extends ChangeNotifier {
   bool _isLoading = false;
+
   bool get isLoading => _isLoading;
 
   final ImagePicker _picker = ImagePicker();
 
   Future<Map<String, dynamic>> processImage(ImageSource source) async {
-    final XFile? image = await _picker.pickImage(source: source);
+    final XFile? image = await _picker.pickImage(
+      source: source,
+      imageQuality: 60,
+      maxWidth: 256,
+      maxHeight: 256,
+    );
     if (image == null) {
       return {'success': false, 'message': null};
     }
@@ -48,10 +54,7 @@ class ScanProvider extends ChangeNotifier {
     } catch (e) {
       _isLoading = false;
       notifyListeners();
-      return {
-        'success': false,
-        'message': 'Error: $e',
-      };
+      return {'success': false, 'message': 'Error: $e'};
     }
   }
 }
