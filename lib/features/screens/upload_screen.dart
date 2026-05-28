@@ -124,7 +124,6 @@ class _UploadScreenState extends State<UploadScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // ১. ইমেজ জুম ক্রপার
                   if (_originalImagePath != null)
                     ZoomInZoomOutWidget(
                       imagePath: _originalImagePath!,
@@ -134,21 +133,18 @@ class _UploadScreenState extends State<UploadScreen> {
 
                   if (_originalImagePath != null) const SizedBox(height: 16),
 
-                  // ২. রেজাল্ট কার্ড
                   IdentifiedCardWidget(
                     primaryName: primaryName,
                     confidence: confidence,
                   ),
                   const SizedBox(height: 8),
 
-                  // ৩. কনফিডেন্স স্কোর
                   ConfidenceScoreCardWidget(
                     confidence: confidence,
                     showDetailedMetrics: false,
                   ),
                   const SizedBox(height: 8),
 
-                  // ৪. থ্রেশহোল্ড স্লাইডার
                   ConfidenceThresholdWidget(
                     threshold: scanProvider.confidenceThreshold,
                     onChanged: (value) =>
@@ -156,7 +152,6 @@ class _UploadScreenState extends State<UploadScreen> {
                     onChangeEnd: (_) => _reprocess(context),
                   ),
 
-                  // ৫. টপ ৩ প্রেডিকশন
                   if (topPredictions.isNotEmpty) ...[
                     const SizedBox(height: 8),
                     TopThreePredictionsWidget(
@@ -183,7 +178,6 @@ class _UploadScreenState extends State<UploadScreen> {
                   ),
                   const SizedBox(height: 20),
 
-                  // ৬. অ্যাকশন বাটনস
                   ButtonActionButtonWidget(primaryName: primaryName),
                 ],
               ),
