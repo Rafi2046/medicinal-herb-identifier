@@ -26,7 +26,7 @@ class TopThreePredictionsWidget extends StatelessWidget {
         : AppColors.borderColors;
     final titleColor = isDark ? Colors.white : AppColors.herbName;
     final subtitleColor = isDark ? Colors.white70 : AppColors.desText;
-    final accentColor = isDark
+    final _ = isDark
         ? const Color(0xFF4ADE80)
         : const Color(0xFF27AE60);
 
