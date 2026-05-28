@@ -51,13 +51,14 @@ class HomeScreen extends StatelessWidget {
     final XFile? image = await picker.pickImage(source: source);
     if (image == null || !context.mounted) return;
 
+    final provider = context.read<ScanProvider>();
+
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (_) => const Center(child: CircularProgressIndicator()),
     );
 
-    final provider = context.read<ScanProvider>();
     final result = await provider.processPickedImage(image.path);
 
     if (!context.mounted) return;

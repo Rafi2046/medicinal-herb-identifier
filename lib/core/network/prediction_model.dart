@@ -1,22 +1,22 @@
 class PredictionResult {
-  final String status;
+  final bool success;
   final String primaryPrediction;
   final double primaryConfidence;
-  final List<Prediction> allPredictions;
+  final List<Prediction> top3;
 
   PredictionResult({
-    required this.status,
+    required this.success,
     required this.primaryPrediction,
     required this.primaryConfidence,
-    required this.allPredictions,
+    required this.top3,
   });
 
   factory PredictionResult.fromJson(Map<String, dynamic> json) {
     return PredictionResult(
-      status: json['status'] as String,
+      success: json['success'] as bool,
       primaryPrediction: json['primary_prediction'] as String,
       primaryConfidence: (json['primary_confidence'] as num).toDouble(),
-      allPredictions: (json['all_predictions'] as List)
+      top3: (json['top_3'] as List)
           .map((e) => Prediction.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -31,7 +31,7 @@ class Prediction {
 
   factory Prediction.fromJson(Map<String, dynamic> json) {
     return Prediction(
-      className: json['class_name'] as String,
+      className: json['class'] as String,
       confidence: (json['confidence'] as num).toDouble(),
     );
   }
