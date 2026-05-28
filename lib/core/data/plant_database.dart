@@ -464,3 +464,13 @@ final Map<String, PlantData> plantDatabase = {
     region: "South Asia",
   ),
 };
+
+final Map<String, String> plantNameAliases = {
+  'Sojne-Moringa': 'Moringa',
+};
+
+PlantData? getPlantByName(String? name) {
+  if (name == null) return null;
+  final key = plantNameAliases[name] ?? name;
+  return plantDatabase[key];
+}

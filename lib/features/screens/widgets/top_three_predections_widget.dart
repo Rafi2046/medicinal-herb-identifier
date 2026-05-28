@@ -21,12 +21,15 @@ class TopThreePredictionsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardColor = isDark ? const Color(0xFF1E293B) : AppColors.white;
-    final borderColor = isDark ? const Color(0xFF334155) : AppColors.borderColors;
+    final borderColor = isDark
+        ? const Color(0xFF334155)
+        : AppColors.borderColors;
     final titleColor = isDark ? Colors.white : AppColors.herbName;
     final subtitleColor = isDark ? Colors.white70 : AppColors.desText;
-    final accentColor = isDark ? const Color(0xFF4ADE80) : const Color(0xFF27AE60);
+    final accentColor = isDark
+        ? const Color(0xFF4ADE80)
+        : const Color(0xFF27AE60);
 
-    // 🛠️ আপনার দেওয়া নতুন সেকেন্ডারি কালার
     final secondaryColor = const Color(0xFFF28A21);
 
     return Card(
@@ -43,8 +46,19 @@ class TopThreePredictionsWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Top Predictions', style: AppTextStyles.confidenceName.copyWith(color: titleColor)),
-                Text('Total: $totalCount', style: AppTextStyles.detailsText.copyWith(color: subtitleColor, fontSize: 12)),
+                Text(
+                  'Top Predictions',
+                  style: AppTextStyles.confidenceName.copyWith(
+                    color: titleColor,
+                  ),
+                ),
+                Text(
+                  'Total: $totalCount',
+                  style: AppTextStyles.detailsText.copyWith(
+                    color: subtitleColor,
+                    fontSize: 12,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 16),
@@ -59,31 +73,42 @@ class TopThreePredictionsWidget extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        // আইকনের কালারটিও অরেঞ্জ করে দেওয়া হলো যাতে থিম ম্যাচ করে
-                        Icon(Icons.circle, size: 8, color: AppColors.progressColor),
+                        Icon(
+                          Icons.circle,
+                          size: 8,
+                          color: AppColors.progressColor,
+                        ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
                             p.className,
-                            style: AppTextStyles.keyTraits.copyWith(color: isDark ? Colors.white70 : AppColors.keyTraits),
+                            style: AppTextStyles.keyTraits.copyWith(
+                              color: isDark
+                                  ? Colors.white70
+                                  : AppColors.keyTraits,
+                            ),
                           ),
                         ),
                         Text(
                           '${pConfidence.toStringAsFixed(1)}%',
-                          style: AppTextStyles.keyTraits.copyWith(color: isDark ? Colors.white54 : AppColors.desText, fontWeight: FontWeight.w600),
+                          style: AppTextStyles.keyTraits.copyWith(
+                            color: isDark ? Colors.white54 : AppColors.desText,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-
                       ],
                     ),
                     const SizedBox(height: 8),
-                    // 🛠️ নতুন কনফিডেন্স প্রগ্রেস বার (আপনার রিকোয়ারমেন্ট অনুযায়ী)
+
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: LinearProgressIndicator(
-                        value: p.confidence, // 0.0 থেকে 1.0 এর মধ্যে ভ্যালু নেবে
-                        minHeight: 6, // বারের পুরুত্ব
-                        backgroundColor: secondaryColor.withValues(alpha: 0.15), // হালকা অরেঞ্জ ব্যাকগ্রাউন্ড
-                        valueColor: AlwaysStoppedAnimation<Color>(secondaryColor), // গাঢ় অরেঞ্জ ফিল কালার
+                        value: p.confidence,
+                        minHeight: 6,
+                        backgroundColor: secondaryColor.withValues(alpha: 0.15),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          secondaryColor,
+                        ),
                       ),
                     ),
                   ],
@@ -93,7 +118,13 @@ class TopThreePredictionsWidget extends StatelessWidget {
             if (isLoading)
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 12),
-                child: Center(child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
+                child: Center(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                ),
               ),
           ],
         ),
