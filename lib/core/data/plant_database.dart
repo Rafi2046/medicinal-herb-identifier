@@ -82,7 +82,7 @@ final Map<String, PlantData> plantDatabase = {
     family: "Asphodelaceae",
     region: "Arabian Peninsula",
   ),
-  "Mint": PlantData(
+  "Pudina": PlantData(
     description:
         "Mint is a fragrant herb from the Mentha genus. It is widely used in culinary dishes, teas, and for its medicinal properties to aid digestion.",
     medicinalUses: [
@@ -468,6 +468,7 @@ final Map<String, PlantData> plantDatabase = {
 final Map<String, String> plantNameAliases = {
   'Sojne-Moringa': 'Moringa',
 };
+
 
 PlantData? getPlantByName(String? name) {
   if (name == null) return null;

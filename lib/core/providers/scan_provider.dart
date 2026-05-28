@@ -34,7 +34,7 @@ class ScanProvider extends ChangeNotifier {
             toolbarTitle: 'Crop Leaf Image',
             toolbarColor: Colors.green,
             toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.square, // পাতাকে স্কয়ার শেপে ক্রপ করা ভালো
+            initAspectRatio: CropAspectRatioPreset.square,
             lockAspectRatio: false,
           ),
           IOSUiSettings(
@@ -53,12 +53,10 @@ class ScanProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> processImage(ImageSource source) async {
     final XFile? image = await _picker.pickImage(
       source: source,
-
     );
     if (image == null) {
       return {'success': false, 'message': null};
     }
-
 
     final croppedPath = await cropImage(image.path);
     if (croppedPath == null) {
@@ -74,17 +72,25 @@ class ScanProvider extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-
       final resultData = await ApiService.uploadAndPredict(File(imagePath));
 
       _isLoading = false;
 
       if (resultData != null && resultData['success'] == true) {
-        _lastResult = {
-          'success': true,
-          'imagePath': imagePath,
-          'predictionResult': PredictionResult.fromJson(resultData),
-        };
+        final predictionResult = PredictionResult.fromJson(resultData);
+
+        if (predictionResult.primaryConfidence < 0.60) {
+          _lastResult = {
+            'success': false,
+            'message': 'No clear leaf detected. Please crop the image or capture a better photo.',
+          };
+        } else {
+          _lastResult = {
+            'success': true,
+            'imagePath': imagePath,
+            'predictionResult': predictionResult,
+          };
+        }
       } else {
         _lastResult = {
           'success': false,

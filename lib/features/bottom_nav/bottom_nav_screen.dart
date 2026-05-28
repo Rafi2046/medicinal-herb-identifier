@@ -54,9 +54,17 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     if (image == null || !mounted) return;
 
     final provider = context.read<ScanProvider>();
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
     final result = await provider.processPickedImage(image.path);
 
     if (!mounted) return;
+    Navigator.pop(context);
 
     if (result['success'] == true) {
       final imagePath = result['imagePath'] as String;
