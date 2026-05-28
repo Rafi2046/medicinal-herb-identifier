@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/network/prediction_model.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
+
 class TopThreePredictionsWidget extends StatelessWidget {
   final List<Prediction> predictions;
   final double threshold;
@@ -25,6 +26,9 @@ class TopThreePredictionsWidget extends StatelessWidget {
     final subtitleColor = isDark ? Colors.white70 : AppColors.desText;
     final accentColor = isDark ? const Color(0xFF4ADE80) : const Color(0xFF27AE60);
 
+    // 🛠️ আপনার দেওয়া নতুন সেকেন্ডারি কালার
+    final secondaryColor = const Color(0xFFF28A21);
+
     return Card(
       color: cardColor,
       shape: RoundedRectangleBorder(
@@ -43,34 +47,45 @@ class TopThreePredictionsWidget extends StatelessWidget {
                 Text('Total: $totalCount', style: AppTextStyles.detailsText.copyWith(color: subtitleColor, fontSize: 12)),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             ...predictions.map((p) {
               final pConfidence = p.confidence * 100;
               if (pConfidence < threshold) return const SizedBox.shrink();
 
               return Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.circle, size: 8, color: isDark ? Colors.white54 : AppColors.keyTraits),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        p.className,
-                        style: AppTextStyles.keyTraits.copyWith(color: isDark ? Colors.white70 : AppColors.keyTraits),
+                    Row(
+                      children: [
+                        // আইকনের কালারটিও অরেঞ্জ করে দেওয়া হলো যাতে থিম ম্যাচ করে
+                        Icon(Icons.circle, size: 8, color: AppColors.progressColor),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            p.className,
+                            style: AppTextStyles.keyTraits.copyWith(color: isDark ? Colors.white70 : AppColors.keyTraits),
+                          ),
+                        ),
+                        Text(
+                          '${pConfidence.toStringAsFixed(1)}%',
+                          style: AppTextStyles.keyTraits.copyWith(color: isDark ? Colors.white54 : AppColors.desText, fontWeight: FontWeight.w600),
+                        ),
+
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    // 🛠️ নতুন কনফিডেন্স প্রগ্রেস বার (আপনার রিকোয়ারমেন্ট অনুযায়ী)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: LinearProgressIndicator(
+                        value: p.confidence, // 0.0 থেকে 1.0 এর মধ্যে ভ্যালু নেবে
+                        minHeight: 6, // বারের পুরুত্ব
+                        backgroundColor: secondaryColor.withValues(alpha: 0.15), // হালকা অরেঞ্জ ব্যাকগ্রাউন্ড
+                        valueColor: AlwaysStoppedAnimation<Color>(secondaryColor), // গাঢ় অরেঞ্জ ফিল কালার
                       ),
                     ),
-                    Text(
-                      '${pConfidence.toStringAsFixed(1)}%',
-                      style: AppTextStyles.keyTraits.copyWith(color: isDark ? Colors.white54 : AppColors.desText, fontWeight: FontWeight.w600),
-                    ),
-                    if (predictions.indexOf(p) == 0)
-                      Container(
-                        margin: const EdgeInsets.only(left: 8),
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(color: accentColor.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(4)),
-                        child: Text('TOP', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: accentColor)),
-                      ),
                   ],
                 ),
               );
