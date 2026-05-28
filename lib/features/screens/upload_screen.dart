@@ -1,271 +1,195 @@
 import 'dart:io';
+import 'dart:ui' as ui;
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:medical_herb/features/screens/widgets/button_action_button_widget.dart';
+import 'package:medical_herb/features/screens/widgets/confidence_threshold_widget.dart';
+import 'package:medical_herb/features/screens/widgets/identified_card_widget.dart';
+import 'package:medical_herb/features/screens/widgets/top_three_predections_widget.dart';
+import 'package:medical_herb/features/screens/widgets/zoom_in_zoom_out_widget.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:medical_herb/core/constants/app_images.dart';
-import 'package:medical_herb/core/constants/app_spacing.dart';
-import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/network/prediction_model.dart';
-import 'package:medical_herb/core/providers/favorites_provider.dart';
-import 'package:medical_herb/core/theme/app_colors.dart';
+import 'package:medical_herb/core/providers/scan_provider.dart';
 import 'package:medical_herb/features/common_widgets/app_bar_widget.dart';
 import 'package:medical_herb/features/common_widgets/custom_button.dart';
 import 'package:medical_herb/features/screens/widgets/confidence_score_card_widget.dart';
-
 import 'herb_full_details_screen.dart';
 
-class UploadScreen extends StatelessWidget {
+class UploadScreen extends StatefulWidget {
   final String? imagePath;
   final PredictionResult? predictionResult;
 
   const UploadScreen({super.key, this.imagePath, this.predictionResult});
 
   @override
+  State<UploadScreen> createState() => _UploadScreenState();
+}
+
+class _UploadScreenState extends State<UploadScreen> {
+  final GlobalKey _cropKey = GlobalKey();
+  String? _originalImagePath;
+
+  Future<void> _reprocess(BuildContext context) async {
+    final provider = context.read<ScanProvider>();
+    final result = await provider.reprocessWithThreshold(
+      provider.confidenceThreshold,
+    );
+    if (!context.mounted) return;
+    if (result['success'] != true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result['message'] as String? ?? 'Reprocess failed'),
+        ),
+      );
+    }
+  }
+
+  Future<void> _captureAndScan(BuildContext context) async {
+    final provider = context.read<ScanProvider>();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      RenderRepaintBoundary boundary =
+          _cropKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData? byteData = await image.toByteData(
+        format: ui.ImageByteFormat.png,
+      );
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+      final tempDir = await getTemporaryDirectory();
+      File tempFile = File(
+        '${tempDir.path}/cropped_leaf_${DateTime.now().millisecondsSinceEpoch}.png',
+      );
+      await tempFile.writeAsBytes(pngBytes);
+
+      final result = await provider.processPickedImage(tempFile.path);
+
+      if (!context.mounted) return;
+      Navigator.pop(context);
+
+      if (result['success'] != true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result['message'] as String? ?? 'Scan failed'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Leaf analyzed successfully!'),
+            duration: Duration(seconds: 1),
+          ),
+        );
+      }
+    } catch (e) {
+      if (!context.mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error scanning focus: $e')));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDark ? const Color(0xFF1E293B) : AppColors.white;
-    final borderColor = isDark
-        ? const Color(0xFF334155)
-        : AppColors.borderColors;
-    final pillColor = isDark
-        ? const Color(0xFF334155)
-        : AppColors.herbColorsName;
-    final titleColor = isDark ? Colors.white : AppColors.herbName;
-    final subtitleColor = isDark ? Colors.white70 : AppColors.desText;
-    final buttonBg = isDark ? const Color(0xFF1E293B) : Colors.white;
-    final buttonTextColor = isDark ? Colors.white : AppColors.herbScientific;
-
-    final primaryName = predictionResult?.primaryPrediction ?? 'Unknown';
-    final confidence = predictionResult?.primaryConfidence ?? 0.0;
-    final otherPredictions = predictionResult?.allPredictions ?? [];
-
     return Scaffold(
       appBar: const AppBarWidget(title: 'Details Screen', backArrow: true),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              if (imagePath != null)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.file(
-                    File(imagePath!),
-                    height: 180,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              if (imagePath != null) const SizedBox(height: 12),
-              Card(
-                color: cardColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  side: BorderSide(color: borderColor),
-                ),
-                child: SizedBox(
-                  height: 135,
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'IDENTIFIED AS ',
-                                style: AppTextStyles.detailsText.copyWith(
-                                  color: subtitleColor,
-                                ),
-                              ),
-                              Text(
-                                primaryName,
-                                style: AppTextStyles.herbName.copyWith(
-                                  color: titleColor,
-                                ),
-                              ),
-                              Text(
-                                'Confidence: ${confidence.toStringAsFixed(1)}%',
-                                style: AppTextStyles.detailsTextT.copyWith(
-                                  color: subtitleColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: 45,
-                          decoration: BoxDecoration(
-                            color: pillColor,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Text(
-                              '${confidence.toStringAsFixed(0)}%',
-                              style: AppTextStyles.herbNameScientific.copyWith(
-                                color: isDark ? Colors.white70 : null,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 8),
-              ConfidenceScoreCardWidget(
-                confidence: confidence,
-                showDetailedMetrics: false,
-              ),
-              if (otherPredictions.length > 1) ...[
-                SizedBox(height: 8),
-                Card(
-                  color: cardColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(color: borderColor),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Other Predictions',
-                          style: AppTextStyles.confidenceName.copyWith(
-                            color: titleColor,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        ...otherPredictions
-                            .where(
-                              (p) =>
-                                  p.className !=
-                                  predictionResult?.primaryPrediction,
-                            )
-                            .map(
-                              (p) => Padding(
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.circle,
-                                      size: 8,
-                                      color: isDark
-                                          ? Colors.white54
-                                          : AppColors.keyTraits,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Expanded(
-                                      child: Text(
-                                        p.className,
-                                        style: AppTextStyles.keyTraits.copyWith(
-                                          color: isDark
-                                              ? Colors.white70
-                                              : AppColors.keyTraits,
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      '${p.confidence.toStringAsFixed(1)}%',
-                                      style: AppTextStyles.keyTraits.copyWith(
-                                        color: isDark
-                                            ? Colors.white54
-                                            : AppColors.desText,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-              SizedBox(height: 8),
-              CustomButton(
-                text: 'View Full Details',
-                trailIcon: true,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          HerbFullDetailsScreen(herbName: primaryName),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: 20),
-              Row(
+      body: Consumer<ScanProvider>(
+        builder: (context, scanProvider, _) {
+          _originalImagePath ??= widget.imagePath ?? scanProvider.lastImagePath;
+
+          final lastResult = scanProvider.lastResult;
+          final result = lastResult != null && lastResult['success'] == true
+              ? lastResult['predictionResult'] as PredictionResult
+              : widget.predictionResult;
+
+          final primaryName = result?.primaryPrediction ?? 'Unknown';
+          final confidence = (result?.primaryConfidence ?? 0.0) * 100;
+          final allPredictions = result?.top3 ?? [];
+
+          final otherPredictions =
+              allPredictions.where((p) => p.className != primaryName).toList()
+                ..sort((a, b) => b.confidence.compareTo(a.confidence));
+          final topPredictions = otherPredictions.take(3).toList();
+
+          return Padding(
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  Expanded(
-                    child: Consumer<FavoritesProvider>(
-                      builder: (context, favs, _) {
-                        final saved = favs.isFavorite(primaryName);
-                        return CustomButton(
-                          backgroundColor: saved
-                              ? const Color(0xFFE2F6EB)
-                              : buttonBg,
-                          showBorder: true,
-                          borderColor: borderColor,
-                          text: saved ? 'Saved' : 'Favorite',
-                          textColor: saved
-                              ? const Color(0xFF13C366)
-                              : buttonTextColor,
-                          onPressed: () {
-                            favs.toggle(primaryName);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  saved
-                                      ? 'Removed from favorites'
-                                      : '$primaryName saved to favorites',
-                                ),
-                                duration: const Duration(seconds: 1),
-                              ),
-                            );
-                          },
-                          leading: Image.asset(
-                            AppImages.favorites,
-                            height: AppSpacing.h16,
-                            color: saved
-                                ? const Color(0xFF13C366)
-                                : (isDark ? Colors.white : null),
-                          ),
-                        );
-                      },
+                  // ১. ইমেজ জুম ক্রপার
+                  if (_originalImagePath != null)
+                    ZoomInZoomOutWidget(
+                      imagePath: _originalImagePath!,
+                      cropKey: _cropKey,
+                      onScan: () => _captureAndScan(context),
                     ),
+
+                  if (_originalImagePath != null) const SizedBox(height: 16),
+
+                  // ২. রেজাল্ট কার্ড
+                  IdentifiedCardWidget(
+                    primaryName: primaryName,
+                    confidence: confidence,
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: CustomButton(
-                      backgroundColor: buttonBg,
-                      showBorder: true,
-                      borderColor: borderColor,
-                      text: 'Scan Again',
-                      textColor: buttonTextColor,
-                      onPressed: () => Navigator.pop(context),
-                      leading: Image.asset(
-                        AppImages.cameraIcon,
-                        height: AppSpacing.h16,
-                        color: Colors.green,
-                      ),
+                  const SizedBox(height: 8),
+
+                  // ৩. কনফিডেন্স স্কোর
+                  ConfidenceScoreCardWidget(
+                    confidence: confidence,
+                    showDetailedMetrics: false,
+                  ),
+                  const SizedBox(height: 8),
+
+                  // ৪. থ্রেশহোল্ড স্লাইডার
+                  ConfidenceThresholdWidget(
+                    threshold: scanProvider.confidenceThreshold,
+                    onChanged: (value) =>
+                        scanProvider.confidenceThreshold = value,
+                    onChangeEnd: (_) => _reprocess(context),
+                  ),
+
+                  // ৫. টপ ৩ প্রেডিকশন
+                  if (topPredictions.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    TopThreePredictionsWidget(
+                      predictions: topPredictions,
+                      threshold: scanProvider.confidenceThreshold,
+                      totalCount: allPredictions.length,
+                      isLoading: scanProvider.isLoading,
                     ),
+                  ],
+
+                  const SizedBox(height: 8),
+                  CustomButton(
+                    text: 'View Full Details',
+                    trailIcon: true,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              HerbFullDetailsScreen(herbName: primaryName),
+                        ),
+                      );
+                    },
                   ),
+                  const SizedBox(height: 20),
+
+                  // ৬. অ্যাকশন বাটনস
+                  ButtonActionButtonWidget(primaryName: primaryName),
                 ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
