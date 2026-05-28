@@ -204,7 +204,7 @@ class AppTextStyles {
 
 
   static TextStyle  herbName= TextStyle(   // herb
-    fontSize: 35,
+    fontSize: 30,
     fontWeight: FontWeight.bold,
     color: AppColors.herbName,
   );
