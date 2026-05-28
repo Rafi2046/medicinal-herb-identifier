@@ -110,8 +110,12 @@ class _UploadScreenState extends State<UploadScreen> {
               ? lastResult['predictionResult'] as PredictionResult
               : widget.predictionResult;
 
-          final primaryName = result?.primaryPrediction ?? 'Unknown';
+          final rawName = result?.primaryPrediction ?? 'Unknown';
           final confidence = (result?.primaryConfidence ?? 0.0) * 100;
+
+
+          final isUnrecognized = confidence < 60.0;
+          final primaryName = isUnrecognized ? 'Not a valid leaf' : rawName;
           final allPredictions = result?.top3 ?? [];
 
           final otherPredictions =

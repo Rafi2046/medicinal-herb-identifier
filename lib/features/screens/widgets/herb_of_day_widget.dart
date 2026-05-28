@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/data/plant_database.dart';
 import 'package:medical_herb/core/data/plant_images.dart';
+import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:medical_herb/features/screens/herb_full_details_screen.dart';
 
 class HerbOfDayWidget extends StatelessWidget {
@@ -65,7 +66,7 @@ class HerbOfDayWidget extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   plant?.scientificName ?? '',
-                  style: AppTextStyles.herbDaySub,
+                  style: AppTextStyles.herbDaySub.copyWith(color: AppColors.secondaryColor),
                 ),
                 const SizedBox(height: 8),
                 if (plant != null && plant.description.isNotEmpty)
