@@ -16,7 +16,7 @@ class HerbFullDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final plant = herbName != null ? plantDatabase[herbName] : null;
+    final plant = getPlantByName(herbName);
 
     return Scaffold(
       body: Column(
