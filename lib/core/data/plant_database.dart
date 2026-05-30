@@ -467,6 +467,7 @@ final Map<String, PlantData> plantDatabase = {
 
 final Map<String, String> plantNameAliases = {
   'Sojne-Moringa': 'Moringa',
+  'Lojjaboti': 'Lajjabati',
 };
 
 

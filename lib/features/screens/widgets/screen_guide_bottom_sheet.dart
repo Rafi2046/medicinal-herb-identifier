@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
 
-
 class ScanGuideBottomSheet {
   static void show(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -80,10 +79,33 @@ class ScanGuideBottomSheet {
                 icon: Icons.zoom_out_map_rounded,
                 iconColor: Colors.redAccent,
                 title: 'Do not over-zoom',
-                subtitle: 'Do not zoom so much that the leaf boundaries are cut off.',
+                subtitle:
+                    'Do not zoom so much that the leaf boundaries are cut off.',
                 textColor: textColor,
                 subTextColor: subTextColor,
               ),
+              // ... আগের কোড ...
+              _buildGuideItem(
+                icon: Icons.zoom_out_map_rounded,
+                iconColor: Colors.redAccent,
+                title: 'Do not over-zoom',
+                subtitle:
+                    'Do not zoom so much that the leaf boundaries are cut off.',
+                textColor: textColor,
+                subTextColor: subTextColor,
+              ),
+              const SizedBox(height: 16),
+
+              _buildGuideItem(
+                icon: Icons.camera_alt_rounded,
+                iconColor: Colors.redAccent,
+                title: 'Avoid pitch-black photos',
+                subtitle:
+                    'AI needs visible features. Blank or extremely dark photos may cause wrong predictions.',
+                textColor: textColor,
+                subTextColor: subTextColor,
+              ),
+
               const SizedBox(height: AppSpacing.h24),
 
               SizedBox(
@@ -99,7 +121,11 @@ class ScanGuideBottomSheet {
                   ),
                   child: const Text(
                     'Got it!',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -129,7 +155,11 @@ class ScanGuideBottomSheet {
             children: [
               Text(
                 title,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: textColor),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: textColor,
+                ),
               ),
               const SizedBox(height: 4),
               Text(

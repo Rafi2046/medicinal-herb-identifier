@@ -79,6 +79,28 @@ class ScanGuideDialog {
                   title: 'Do not over-zoom the leaf',
                   textColor: textColor,
                 ),
+                const SizedBox(height: 12),
+                _buildGuideItem(
+                  icon: Icons.cancel_rounded,
+                  iconColor: Colors.redAccent,
+                  title: 'Avoid fruits, flowers or white bg',
+                  textColor: textColor,
+                ),
+                const SizedBox(height: 12),
+                _buildGuideItem(
+                  icon: Icons.zoom_out_map_rounded,
+                  iconColor: Colors.redAccent,
+                  title: 'Do not over-zoom the leaf',
+                  textColor: textColor,
+                ),
+                const SizedBox(height: 12),
+
+                _buildGuideItem(
+                  icon: Icons.brightness_low_rounded,
+                  iconColor: Colors.redAccent,
+                  title: 'Avoid pitch-black or empty photos',
+                  textColor: textColor,
+                ),
                 const SizedBox(height: 24),
 
                 SizedBox(

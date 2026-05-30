@@ -4,6 +4,8 @@ import 'package:medical_herb/core/constants/app_images.dart';
 const Map<String, String> plantImages = {
   "Tulsi": 'assets/images/tulsi.webp',
   "Lajjabati": 'assets/images/Lajjabati.webp',
+  "Lojjaboti": 'assets/images/Lajjabati.webp',
+  "Pudina": 'assets/images/mint.webp',
   "Neem": 'assets/images/Neem.webp',
   "Aloe Vera": 'assets/images/aloe_vera.webp',
   "Mint": 'assets/images/mint.webp',
