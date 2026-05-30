@@ -17,119 +17,111 @@ class ScanGuideBottomSheet {
       builder: (context) {
         return Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-              const SizedBox(height: AppSpacing.h20),
-
-              Text(
-                'How to get accurate results?',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: textColor,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.h8),
-              Text(
-                'Follow these simple steps for the best predictions.',
-                style: TextStyle(fontSize: 14, color: subTextColor),
-              ),
-              const SizedBox(height: AppSpacing.h24),
-
-              _buildGuideItem(
-                icon: Icons.check_circle_rounded,
-                iconColor: Colors.green,
-                title: 'Scan a single, clear leaf',
-                subtitle: 'Ensure the whole leaf, including edges, is visible.',
-                textColor: textColor,
-                subTextColor: subTextColor,
-              ),
-              const SizedBox(height: AppSpacing.h16),
-              _buildGuideItem(
-                icon: Icons.wb_sunny_rounded,
-                iconColor: Colors.green,
-                title: 'Use natural lighting',
-                subtitle: 'Avoid extreme shadows or pitch-black darkness.',
-                textColor: textColor,
-                subTextColor: subTextColor,
-              ),
-              const SizedBox(height: AppSpacing.h16),
-              _buildGuideItem(
-                icon: Icons.cancel_rounded,
-                iconColor: Colors.redAccent,
-                title: 'Avoid fruits or flowers',
-                subtitle: 'Focus only on the leaves, hide extra objects.',
-                textColor: textColor,
-                subTextColor: subTextColor,
-              ),
-              const SizedBox(height: AppSpacing.h16),
-              _buildGuideItem(
-                icon: Icons.zoom_out_map_rounded,
-                iconColor: Colors.redAccent,
-                title: 'Do not over-zoom',
-                subtitle:
-                    'Do not zoom so much that the leaf boundaries are cut off.',
-                textColor: textColor,
-                subTextColor: subTextColor,
-              ),
-              // ... আগের কোড ...
-              _buildGuideItem(
-                icon: Icons.zoom_out_map_rounded,
-                iconColor: Colors.redAccent,
-                title: 'Do not over-zoom',
-                subtitle:
-                    'Do not zoom so much that the leaf boundaries are cut off.',
-                textColor: textColor,
-                subTextColor: subTextColor,
-              ),
-              const SizedBox(height: 16),
-
-              _buildGuideItem(
-                icon: Icons.camera_alt_rounded,
-                iconColor: Colors.redAccent,
-                title: 'Avoid pitch-black photos',
-                subtitle:
-                    'AI needs visible features. Blank or extremely dark photos may cause wrong predictions.',
-                textColor: textColor,
-                subTextColor: subTextColor,
-              ),
-
-              const SizedBox(height: AppSpacing.h24),
-
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    'Got it!',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withValues(alpha: 0.3),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: AppSpacing.h20),
+
+                Text(
+                  'How to get accurate results?',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.h8),
+                Text(
+                  'Follow these simple steps for the best predictions.',
+                  style: TextStyle(fontSize: 14, color: subTextColor),
+                ),
+                const SizedBox(height: AppSpacing.h24),
+
+                _buildGuideItem(
+                  icon: Icons.check_circle_rounded,
+                  iconColor: Colors.green,
+                  title: 'Scan a single, clear leaf',
+                  subtitle: 'Ensure the whole leaf, including edges, is visible.',
+                  textColor: textColor,
+                  subTextColor: subTextColor,
+                ),
+                const SizedBox(height: AppSpacing.h16),
+                _buildGuideItem(
+                  icon: Icons.wb_sunny_rounded,
+                  iconColor: Colors.green,
+                  title: 'Use natural lighting',
+                  subtitle: 'Avoid extreme shadows or pitch-black darkness.',
+                  textColor: textColor,
+                  subTextColor: subTextColor,
+                ),
+                const SizedBox(height: AppSpacing.h16),
+                _buildGuideItem(
+                  icon: Icons.cancel_rounded,
+                  iconColor: Colors.redAccent,
+                  title: 'Avoid fruits or flowers',
+                  subtitle: 'Focus only on the leaves, hide extra objects.',
+                  textColor: textColor,
+                  subTextColor: subTextColor,
+                ),
+                const SizedBox(height: AppSpacing.h16),
+                _buildGuideItem(
+                  icon: Icons.zoom_out_map_rounded,
+                  iconColor: Colors.redAccent,
+                  title: 'Do not over-zoom',
+                  subtitle:
+                      'Do not zoom so much that the leaf boundaries are cut off.',
+                  textColor: textColor,
+                  subTextColor: subTextColor,
+                ),
+                const SizedBox(height: 16),
+
+                _buildGuideItem(
+                  icon: Icons.camera_alt_rounded,
+                  iconColor: Colors.redAccent,
+                  title: 'Avoid pitch-black photos',
+                  subtitle:
+                      'Models needs visible features. Blank or extremely dark photos may cause wrong predictions.',
+                  textColor: textColor,
+                  subTextColor: subTextColor,
+                ),
+
+                const SizedBox(height: AppSpacing.h24),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      'Got it!',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
