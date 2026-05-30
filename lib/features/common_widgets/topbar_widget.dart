@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
 import 'package:medical_herb/core/providers/theme_provider.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
+import 'package:medical_herb/features/screens/widgets/screen_guide_bottom_sheet.dart';
 import 'package:provider/provider.dart';
+
 
 class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -104,10 +106,10 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildMainBar(
-    BuildContext context,
-    ColorScheme colorScheme,
-    bool isDark,
-  ) {
+      BuildContext context,
+      ColorScheme colorScheme,
+      bool isDark,
+      ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
@@ -164,7 +166,26 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Theme toggle
+
+              GestureDetector(
+                onTap: () => ScanGuideBottomSheet.show(context),
+                child: Container(
+                  height: 38,
+                  width: 38,
+                  decoration: BoxDecoration(
+                    color: Colors.green.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.help_outline_rounded,
+                    color: Colors.green,
+                    size: 20,
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
               // Theme toggle
               GestureDetector(
                 onTap: () => context.read<ThemeProvider>().toggleTheme(),
@@ -262,7 +283,6 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
   }
 
   void _showAboutDialog(BuildContext context) {
-
     showDialog(
       context: context,
       builder: (_) => AlertDialog(

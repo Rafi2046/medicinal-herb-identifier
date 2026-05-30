@@ -1,7 +1,6 @@
 import 'package:medical_herb/core/constants/app_images.dart';
 
-/// Maps plant names to their image asset paths.
-/// Add or update entries as images become available.
+
 const Map<String, String> plantImages = {
   "Tulsi": 'assets/images/tulsi.webp',
   "Lajjabati": 'assets/images/Lajjabati.webp',
