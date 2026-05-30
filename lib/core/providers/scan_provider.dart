@@ -12,8 +12,11 @@ class ScanProvider extends ChangeNotifier {
   double _confidenceThreshold = 0.0;
 
   bool get isLoading => _isLoading;
+
   String? get lastImagePath => _lastImagePath;
+
   Map<String, dynamic>? get lastResult => _lastResult;
+
   double get confidenceThreshold => _confidenceThreshold;
 
   set confidenceThreshold(double value) {
@@ -51,9 +54,7 @@ class ScanProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> processImage(ImageSource source) async {
-    final XFile? image = await _picker.pickImage(
-      source: source,
-    );
+    final XFile? image = await _picker.pickImage(source: source);
     if (image == null) {
       return {'success': false, 'message': null};
     }
@@ -72,17 +73,19 @@ class ScanProvider extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      final resultData = await ApiService.uploadAndPredict(File(imagePath));
+      final resultMap = await ApiService.uploadAndPredict(File(imagePath));
 
       _isLoading = false;
 
-      if (resultData != null && resultData['success'] == true) {
-        final predictionResult = PredictionResult.fromJson(resultData);
+      if (resultMap['success'] == true) {
+        final apiData = resultMap['data'];
+        final predictionResult = PredictionResult.fromJson(apiData);
 
-        if (predictionResult.primaryConfidence < 0.60) {
+        if (predictionResult.primaryConfidence < 0.45) {
           _lastResult = {
             'success': false,
-            'message': 'No clear leaf detected. Please crop the image or capture a better photo.',
+            'message':
+                'No clear leaf detected. Please crop the image or capture a better photo.',
           };
         } else {
           _lastResult = {
@@ -94,14 +97,18 @@ class ScanProvider extends ChangeNotifier {
       } else {
         _lastResult = {
           'success': false,
-          'message': resultData?['error'] ?? 'Failed to connect to the server.',
+          'message': resultMap['message'] ?? 'Failed to connect to the server.',
         };
       }
+
       notifyListeners();
       return _lastResult!;
     } catch (e) {
       _isLoading = false;
-      _lastResult = {'success': false, 'message': 'Error: $e'};
+      _lastResult = {
+        'success': false,
+        'message': 'An unexpected error occurred while processing the image.',
+      };
       notifyListeners();
       return _lastResult!;
     }

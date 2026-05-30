@@ -8,13 +8,13 @@ class ApiService {
 
   static final Dio _dio = Dio(
     BaseOptions(
-      connectTimeout: const Duration(seconds: 60),
-      receiveTimeout: const Duration(seconds: 120),
-      sendTimeout: const Duration(seconds: 60),
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 60),
+      sendTimeout: const Duration(seconds: 30),
     ),
   );
 
-  static Future<Map<String, dynamic>?> uploadAndPredict(
+  static Future<Map<String, dynamic>> uploadAndPredict(
     File imageFile, {
     double? confidenceThreshold,
   }) async {
@@ -26,7 +26,8 @@ class ApiService {
           imageFile.path,
           filename: fileName,
         ),
-        "confidence_threshold": ?confidenceThreshold,
+        if (confidenceThreshold != null)
+          "confidence_threshold": confidenceThreshold,
       });
 
       if (kDebugMode) {
@@ -45,23 +46,42 @@ class ApiService {
             "Prediction Success: ${response.data['primary_prediction']}",
           );
         }
-        return response.data;
+
+        return {"success": true, "data": response.data};
       } else {
-        if (kDebugMode) {
-          debugPrint("API Error: Status Code ${response.statusCode}");
-        }
-        return null;
+        return {
+          "success": false,
+          "message": "Server returned an error status: ${response.statusCode}",
+        };
       }
     } on DioException catch (e) {
-      if (kDebugMode) {
-        debugPrint("Dio Network Error: ${e.message} (type: ${e.type})");
+      String errorMessage =
+          "Failed to connect to the server. Please try again later.";
+
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.sendTimeout) {
+        errorMessage =
+            "Server is taking too long to respond. Hugging Face might be waking up, please try again.";
+      } else if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.unknown && e.error is SocketException) {
+        errorMessage =
+            "No Internet Connection! Please check your WiFi or Mobile Data.";
       }
-      return null;
+
+      if (kDebugMode) {
+        debugPrint("Dio Network Error: $errorMessage (type: ${e.type})");
+      }
+
+      return {"success": false, "message": errorMessage};
     } catch (e) {
       if (kDebugMode) {
         debugPrint("Exception during API call: $e");
       }
-      return null;
+      return {
+        "success": false,
+        "message": "An unexpected error occurred. Please try again.",
+      };
     }
   }
 }

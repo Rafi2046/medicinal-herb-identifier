@@ -114,7 +114,7 @@ class _UploadScreenState extends State<UploadScreen> {
           final confidence = (result?.primaryConfidence ?? 0.0) * 100;
 
 
-          final isUnrecognized = confidence < 60.0;
+          final isUnrecognized = confidence < 45.0;
           final primaryName = isUnrecognized ? 'Not a valid leaf' : rawName;
           final allPredictions = result?.top3 ?? [];
 
