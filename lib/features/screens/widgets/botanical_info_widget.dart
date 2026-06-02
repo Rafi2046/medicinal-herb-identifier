@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
-import 'package:medical_herb/core/constants/app_text_styles.dart';
-import 'package:medical_herb/core/theme/app_colors.dart';
-import 'botanical_info_details_widget.dart';
+import 'section_header_widget.dart';
 
 class BotanicalInfoWidget extends StatelessWidget {
   final String scientificName;
@@ -20,59 +18,69 @@ class BotanicalInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final customDivider = Divider(
-      height: 0.5,
-      thickness: 0.5,
-      indent: 20,
-      endIndent: 20,
-      color: AppColors.borderColors,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeaderWidget(
+          title: 'Botanical Info',
+          iconPath: AppImages.botanicalInfoIcon,
+          iconColor: const Color(0xFF13C366),
+        ),
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: isDark ? Colors.white10 : Colors.grey.withOpacity(0.1)),
+          ),
+          child: Column(
+            children: [
+              _buildInfoRow('Scientific Name', scientificName, isDark),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Divider(height: 1, color: isDark ? Colors.white10 : Colors.grey.shade200),
+              ),
+              _buildInfoRow('Plant Family', family, isDark),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Divider(height: 1, color: isDark ? Colors.white10 : Colors.grey.shade200),
+              ),
+              _buildInfoRow('Native Region', region, isDark),
+            ],
+          ),
+        ),
+      ],
     );
+  }
 
-    return Card(
-      color: isDark ? const Color(0xFF0F172A) : null,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: isDark ? const Color(0xFF1E293B) : AppColors.borderColors),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Image(
-                  image: AssetImage(AppImages.botanicalInfoIcon),
-                  width: 35,
-                  height: 35,
-                ),
-                const SizedBox(width: 8),
-                Text('Botanical Info', style: AppTextStyles.confidenceName.copyWith(
-                  color: isDark ? Colors.white : AppColors.herbName,
-                )),
-              ],
+  Widget _buildInfoRow(String label, String value, bool isDark) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 2,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: isDark ? Colors.white54 : const Color(0xFF94A3B8),
             ),
           ),
-          Divider(height: 0.5, thickness: 0.5, color: AppColors.borderColors),
-          BotanicalInfoDetailsWidget(
-            imagePath: AppImages.scientificIcon,
-            title: 'SCIENTIFIC NAME',
-            subtitle: scientificName,
+        ),
+        Expanded(
+          flex: 3,
+          child: Text(
+            value,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: isDark ? Colors.white : const Color(0xFF334155),
+            ),
+            textAlign: TextAlign.right,
           ),
-          customDivider,
-          BotanicalInfoDetailsWidget(
-            imagePath: AppImages.plantFamilyIcon,
-            title: 'PLANT FAMILY',
-            subtitle: family,
-          ),
-          customDivider,
-          BotanicalInfoDetailsWidget(
-            imagePath: AppImages.nativeRegionIcon,
-            title: 'NATIVE REGION',
-            subtitle: region,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

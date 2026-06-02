@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
-import 'package:medical_herb/core/constants/app_text_styles.dart';
-import 'package:medical_herb/core/theme/app_colors.dart';
+import 'section_header_widget.dart';
 
 class DescriptionWidget extends StatelessWidget {
   final String description;
@@ -11,46 +10,23 @@ class DescriptionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Card(
-      color: isDark ? const Color(0xFF0F172A) : null,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: isDark ? const Color(0xFF1E293B) : AppColors.borderColors),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Image(
-                  image: AssetImage(AppImages.descriptionIcon),
-                  width: 35,
-                  height: 35,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  'Description',
-                  style: AppTextStyles.confidenceName.copyWith(
-                    color: isDark ? Colors.white : AppColors.herbName,
-                  ),
-                ),
-              ],
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeaderWidget(
+          title: 'Description',
+          iconPath: AppImages.descriptionIcon,
+          iconColor: const Color(0xFF13C366),
+        ),
+        Text(
+          description,
+          style: TextStyle(
+            fontSize: 15,
+            height: 1.6, // Excellent readability
+            color: isDark ? Colors.white70 : const Color(0xFF475569),
           ),
-          const Divider(height: 0.5, thickness: 0.5),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text(
-              description,
-              style: AppTextStyles.desText.copyWith(
-                color: isDark ? Colors.white70 : AppColors.desText,
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
