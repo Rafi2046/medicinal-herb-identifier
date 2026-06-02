@@ -17,6 +17,9 @@ class ExploreScreenWidget extends StatelessWidget {
     this.imagePath,
   });
 
+
+
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
