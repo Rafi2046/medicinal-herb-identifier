@@ -56,7 +56,7 @@ class _UploadScreenState extends State<UploadScreen> {
 
     try {
       RenderRepaintBoundary boundary =
-      _cropKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+          _cropKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage(pixelRatio: 3.0);
       ByteData? byteData = await image.toByteData(
         format: ui.ImageByteFormat.png,
@@ -110,14 +110,13 @@ class _UploadScreenState extends State<UploadScreen> {
               ? lastResult['predictionResult'] as PredictionResult
               : widget.predictionResult;
 
-          // 💡 ম্যাজিক: ভেরিয়েবলগুলো ক্লিন করে সরাসরি অ্যাসাইন করা হয়েছে
           final primaryName = result?.primaryPrediction ?? 'Unknown';
           final confidence = (result?.primaryConfidence ?? 0.0) * 100;
           final allPredictions = result?.top3 ?? [];
 
           final otherPredictions =
-          allPredictions.where((p) => p.className != primaryName).toList()
-            ..sort((a, b) => b.confidence.compareTo(a.confidence));
+              allPredictions.where((p) => p.className != primaryName).toList()
+                ..sort((a, b) => b.confidence.compareTo(a.confidence));
           final topPredictions = otherPredictions.take(3).toList();
 
           return Padding(
@@ -149,7 +148,7 @@ class _UploadScreenState extends State<UploadScreen> {
                   ConfidenceThresholdWidget(
                     threshold: scanProvider.confidenceThreshold,
                     onChanged: (value) =>
-                    scanProvider.confidenceThreshold = value,
+                        scanProvider.confidenceThreshold = value,
                     onChangeEnd: (_) => _reprocess(context),
                   ),
 

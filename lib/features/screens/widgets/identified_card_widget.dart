@@ -28,7 +28,7 @@ class IdentifiedCardWidget extends StatelessWidget {
         side: BorderSide(color: borderColor),
       ),
       child: SizedBox(
-        height: 135,
+        height: 145,
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.all(20),
