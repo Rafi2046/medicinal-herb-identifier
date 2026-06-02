@@ -40,7 +40,7 @@ dependencies:
 
   # Image handling
   image_picker: ^1.0.7
-  image: ^4.1.7
+  image: ^4.9.1
 
   # State management
   provider: ^6.1.5+1
