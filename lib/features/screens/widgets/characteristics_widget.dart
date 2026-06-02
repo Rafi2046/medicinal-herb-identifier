@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
-import 'package:medical_herb/core/constants/app_text_styles.dart';
-import 'package:medical_herb/core/theme/app_colors.dart';
-import 'character_container_widget.dart';
+import 'section_header_widget.dart';
 
 class CharacteristicsWidget extends StatelessWidget {
   final List<String> traits;
@@ -10,42 +8,39 @@ class CharacteristicsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (traits.isEmpty) return const SizedBox.shrink();
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Card(
-      color: isDark ? const Color(0xFF0F172A) : null,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: isDark ? const Color(0xFF1E293B) : AppColors.borderColors),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Image(
-                  image: AssetImage(AppImages.characterIcon),
-                  width: 35,
-                  height: 35,
-                ),
-                const SizedBox(width: 8),
-                Text('Characteristics', style: AppTextStyles.confidenceName.copyWith(
-                  color: isDark ? Colors.white : AppColors.herbName,
-                )),
-              ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Added the header back so users know what these buttons mean!
+        SectionHeaderWidget(
+          title: 'Characteristics',
+          iconPath: AppImages.characterIcon,
+          iconColor: const Color(0xFF13C366),
+        ),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: traits.map((t) => Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+              borderRadius: BorderRadius.circular(8),
             ),
-          ),
-          const Divider(height: 0.5, thickness: 0.5),
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: Wrap(
-              children: traits.map((t) => CharacterContainerWidget(title: t)).toList(),
+            child: Text(
+              t,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: isDark ? Colors.white70 : const Color(0xFF64748B),
+              ),
             ),
-          ),
-        ],
-      ),
+          )).toList(),
+        ),
+      ],
     );
   }
 }

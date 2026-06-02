@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_herb/core/constants/app_images.dart';
-import 'package:medical_herb/core/constants/app_text_styles.dart';
-import 'package:medical_herb/core/theme/app_colors.dart';
+import 'section_header_widget.dart';
 
 class MedicinalUsesWidget extends StatelessWidget {
   final List<String> uses;
@@ -11,63 +10,43 @@ class MedicinalUsesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Card(
-      color: isDark ? const Color(0xFF0F172A) : null,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: isDark ? const Color(0xFF1E293B) : AppColors.borderColors),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              spacing: 8,
-              children: [
-                Image(
-                  image: AssetImage(AppImages.medicinalIcon),
-                  width: 35,
-                  height: 35,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeaderWidget(
+          title: 'Medicinal Uses',
+          iconPath: AppImages.medicinalIcon,
+          iconColor: const Color(0xFF13C366),
+        ),
+        ...uses.map((use) => Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 3),
+                child: Image(
+                  image: AssetImage(AppImages.detailsTickIcon),
+                  height: 16, // Very small and sleek
+                  width: 16,
+                  color: const Color(0xFF13C366),
                 ),
-                Text(
-                  ' Medicinal Uses',
-                  style: AppTextStyles.confidenceName.copyWith(
-                    color: isDark ? Colors.white : AppColors.herbName,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  use,
+                  style: TextStyle(
+                    fontSize: 15,
+                    height: 1.4,
+                    color: isDark ? Colors.white70 : const Color(0xFF475569),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          const Divider(height: 0.5, thickness: 0.5),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              spacing: 8,
-              children: uses.map((use) {
-                return Row(
-                  spacing: 8,
-                  children: [
-                    Image(
-                      image: AssetImage(AppImages.detailsTickIcon),
-                      height: 20,
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Text(
-                        use,
-                        style: AppTextStyles.desText.copyWith(
-                          color: isDark ? Colors.white70 : AppColors.desText,
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }).toList(),
-            ),
-          ),
-        ],
-      ),
+        )),
+      ],
     );
   }
 }
