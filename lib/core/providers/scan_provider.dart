@@ -1,11 +1,13 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medical_herb/core/network/api_services.dart';
 import 'package:medical_herb/core/network/prediction_model.dart';
-
+import 'package:flutter/rendering.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as img;
 
 class ScanProvider extends ChangeNotifier {
@@ -28,6 +30,37 @@ class ScanProvider extends ChangeNotifier {
   }
 
   final ImagePicker _picker = ImagePicker();
+
+  Future<Map<String, dynamic>> processCroppedBoundary(
+    RenderRepaintBoundary boundary,
+  ) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData? byteData = await image.toByteData(
+        format: ui.ImageByteFormat.png,
+      );
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+      final tempDir = await getTemporaryDirectory();
+      File tempFile = File(
+        '${tempDir.path}/cropped_leaf_${DateTime.now().millisecondsSinceEpoch}.png',
+      );
+      await tempFile.writeAsBytes(pngBytes);
+
+      return await processPickedImage(tempFile.path);
+    } catch (e) {
+      _isLoading = false;
+      _lastResult = {
+        'success': false,
+        'message': 'Failed to process crop area: $e',
+      };
+      notifyListeners();
+      return _lastResult!;
+    }
+  }
 
   Future<String?> cropImage(String imagePath) async {
     try {
@@ -61,8 +94,9 @@ class ScanProvider extends ChangeNotifier {
     if (image == null) return {'success': false, 'message': null};
 
     final croppedPath = await cropImage(image.path);
-    if (croppedPath == null)
+    if (croppedPath == null) {
       return {'success': false, 'message': 'Cropping cancelled'};
+    }
 
     return processPickedImage(croppedPath);
   }
