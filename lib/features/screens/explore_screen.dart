@@ -77,6 +77,7 @@ class ExploreScreen extends StatelessWidget {
                     ),
                     child: Card(
                       margin: EdgeInsets.zero,
+                      color: isDark ? const Color(0xFF1E293B) : null,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                         side: BorderSide(color: borderColor),
