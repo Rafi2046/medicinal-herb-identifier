@@ -11,6 +11,7 @@ import 'package:medical_herb/features/screens/widgets/zoom_in_zoom_out_widget.da
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:medical_herb/core/network/prediction_model.dart';
+import 'package:medical_herb/core/providers/history_provider.dart';
 import 'package:medical_herb/core/providers/scan_provider.dart';
 import 'package:medical_herb/features/common_widgets/app_bar_widget.dart';
 import 'package:medical_herb/features/common_widgets/custom_button.dart';
@@ -81,6 +82,12 @@ class _UploadScreenState extends State<UploadScreen> {
           ),
         );
       } else {
+        final predictionResult = result['predictionResult'] as PredictionResult;
+        context.read<HistoryProvider>().addScan(
+          predictionResult.primaryPrediction,
+          predictionResult.primaryConfidence,
+          ScanSource.camera,
+        );
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Leaf analyzed successfully!'),
@@ -178,7 +185,7 @@ class _UploadScreenState extends State<UploadScreen> {
                   ),
                   const SizedBox(height: 20),
 
-                  ButtonActionButtonWidget(primaryName: primaryName),
+                  ButtonActionButtonWidget(key: ValueKey(primaryName), primaryName: primaryName),
                 ],
               ),
             ),

@@ -94,7 +94,7 @@ class ScanProvider extends ChangeNotifier {
         final apiData = resultMap['data'];
         final predictionResult = PredictionResult.fromJson(apiData);
 
-        if (predictionResult.primaryConfidence < 0.60) {
+        if (predictionResult.primaryConfidence < 0.50) {
           _lastResult = {
             'success': false,
             'message':
