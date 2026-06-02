@@ -5,6 +5,8 @@ class AppColors {
   static const Color secondaryColor = Color(0xFFF28A21); // herb
   static const Color borderColor = Color(0xFFD6E2EF);
 
+  static const Color popupColor = Color(0xFF27AE60);
+
   static const Color herbProgressColor = Color(0xFF28c55e); // herb
   static const Color progressColor = Color(0xFF28c55e); // herb
 

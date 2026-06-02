@@ -10,7 +10,8 @@ import 'package:medical_herb/features/screens/history_screen.dart';
 import 'package:medical_herb/features/screens/home_screen.dart';
 import 'package:medical_herb/features/screens/saved_screen.dart';
 import 'package:medical_herb/features/screens/upload_screen.dart';
-
+import 'package:medical_herb/features/common_widgets/scan_error_dialog.dart';
+import 'package:medical_herb/features/bottom_nav/widgets/nav_tiles.dart';
 
 class BottomNavScreen extends StatefulWidget {
   const BottomNavScreen({super.key});
@@ -69,9 +70,13 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     if (result['success'] == true) {
       final imagePath = result['imagePath'] as String;
       final predictionResult = result['predictionResult'] as PredictionResult;
-      final herbName = predictionResult.primaryPrediction;
-      final confidence = predictionResult.primaryConfidence;
-      context.read<HistoryProvider>().addScan(herbName, confidence, ScanSource.camera);
+
+      context.read<HistoryProvider>().addScan(
+        predictionResult.primaryPrediction,
+        predictionResult.primaryConfidence,
+        ScanSource.camera,
+      );
+
       await Navigator.push(
         context,
         MaterialPageRoute(
@@ -82,27 +87,20 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         ),
       );
     } else {
-      final message = result['message'] as String? ?? 'Failed to identify plant.';
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      final message =
+          result['message'] as String? ?? 'Failed to identify plant.';
+      ScanErrorDialog.show(context, message);
     }
   }
 
-  int _screenIndex(int navIndex) {
-    if (navIndex < 2) return navIndex;
-    return navIndex - 1;
-  }
+  int _screenIndex(int navIndex) => navIndex < 2 ? navIndex : navIndex - 1;
 
   @override
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: _buildNavBar(bottomInset),
     );
   }
@@ -117,7 +115,10 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     return Material(
       color: Colors.transparent,
       child: SizedBox(
-        height: BottomNavScreen.barBodyHeight + bottomInset + BottomNavScreen.fabOverhang,
+        height:
+            BottomNavScreen.barBodyHeight +
+            bottomInset +
+            BottomNavScreen.fabOverhang,
         child: Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.bottomCenter,
@@ -130,7 +131,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: navBg,
-                  border: Border(
+                  border: const Border(
                     top: BorderSide(color: Colors.blueGrey, width: 2),
                   ),
                   boxShadow: [
@@ -148,7 +149,11 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                     children: [
                       for (var i = 0; i < _navItems.length; i++)
                         Expanded(
-                          child: _navEntry(context, item: _navItems[i], navIndex: i),
+                          child: _navEntry(
+                            context,
+                            item: _navItems[i],
+                            navIndex: i,
+                          ),
                         ),
                     ],
                   ),
@@ -167,143 +172,13 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     required int navIndex,
   }) {
     if (item.style == MainNavTabStyle.centerFab) {
-      return _ScanNavTile(
-        label: item.title,
-        icon: item.icon,
-        onTap: _onScanTap,
-      );
+      return ScanNavTile(label: item.title, icon: item.icon, onTap: _onScanTap);
     }
-    final selected = _currentIndex == _screenIndex(navIndex);
-    return _SideNavTile(
+    return SideNavTile(
       label: item.title,
       icon: item.icon,
-      selected: selected,
+      selected: _currentIndex == _screenIndex(navIndex),
       onTap: () => setState(() => _currentIndex = _screenIndex(navIndex)),
-    );
-  }
-}
-
-class _SideNavTile extends StatelessWidget {
-  const _SideNavTile({
-    required this.label,
-    required this.icon,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final IconData icon;
-  final bool selected;
-  final VoidCallback onTap;
-
-  static const Color _active = Color(0xFF27AE60);
-
-  @override
-  Widget build(BuildContext context) {
-    final inactive = Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4);
-    final color = selected ? _active : inactive;
-
-    return InkWell(
-      onTap: onTap,
-      highlightColor: Colors.transparent,
-      splashColor: _active.withValues(alpha: 0.1),
-      child: Container(
-        height: BottomNavScreen.barBodyHeight,
-        alignment: Alignment.bottomCenter,
-        padding: const EdgeInsets.only(bottom: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Icon(icon, size: 24, color: color),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-                color: color,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ScanNavTile extends StatelessWidget {
-  const _ScanNavTile({
-    required this.label,
-    required this.icon,
-    required this.onTap,
-  });
-
-  final String label;
-  final IconData icon;
-  final VoidCallback onTap;
-
-  static const Color _scanGreen = Color(0xFF27AE60);
-  static const double _fabSize = 52;
-
-  @override
-  Widget build(BuildContext context) {
-    final iconColor = Theme.of(context).brightness == Brightness.dark
-        ? const Color(0xFF1E1E1E)
-        : Colors.white;
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        height: BottomNavScreen.barBodyHeight,
-        alignment: Alignment.bottomCenter,
-        padding: const EdgeInsets.only(bottom: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SizedBox(
-              height: 24,
-              width: _fabSize,
-              child: Stack(
-                clipBehavior: Clip.none,
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Positioned(
-                    bottom: 0,
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 180),
-                      width: _fabSize,
-                      height: _fabSize,
-                      decoration: BoxDecoration(
-                        color: _scanGreen,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: _scanGreen.withValues(alpha: 0.3),
-                            blurRadius: 12,
-                            offset: const Offset(0, 6),
-                          ),
-                        ],
-                      ),
-                      child: Icon(icon, color: iconColor, size: 26),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                color: _scanGreen,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
