@@ -26,7 +26,7 @@ class SavedScreenItemsWidget extends StatelessWidget {
     final subtitleColor = isDark ? Colors.white70 : AppColors.desText;
     final smallTextColor = isDark ? Colors.white60 : AppColors.savedText;
 
-    final plant = plantDatabase[herbName];
+    final plant = getPlantByName(herbName);
     final sciName = plant?.scientificName ?? '';
     final family = plant?.family ?? '';
 

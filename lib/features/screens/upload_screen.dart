@@ -185,7 +185,10 @@ class _UploadScreenState extends State<UploadScreen> {
                   ),
                   const SizedBox(height: 20),
 
-                  ButtonActionButtonWidget(key: ValueKey(primaryName), primaryName: primaryName),
+                  ButtonActionButtonWidget(
+                    key: ValueKey(primaryName),
+                    primaryName: primaryName,
+                  ),
                 ],
               ),
             ),

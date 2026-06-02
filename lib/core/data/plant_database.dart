@@ -468,6 +468,14 @@ final Map<String, PlantData> plantDatabase = {
 final Map<String, String> plantNameAliases = {
   'Sojne-Moringa': 'Moringa',
   'Lojjaboti': 'Lajjabati',
+  'Roktokorobi': 'Raktakarabi',
+  'Kori Pata': 'Curry Leaf',
+  'Kumari Lota': 'Kumari Lata',
+  'Anshte Lota': 'Aishtha Nageni',
+  "Devil's Backbone": 'Devils Backbone',
+  'Dipto Luchi': 'Dipto luchi',
+  'Mint': 'Pudina',
+  'Alovera': 'Aloe Vera',
 };
 
 
