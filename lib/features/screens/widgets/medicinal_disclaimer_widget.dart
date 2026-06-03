@@ -8,12 +8,14 @@ class MedicalDisclaimerWidget extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isDark ? Colors.white10 : Colors.blueGrey.withValues(alpha: 0.1),
+          color: isDark
+              ? Colors.white10
+              : Colors.blueGrey.withValues(alpha: 0.1),
         ),
       ),
       child: Column(
@@ -30,7 +32,7 @@ class MedicalDisclaimerWidget extends StatelessWidget {
                 child: const Icon(
                   Icons.health_and_safety_outlined,
                   color: Color(0xFF3B82F6),
-                  size: 20,
+                  size: 12,
                 ),
               ),
               const SizedBox(width: 12),
