@@ -40,7 +40,8 @@ class _ScanBottomSheetWidgetState extends State<ScanBottomSheetWidget> {
     return Container(
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF1E293B) : Colors.white,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        // Slightly rounder for modern look
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.08),
@@ -63,8 +64,9 @@ class _ScanBottomSheetWidgetState extends State<ScanBottomSheetWidget> {
             ),
           ),
 
+          // The Instruction Text
           Padding(
-            padding: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -132,7 +134,7 @@ class _ScanBottomSheetWidgetState extends State<ScanBottomSheetWidget> {
                           vertical: 10,
                         ),
                         decoration: BoxDecoration(
-                          color: primaryGreen.withOpacity(0.12),
+                          color: primaryGreen.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Text(
@@ -185,7 +187,8 @@ class _ScanBottomSheetWidgetState extends State<ScanBottomSheetWidget> {
                         )
                         .toList(),
                   ),
-                  const SizedBox(height: 32),
+
+                  const SizedBox(height: 28),
 
                   QuickActionRowWidget(primaryName: widget.primaryName),
                   const SizedBox(height: 32),
@@ -206,8 +209,43 @@ class _ScanBottomSheetWidgetState extends State<ScanBottomSheetWidget> {
                       totalCount: widget.totalPredictions,
                       isLoading: widget.scanProvider.isLoading,
                     ),
+                    const SizedBox(height: 24),
                   ],
 
+                  SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryGreen,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 0,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HerbFullDetailsScreen(
+                              herbName: widget.primaryName,
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'View Full Details',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // --- ADVANCED SETTINGS (Now neatly tucked at the very bottom) ---
+                  const SizedBox(height: 16),
                   Center(
                     child: TextButton.icon(
                       onPressed: () => setState(
@@ -235,50 +273,10 @@ class _ScanBottomSheetWidgetState extends State<ScanBottomSheetWidget> {
                           widget.scanProvider.confidenceThreshold = value,
                       onChangeEnd: (_) => widget.onReprocess(context),
                     ),
-                  const SizedBox(height: 24),
-                ],
-              ),
-            ),
-          ),
 
-          Container(
-            padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
-            decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF1E293B) : Colors.white,
-              border: Border(
-                top: BorderSide(
-                  color: isDark ? Colors.white10 : Colors.grey[100]!,
-                ),
-              ),
-            ),
-            child: SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryGreen,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  elevation: 0,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          HerbFullDetailsScreen(herbName: widget.primaryName),
-                    ),
-                  );
-                },
-                child: const Text(
-                  'View Full Details',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+                  // Gives enough padding so it clears the very bottom of the screen gracefully
+                  const SizedBox(height: 32),
+                ],
               ),
             ),
           ),
