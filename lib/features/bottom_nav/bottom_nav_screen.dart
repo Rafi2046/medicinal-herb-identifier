@@ -100,6 +100,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     return Scaffold(
+      // THIS IS CRUCIAL: It lets the background flow under the nav bar seamlessly
+      extendBody: true,
       body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: _buildNavBar(bottomInset),
     );
@@ -115,14 +117,12 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     return Material(
       color: Colors.transparent,
       child: SizedBox(
-        height:
-            BottomNavScreen.barBodyHeight +
-            bottomInset +
-            BottomNavScreen.fabOverhang,
+        height: BottomNavScreen.barBodyHeight + bottomInset + BottomNavScreen.fabOverhang,
         child: Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.bottomCenter,
           children: [
+            // --- 1. The Bottom Navigation Bar Background & Border ---
             Positioned(
               left: 0,
               right: 0,
@@ -132,7 +132,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                 decoration: BoxDecoration(
                   color: navBg,
                   border: const Border(
-                    top: BorderSide(color: Colors.blueGrey, width: 2),
+                    top: BorderSide(color: Colors.blueGrey, width: 1.5),
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -145,18 +145,31 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: bottomInset),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      for (var i = 0; i < _navItems.length; i++)
-                        Expanded(
-                          child: _navEntry(
-                            context,
-                            item: _navItems[i],
-                            navIndex: i,
-                          ),
-                        ),
+                      Expanded(child: _navEntry(context, item: _navItems[0], navIndex: 0)),
+                      Expanded(child: _navEntry(context, item: _navItems[1], navIndex: 1)),
+
+                      // EMPTY SPACE FOR THE FLOATING BUTTON
+                      const Expanded(child: SizedBox.shrink()),
+
+                      Expanded(child: _navEntry(context, item: _navItems[3], navIndex: 3)),
+                      Expanded(child: _navEntry(context, item: _navItems[4], navIndex: 4)),
                     ],
                   ),
+                ),
+              ),
+            ),
+
+            // --- 2. The Floating Scan Button ---
+            Positioned(
+              bottom: bottomInset, // Sits exactly on the bottom edge
+              child: SizedBox(
+                height: BottomNavScreen.barBodyHeight + BottomNavScreen.fabOverhang,
+                child: ScanNavTile(
+                  label: _navItems[2].title,
+                  icon: _navItems[2].icon,
+                  onTap: _onScanTap,
                 ),
               ),
             ),
@@ -166,14 +179,12 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     );
   }
 
+  // ONLY ONE _navEntry METHOD (Fixed the duplicate error)
   Widget _navEntry(
-    BuildContext context, {
-    required NavItem item,
-    required int navIndex,
-  }) {
-    if (item.style == MainNavTabStyle.centerFab) {
-      return ScanNavTile(label: item.title, icon: item.icon, onTap: _onScanTap);
-    }
+      BuildContext context, {
+        required NavItem item,
+        required int navIndex,
+      }) {
     return SideNavTile(
       label: item.title,
       icon: item.icon,

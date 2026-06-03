@@ -14,7 +14,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.paddingOf(context).bottom + 64 + 28;
+
+    final bottomPadding = MediaQuery.paddingOf(context).bottom + 50;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -22,60 +23,57 @@ class HomeScreen extends StatelessWidget {
           ? const Color(0xFF0F172A)
           : const Color(0xFFF8FAFC),
       appBar: const MainAppTopBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(20, 20, 20, bottomInset + 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const WelcomeCardWidget(),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(20, 20, 20, bottomPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const WelcomeCardWidget(),
 
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Text(
-                  'CHOOSE AN OPTION',
-                  style: AppTextStyles.option,
-                ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Text(
+                'CHOOSE AN OPTION',
+                style: AppTextStyles.option,
               ),
+            ),
+            OptionWidget(
+              onPressed: () =>
+                  ScanHelper.pickAndProcess(context, ImageSource.camera),
+              onUploadPressed: () =>
+                  ScanHelper.pickAndProcess(context, ImageSource.gallery),
+            ),
 
-              OptionWidget(
-                onPressed: () =>
-                    ScanHelper.pickAndProcess(context, ImageSource.camera),
-                onUploadPressed: () =>
-                    ScanHelper.pickAndProcess(context, ImageSource.gallery),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Text(
+                'QUICK ACCESS',
+                style: AppTextStyles.option,
               ),
+            ),
+            QuickAccessWidget(
+              onHistoryPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HistoryScreen(),
+                  ),
+                );
+              },
+            ),
 
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Text(
-                  'QUICK ACCESS',
-                  style: AppTextStyles.option,
-                ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Text(
+                'HERB OF THE DAY',
+                style: AppTextStyles.option,
               ),
-              QuickAccessWidget(
-                onHistoryPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HistoryScreen(),
-                    ),
-                  );
-                },
-              ),
-
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Text(
-                  'HERB OF THE DAY',
-                  style: AppTextStyles.option,
-                ),
-              ),
-              const HerbOfDayWidget(),
-            ],
-          ),
+            ),
+            const HerbOfDayWidget(),
+          ],
         ),
       ),
     );

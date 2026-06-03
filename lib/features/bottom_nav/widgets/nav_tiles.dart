@@ -71,52 +71,42 @@ class ScanNavTile extends StatelessWidget {
     final iconColor = Theme.of(context).brightness == Brightness.dark
         ? const Color(0xFF1E1E1E)
         : Colors.white;
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        height: BottomNavScreen.barBodyHeight,
-        alignment: Alignment.bottomCenter,
-        padding: const EdgeInsets.only(bottom: 8),
+
+    return Container(
+      // CRITICAL: Must be transparent to prevent the white box over the blue line
+      color: Colors.transparent,
+      width: 80, // Wide enough to hold the button and text comfortably
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
+          // Align to the START (top) so the button sits in the overhang area
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 24,
-              width: 52,
-              child: Stack(
-                clipBehavior: Clip.none,
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Positioned(
-                    bottom: 0,
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 180),
-                      width: 52,
-                      height: 52,
-                      decoration: BoxDecoration(
-                        color: AppColors.popupColor,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.popupColor.withValues(alpha: 0.3),
-                            blurRadius: 12,
-                            offset: const Offset(0, 6),
-                          ),
-                        ],
-                      ),
-                      child: Icon(icon, color: iconColor, size: 26),
-                    ),
+            // The Floating Green Button
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              width: 56, // Slightly larger, premium size
+              height: 56,
+              decoration: BoxDecoration(
+                color: AppColors.popupColor,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.popupColor.withValues(alpha: 0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
                   ),
                 ],
               ),
+              child: Icon(icon, color: iconColor, size: 28),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 6),
+            // The Label Text
             Text(
               label,
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
                 color: AppColors.popupColor,
               ),
