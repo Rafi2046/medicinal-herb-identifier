@@ -43,7 +43,7 @@ class QuickActionRowWidget extends StatelessWidget {
                   icon: isSaved ? Icons.bookmark : Icons.bookmark_border,
                   label: isSaved ? 'Saved' : 'Save',
                   // Green tint when saved!
-                  bgColor: isSaved ? primaryGreen.withOpacity(0.12) : buttonBg,
+                  bgColor: isSaved ? primaryGreen.withValues(alpha: 0.12) : buttonBg,
                   textColor: isSaved ? primaryGreen : iconColor,
                   onTap: () {
                     favs.toggle(primaryName);
