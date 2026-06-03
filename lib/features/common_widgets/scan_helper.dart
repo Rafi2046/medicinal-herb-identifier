@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:medical_herb/core/network/prediction_model.dart';
 import 'package:medical_herb/core/providers/history_provider.dart';
 import 'package:medical_herb/core/providers/scan_provider.dart';
+import 'package:medical_herb/features/common_widgets/toast_utils.dart';
 import 'package:medical_herb/features/screens/upload_screen.dart';
 
 class ScanHelper {
@@ -60,9 +61,7 @@ class ScanHelper {
     } else {
       final message =
           result['message'] as String? ?? 'Failed to identify plant.';
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(message)));
+      ToastUtils.error(message);
     }
   }
 }

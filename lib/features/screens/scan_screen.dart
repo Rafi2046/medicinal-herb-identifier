@@ -8,6 +8,7 @@ import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/providers/scan_provider.dart';
 import 'package:medical_herb/features/common_widgets/custom_button.dart';
+import 'package:medical_herb/features/common_widgets/toast_utils.dart';
 import 'package:medical_herb/features/screens/upload_screen.dart';
 
 class ScanScreen extends StatelessWidget {
@@ -32,12 +33,7 @@ class ScanScreen extends StatelessWidget {
         );
       } else {
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(result['message']),
-            backgroundColor: result['message'].contains('Unknown') ? Colors.orange : Colors.red,
-          ),
-        );
+        ToastUtils.error(result['message']);
       }
     }
   }
