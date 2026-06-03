@@ -40,7 +40,7 @@ class _ScanBottomSheetWidgetState extends State<ScanBottomSheetWidget> {
     return Container(
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF1E293B) : Colors.white,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.08),
