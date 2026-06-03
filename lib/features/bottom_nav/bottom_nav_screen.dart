@@ -10,7 +10,7 @@ import 'package:medical_herb/features/screens/history_screen.dart';
 import 'package:medical_herb/features/screens/home_screen.dart';
 import 'package:medical_herb/features/screens/saved_screen.dart';
 import 'package:medical_herb/features/screens/upload_screen.dart';
-import 'package:medical_herb/features/common_widgets/toast_utils.dart';
+import 'package:medical_herb/features/common_widgets/scan_error_dialog.dart';
 import 'package:medical_herb/features/bottom_nav/widgets/nav_tiles.dart';
 
 class BottomNavScreen extends StatefulWidget {
@@ -89,7 +89,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     } else {
       final message =
           result['message'] as String? ?? 'Failed to identify plant.';
-      ToastUtils.error(message);
+      ScanErrorDialog.show(context, message);
     }
   }
 
