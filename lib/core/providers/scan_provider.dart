@@ -2,12 +2,12 @@ import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:medical_herb/core/network/api_services.dart';
 import 'package:medical_herb/core/network/prediction_model.dart';
-import 'package:flutter/rendering.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as img;
 
 class ScanProvider extends ChangeNotifier {
@@ -30,37 +30,6 @@ class ScanProvider extends ChangeNotifier {
   }
 
   final ImagePicker _picker = ImagePicker();
-
-  Future<Map<String, dynamic>> processCroppedBoundary(
-    RenderRepaintBoundary boundary,
-  ) async {
-    try {
-      _isLoading = true;
-      notifyListeners();
-
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      ByteData? byteData = await image.toByteData(
-        format: ui.ImageByteFormat.png,
-      );
-      Uint8List pngBytes = byteData!.buffer.asUint8List();
-
-      final tempDir = await getTemporaryDirectory();
-      File tempFile = File(
-        '${tempDir.path}/cropped_leaf_${DateTime.now().millisecondsSinceEpoch}.png',
-      );
-      await tempFile.writeAsBytes(pngBytes);
-
-      return await processPickedImage(tempFile.path);
-    } catch (e) {
-      _isLoading = false;
-      _lastResult = {
-        'success': false,
-        'message': 'Failed to process crop area: $e',
-      };
-      notifyListeners();
-      return _lastResult!;
-    }
-  }
 
   Future<String?> cropImage(String imagePath) async {
     try {
@@ -101,25 +70,51 @@ class ScanProvider extends ChangeNotifier {
     return processPickedImage(croppedPath);
   }
 
+  Future<Map<String, dynamic>> processCroppedBoundary(
+    RenderRepaintBoundary boundary,
+  ) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData? byteData = await image.toByteData(
+        format: ui.ImageByteFormat.png,
+      );
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+      final tempDir = await getTemporaryDirectory();
+      File tempFile = File(
+        '${tempDir.path}/cropped_leaf_${DateTime.now().millisecondsSinceEpoch}.png',
+      );
+      await tempFile.writeAsBytes(pngBytes);
+
+      return await processPickedImage(tempFile.path);
+    } catch (e) {
+      _isLoading = false;
+      _lastResult = {
+        'success': false,
+        'message': 'Failed to process crop area: $e',
+      };
+      notifyListeners();
+      return _lastResult!;
+    }
+  }
+
   Future<Map<String, dynamic>> processPickedImage(String imagePath) async {
     try {
       _lastImagePath = imagePath;
       _isLoading = true;
       notifyListeners();
 
-      final isTooDark = await compute(_isImageTooDark, imagePath);
+      final qualityCheck = await compute(_checkImageQuality, imagePath);
 
-      if (isTooDark) {
+      if (qualityCheck['isValid'] == false) {
         _isLoading = false;
-        _lastResult = {
-          'success': false,
-          'message':
-              'Image is too dark! Please scan in a well-lit area or use flash.',
-        };
+        _lastResult = {'success': false, 'message': qualityCheck['message']};
         notifyListeners();
         return _lastResult!;
       }
-
       final resultMap = await ApiService.uploadAndPredict(File(imagePath));
 
       _isLoading = false;
@@ -128,11 +123,20 @@ class ScanProvider extends ChangeNotifier {
         final apiData = resultMap['data'];
         final predictionResult = PredictionResult.fromJson(apiData);
 
-        if (predictionResult.primaryConfidence < 0.50) {
+        if (kDebugMode) {
+          debugPrint(
+            "✅ Model Predicted: ${predictionResult.primaryPrediction}",
+          );
+          debugPrint(
+            "📊 Confidence Score: ${predictionResult.primaryConfidence}",
+          );
+        }
+
+        if (predictionResult.primaryConfidence < 0.55) {
           _lastResult = {
             'success': false,
             'message':
-                'No valid leaf detected! Please scan a clear leaf image.',
+                'Confidence too low (${(predictionResult.primaryConfidence * 100).toStringAsFixed(1)}%). Please crop the image to focus on a SINGLE clear leaf.',
           };
         } else {
           _lastResult = {
@@ -171,27 +175,58 @@ class ScanProvider extends ChangeNotifier {
   }
 }
 
-bool _isImageTooDark(String imagePath) {
+Map<String, dynamic> _checkImageQuality(String imagePath) {
   try {
     final file = File(imagePath);
     final bytes = file.readAsBytesSync();
 
     img.Image? decodedImage = img.decodeImage(bytes);
-    if (decodedImage == null) return false;
+    if (decodedImage == null) return {'isValid': true};
 
     img.Image thumbnail = img.copyResize(decodedImage, width: 50);
 
     double totalBrightness = 0.0;
+    int greenPixelCount = 0;
     int pixelCount = thumbnail.width * thumbnail.height;
 
     for (var p in thumbnail) {
       double luminance = (0.299 * p.r) + (0.587 * p.g) + (0.114 * p.b);
       totalBrightness += luminance;
+
+      // Excess Green Check
+      if (p.g > p.r + 15 && p.g > p.b + 15) {
+        greenPixelCount++;
+      }
     }
 
     double avgBrightness = totalBrightness / pixelCount;
-    return avgBrightness < 15.0;
+    double greenPercentage = (greenPixelCount / pixelCount) * 100;
+
+    if (kDebugMode) {
+      debugPrint("Image Brightness: $avgBrightness");
+      debugPrint(" Green Pixel Percentage: $greenPercentage%");
+    }
+
+    // brightness logic
+    if (avgBrightness < 60.0) {
+      return {
+        'isValid': false,
+        'message':
+            'Image is too dark! Please use flash or scan in a well-lit area.',
+      };
+    }
+
+    // green color logic
+    if (greenPercentage < 5.0) {
+      return {
+        'isValid': false,
+        'message':
+            'No valid green leaf detected! Please scan a medicinal leaf.',
+      };
+    }
+
+    return {'isValid': true};
   } catch (e) {
-    return false;
+    return {'isValid': true};
   }
 }
