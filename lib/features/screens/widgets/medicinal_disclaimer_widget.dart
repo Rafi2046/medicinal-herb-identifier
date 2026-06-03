@@ -10,10 +10,13 @@ class MedicalDisclaimerWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9), // Soft elegant background
+        color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+        // Soft elegant background
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: isDark ? Colors.white10 : Colors.blueGrey.withOpacity(0.1),
+          color: isDark
+              ? Colors.white10
+              : Colors.blueGrey.withValues(alpha: 0.1),
         ),
       ),
       child: Column(
