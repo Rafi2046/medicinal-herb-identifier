@@ -42,9 +42,9 @@ class ZoomInZoomOutWidget extends StatelessWidget {
             RepaintBoundary(
               key: cropKey,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15),
                 child: Container(
-                  height: 360,
+                  height: 355,
                   width: double.infinity,
                   color: Colors.black,
                   child: InteractiveViewer(
