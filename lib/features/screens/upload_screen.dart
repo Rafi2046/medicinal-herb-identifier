@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:medical_herb/core/network/prediction_model.dart';
 import 'package:medical_herb/core/providers/history_provider.dart';
 import 'package:medical_herb/core/providers/scan_provider.dart';
-import 'package:medical_herb/features/common_widgets/scan_error_dialog.dart';
 import 'package:medical_herb/features/screens/widgets/screen_guide_bottom_sheet.dart';
+import 'package:medical_herb/features/common_widgets/toast_utils.dart';
 import 'package:medical_herb/features/screens/widgets/zoom_in_zoom_out_widget.dart';
 
 class UploadScreen extends StatefulWidget {
@@ -30,8 +30,7 @@ class _UploadScreenState extends State<UploadScreen> {
     );
     if (!context.mounted) return;
     if (result['success'] != true) {
-      ScanErrorDialog.show(
-        context,
+      ToastUtils.error(
         result['message'] as String? ?? 'Reprocess failed',
       );
     }
@@ -62,8 +61,7 @@ class _UploadScreenState extends State<UploadScreen> {
         ScanSource.camera,
       );
     } else {
-      ScanErrorDialog.show(
-        context,
+      ToastUtils.error(
         result['message'] as String? ?? 'Scan failed',
       );
     }

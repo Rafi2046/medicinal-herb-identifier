@@ -4,6 +4,7 @@ import 'package:medical_herb/core/constants/app_spacing.dart';
 import 'package:medical_herb/core/providers/favorites_provider.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
 import 'package:medical_herb/features/common_widgets/custom_button.dart';
+import 'package:medical_herb/features/common_widgets/toast_utils.dart';
 import 'package:provider/provider.dart';
 
 class ButtonActionButtonWidget extends StatelessWidget {
@@ -34,16 +35,11 @@ class ButtonActionButtonWidget extends StatelessWidget {
                 textColor: saved ? const Color(0xFF13C366) : buttonTextColor,
                 onPressed: () {
                   favs.toggle(primaryName!);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        saved
-                            ? 'Removed from favorites'
-                            : '$primaryName saved to favorites',
-                      ),
-                      duration: const Duration(seconds: 1),
-                    ),
-                  );
+                  if (saved) {
+                    ToastUtils.info('Removed from favorites');
+                  } else {
+                    ToastUtils.success('$primaryName saved to favorites');
+                  }
                 },
                 leading: Image.asset(
                   AppImages.favorites,

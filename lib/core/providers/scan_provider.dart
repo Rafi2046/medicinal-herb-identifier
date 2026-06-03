@@ -125,7 +125,7 @@ class ScanProvider extends ChangeNotifier {
 
         if (kDebugMode) {
           debugPrint(
-            "✅ Model Predicted: ${predictionResult.primaryPrediction}",
+            " Model Predicted: ${predictionResult.primaryPrediction}",
           );
           debugPrint(
             " Confidence Score: ${predictionResult.primaryConfidence}",
@@ -135,8 +135,7 @@ class ScanProvider extends ChangeNotifier {
         if (predictionResult.primaryConfidence < 0.55) {
           _lastResult = {
             'success': false,
-            'message':
-                'Unable to identify clearly! This herb might not be in our database of 24 medicinal plants, or the photo isn\'t clear enough. Please scan a supported leaf.',
+            'message': 'Low confidence. Try a clearer photo or different leaf.',
           };
         } else {
           _lastResult = {
@@ -206,23 +205,17 @@ Map<String, dynamic> _checkImageQuality(String imagePath) {
       debugPrint("Image Brightness: $avgBrightness");
       debugPrint(" Green Pixel Percentage: $greenPercentage%");
     }
-
-    // brightness logic
-    if (avgBrightness < 60.0) {
-      return {
-        'isValid': false,
-        'message':
-            'Image is too dark! Please use flash or scan in a well-lit area.',
-      };
+// 🛑 Logic 1: Completely dark (like covering the lens with a finger)
+    if (avgBrightness < 15.0) {
+      return {'isValid': false, 'message': 'Too dark. Please use flash.'};
     }
 
-    // green color logic
+    if (avgBrightness < 60.0 && greenPercentage < 5.0) {
+      return {'isValid': false, 'message': 'Too dark and no leaf detected. Scan in well-lit area.'};
+    }
+
     if (greenPercentage < 5.0) {
-      return {
-        'isValid': false,
-        'message':
-            'No valid green leaf detected! Please scan a medicinal leaf.',
-      };
+      return {'isValid': false, 'message': 'No leaf detected. Please scan a medicinal leaf.'};
     }
 
     return {'isValid': true};
