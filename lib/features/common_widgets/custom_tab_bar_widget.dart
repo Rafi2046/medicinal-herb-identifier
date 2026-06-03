@@ -16,7 +16,7 @@ class CustomTabBarWidget extends StatelessWidget {
     const green = Color(0xFF13C366);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
       child: ListenableBuilder(
         listenable: tabController,
         builder: (_, _) {
@@ -24,7 +24,7 @@ class CustomTabBarWidget extends StatelessWidget {
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               color: isDark ? const Color(0xFF0F172A) : const Color(0xFFF1F5F9),
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
               children: List.generate(tabs.length, (i) {
@@ -33,12 +33,12 @@ class CustomTabBarWidget extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () => tabController.animateTo(i),
                     child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 250),
+                      duration: const Duration(milliseconds: 150),
                       curve: Curves.easeInOut,
-                      padding: const EdgeInsets.symmetric(vertical: 11),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       decoration: BoxDecoration(
                         color: selected ? green : Colors.transparent,
-                        borderRadius: BorderRadius.circular(11),
+                        borderRadius: BorderRadius.circular(10),
                         boxShadow: selected
                             ? [
                                 BoxShadow(
@@ -53,7 +53,7 @@ class CustomTabBarWidget extends StatelessWidget {
                         tabs[i],
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 13,
                           fontWeight: FontWeight.w700,
                           color: selected
                               ? Colors.white

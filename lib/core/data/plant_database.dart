@@ -372,8 +372,8 @@ final Map<String, PlantData> plantDatabase = {
       "Limited scientific studies",
       "May cause allergic reactions in some",
     ],
-    scientificName: "To be identified",
-    family: "To be identified",
+    scientificName: "Mikania micrantha",
+    family: "Asteraceae",
     region: "South and Southeast Asia",
   ),
   "Devils Backbone": PlantData(
@@ -402,8 +402,8 @@ final Map<String, PlantData> plantDatabase = {
     ],
     goodSides: ["Gentle and natural remedy", "Used in traditional medicine"],
     badSides: ["More research needed on efficacy", "Consult expert before use"],
-    scientificName: "To be identified",
-    family: "To be identified",
+    scientificName: "Peperomia pellucida",
+    family: "Piperaceae",
     region: "South Asia",
   ),
   "Kumari Lata": PlantData(
@@ -420,8 +420,8 @@ final Map<String, PlantData> plantDatabase = {
       "Traditional remedy with proven benefits",
     ],
     badSides: ["Limited availability", "Consult before regular use"],
-    scientificName: "To be identified",
-    family: "To be identified",
+    scientificName: "Smilax zeylanica L",
+    family: "Smilacaceae",
     region: "South Asia",
   ),
   "Nageshwar": PlantData(
@@ -459,8 +459,8 @@ final Map<String, PlantData> plantDatabase = {
       "Limited scientific validation",
       "Use under professional guidance",
     ],
-    scientificName: "To be identified",
-    family: "To be identified",
+    scientificName: "Catharanthus roseus",
+    family: "Apocynaceae",
     region: "South Asia",
   ),
 };

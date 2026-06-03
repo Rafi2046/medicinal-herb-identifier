@@ -64,11 +64,13 @@ class _HerbFullDetailsScreenState extends State<HerbFullDetailsScreen>
                   subtitle: plant?.scientificName ?? 'Botanical Profile',
                   backArrow: true,
                 ),
-                const SizedBox(height: 12),
+
                 CustomTabBarWidget(tabController: _tabController, tabs: _tabs),
               ],
             ),
           ),
+
+          const SizedBox(height: 16),
 
           Expanded(
             child: Container(
