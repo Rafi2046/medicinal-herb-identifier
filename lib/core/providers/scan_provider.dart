@@ -128,7 +128,7 @@ class ScanProvider extends ChangeNotifier {
             "✅ Model Predicted: ${predictionResult.primaryPrediction}",
           );
           debugPrint(
-            "📊 Confidence Score: ${predictionResult.primaryConfidence}",
+            " Confidence Score: ${predictionResult.primaryConfidence}",
           );
         }
 
@@ -136,7 +136,7 @@ class ScanProvider extends ChangeNotifier {
           _lastResult = {
             'success': false,
             'message':
-                'Confidence too low (${(predictionResult.primaryConfidence * 100).toStringAsFixed(1)}%). Please crop the image to focus on a SINGLE clear leaf.',
+                'Unable to identify clearly! This herb might not be in our database of 24 medicinal plants, or the photo isn\'t clear enough. Please scan a supported leaf.',
           };
         } else {
           _lastResult = {
