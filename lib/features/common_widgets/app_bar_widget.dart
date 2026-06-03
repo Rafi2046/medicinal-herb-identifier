@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medical_herb/core/constants/app_text_styles.dart';
 import 'package:medical_herb/core/theme/app_colors.dart';
-import 'package:medical_herb/features/screens/widgets/screen_guide_bottom_sheet.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
@@ -94,19 +93,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
 
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.help_outline_rounded,
-              color: isDark ? Colors.white : AppColors.herbName,
-              size: 26,
-            ),
-            onPressed: () {
-              ScanGuideBottomSheet.show(context);
-            },
-          ),
-          const SizedBox(width: 8),
-        ],
+        actions: const [SizedBox(width: 8)],
       ),
     );
   }

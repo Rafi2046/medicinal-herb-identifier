@@ -6,6 +6,7 @@ import 'package:medical_herb/core/network/prediction_model.dart';
 import 'package:medical_herb/core/providers/history_provider.dart';
 import 'package:medical_herb/core/providers/scan_provider.dart';
 import 'package:medical_herb/features/common_widgets/scan_error_dialog.dart';
+import 'package:medical_herb/features/screens/widgets/screen_guide_bottom_sheet.dart';
 import 'package:medical_herb/features/screens/widgets/zoom_in_zoom_out_widget.dart';
 
 class UploadScreen extends StatefulWidget {
@@ -118,11 +119,30 @@ class _UploadScreenState extends State<UploadScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.5),
+                      color: Colors.black.withValues(alpha: 0.5),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
                       Icons.arrow_back,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: paddingTop + 12,
+                right: 16,
+                child: InkWell(
+                  onTap: () => ScanGuideBottomSheet.show(context),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.5),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.help_outline_rounded,
                       color: Colors.white,
                       size: 24,
                     ),
