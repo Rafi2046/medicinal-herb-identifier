@@ -10,71 +10,87 @@ class QuickActionRowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final buttonBg = isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9);
-    final iconColor = isDark ? Colors.white : Colors.black87;
+    final buttonBg = isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9);
+    final iconColor = isDark ? Colors.white : const Color(0xFF1E293B);
+    const primaryGreen = Color(0xFF13C366);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _buildActionColumn(
-          context: context,
-          icon: Icons.camera_alt_outlined,
-          label: 'Retake',
-          bgColor: buttonBg,
-          iconColor: iconColor,
-          onTap: () => Navigator.pop(context),
-        ),
-        Consumer<FavoritesProvider>(
-          builder: (context, favs, _) {
-            final isSaved = favs.isFavorite(primaryName);
-            return _buildActionColumn(
+    return Padding(
+      // Standard screen margin
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          // 1. RETAKE BUTTON (Modern Horizontal Layout)
+          Expanded(
+            child: _buildModernButton(
               context: context,
-              icon: isSaved ? Icons.bookmark : Icons.bookmark_border,
-              label: isSaved ? 'Saved' : 'Save',
-              bgColor: isSaved ? const Color(0xFF13C366).withOpacity(0.15) : buttonBg,
-              iconColor: isSaved ? const Color(0xFF13C366) : iconColor,
-              onTap: () {
-                favs.toggle(primaryName);
+              icon: Icons.camera_alt_outlined,
+              label: 'Retake',
+              bgColor: buttonBg,
+              textColor: iconColor,
+              onTap: () => Navigator.pop(context),
+            ),
+          ),
+
+          const SizedBox(width: 16), // Sleek, clean gap
+
+          // 2. SAVE BUTTON (Modern Horizontal Layout)
+          Expanded(
+            child: Consumer<FavoritesProvider>(
+              builder: (context, favs, _) {
+                final isSaved = favs.isFavorite(primaryName);
+                return _buildModernButton(
+                  context: context,
+                  icon: isSaved ? Icons.bookmark : Icons.bookmark_border,
+                  label: isSaved ? 'Saved' : 'Save',
+                  // Green tint when saved!
+                  bgColor: isSaved ? primaryGreen.withOpacity(0.12) : buttonBg,
+                  textColor: isSaved ? primaryGreen : iconColor,
+                  onTap: () {
+                    favs.toggle(primaryName);
+                  },
+                );
               },
-            );
-          },
-        ),
-        _buildActionColumn(
-          context: context,
-          icon: Icons.share_outlined,
-          label: 'Share',
-          bgColor: buttonBg,
-          iconColor: iconColor,
-          onTap: () {
-            // Add share functionality later
-          },
-        ),
-      ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildActionColumn({
+  // The NEW Modern Horizontal Button Builder
+  Widget _buildModernButton({
     required BuildContext context,
     required IconData icon,
     required String label,
     required Color bgColor,
-    required Color iconColor,
+    required Color textColor,
     required VoidCallback onTap,
   }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(shape: BoxShape.circle, color: bgColor),
-            child: Icon(icon, color: iconColor, size: 28),
+    return Material(
+      color: bgColor,
+      borderRadius: BorderRadius.circular(16), // Matches your bottom 'View Full Details' curve
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          height: 56, // Standard modern premium touch-target height
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center, // Icon and text side-by-side!
+            children: [
+              Icon(icon, color: textColor, size: 22),
+              const SizedBox(width: 8), // Small gap between icon and text
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: textColor,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 8),
-          Text(label, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Theme.of(context).textTheme.bodySmall?.color)),
-        ],
+        ),
       ),
     );
   }
