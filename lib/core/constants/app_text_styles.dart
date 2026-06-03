@@ -153,6 +153,12 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.black40,
   );
+  static TextStyle option = TextStyle(
+    fontSize: 17,
+    fontWeight: FontWeight.w800,
+    letterSpacing: -0.3,
+    color: AppColors.option,
+  );
 
   static TextStyle title = TextStyle(
     fontSize: 20,
