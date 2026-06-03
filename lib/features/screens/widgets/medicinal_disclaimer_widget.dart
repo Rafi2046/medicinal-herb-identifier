@@ -11,12 +11,9 @@ class MedicalDisclaimerWidget extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
-        // Soft elegant background
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: isDark
-              ? Colors.white10
-              : Colors.blueGrey.withValues(alpha: 0.1),
+          color: isDark ? Colors.white10 : Colors.blueGrey.withValues(alpha: 0.1),
         ),
       ),
       child: Column(
@@ -24,10 +21,17 @@ class MedicalDisclaimerWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
-                Icons.health_and_safety_outlined,
-                color: isDark ? Colors.blueAccent : const Color(0xFF3B82F6),
-                size: 24,
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF3B82F6).withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.health_and_safety_outlined,
+                  color: Color(0xFF3B82F6),
+                  size: 20,
+                ),
               ),
               const SizedBox(width: 12),
               Text(

@@ -13,17 +13,25 @@ class DescriptionWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionHeaderWidget(
+        const SectionHeaderWidget(
           title: 'Description',
           iconPath: AppImages.descriptionIcon,
-          iconColor: const Color(0xFF13C366),
+          iconColor: Color(0xFF13C366),
         ),
-        Text(
-          description,
-          style: TextStyle(
-            fontSize: 15,
-            height: 1.6, // Excellent readability
-            color: isDark ? Colors.white70 : const Color(0xFF475569),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Text(
+            description,
+            style: TextStyle(
+              fontSize: 15,
+              height: 1.7,
+              color: isDark ? Colors.white70 : const Color(0xFF475569),
+            ),
           ),
         ),
       ],

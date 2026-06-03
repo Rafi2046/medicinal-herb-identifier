@@ -13,24 +13,24 @@ class BadSidesWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionHeaderWidget(
-          title: 'Precautions', // Sounds much more professional than "Bad Sides"
+        const SectionHeaderWidget(
+          title: 'Precautions',
           iconPath: AppImages.detailsTickIcon,
-          iconColor: Colors.orange, // Warning color
+          iconColor: Colors.orange,
         ),
         ...sides.map((side) => Padding(
           padding: const EdgeInsets.only(bottom: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 3),
-                child: Image(
-                  image: AssetImage(AppImages.detailsTickIcon),
-                  height: 16,
-                  width: 16,
-                  color: Colors.orange,
+              Container(
+                margin: const EdgeInsets.only(top: 4),
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Colors.orange.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
                 ),
+                child: const Icon(Icons.warning_amber_rounded, size: 12, color: Colors.orange),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -38,7 +38,7 @@ class BadSidesWidget extends StatelessWidget {
                   side,
                   style: TextStyle(
                     fontSize: 15,
-                    height: 1.4,
+                    height: 1.5,
                     color: isDark ? Colors.white70 : const Color(0xFF475569),
                   ),
                 ),

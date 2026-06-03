@@ -15,27 +15,33 @@ class CharacteristicsWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Added the header back so users know what these buttons mean!
-        SectionHeaderWidget(
+        const SectionHeaderWidget(
           title: 'Characteristics',
           iconPath: AppImages.characterIcon,
-          iconColor: const Color(0xFF13C366),
+          iconColor: Color(0xFF13C366),
         ),
         Wrap(
           spacing: 8,
           runSpacing: 8,
           children: traits.map((t) => Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
-              borderRadius: BorderRadius.circular(8),
+              gradient: LinearGradient(
+                colors: isDark
+                    ? [const Color(0xFF1E293B), const Color(0xFF1a2332)]
+                    : [const Color(0xFFF1F5F9), const Color(0xFFF8FAFC)],
+              ),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: isDark ? Colors.white10 : const Color(0xFFE2E8F0),
+              ),
             ),
             child: Text(
               t,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: isDark ? Colors.white70 : const Color(0xFF64748B),
+                color: isDark ? Colors.white70 : const Color(0xFF475569),
               ),
             ),
           )).toList(),
