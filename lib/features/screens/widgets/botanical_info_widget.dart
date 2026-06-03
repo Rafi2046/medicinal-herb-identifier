@@ -18,69 +18,66 @@ class BotanicalInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
+    final items = [
+      _InfoItem(icon: Icons.biotech_outlined, label: 'Scientific Name', value: scientificName),
+      _InfoItem(icon: Icons.account_tree_outlined, label: 'Family', value: family),
+      _InfoItem(icon: Icons.public_outlined, label: 'Origin', value: region),
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionHeaderWidget(
+        const SectionHeaderWidget(
           title: 'Botanical Info',
           iconPath: AppImages.botanicalInfoIcon,
-          iconColor: const Color(0xFF13C366),
+          iconColor: Color(0xFF13C366),
         ),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: isDark ? Colors.white10 : Colors.grey.withOpacity(0.1)),
-          ),
-          child: Column(
-            children: [
-              _buildInfoRow('Scientific Name', scientificName, isDark),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Divider(height: 1, color: isDark ? Colors.white10 : Colors.grey.shade200),
+        Column(
+          children: items
+              .where((e) =>
+                  e.value.isNotEmpty && !e.value.contains('To be'))
+              .toList()
+              .asMap()
+              .entries
+              .map((entry) {
+            final i = entry.key;
+            final item = entry.value;
+            return Padding(
+              padding: EdgeInsets.only(bottom: i < items.length - 1 ? 10 : 0),
+              child: Row(
+                children: [
+                  Icon(item.icon, size: 18, color: isDark ? Colors.white54 : const Color(0xFF94A3B8)),
+                  const SizedBox(width: 10),
+                  Text(
+                    '${item.label}: ',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: isDark ? Colors.white54 : const Color(0xFF94A3B8),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      item.value,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: isDark ? Colors.white : const Color(0xFF334155),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              _buildInfoRow('Plant Family', family, isDark),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Divider(height: 1, color: isDark ? Colors.white10 : Colors.grey.shade200),
-              ),
-              _buildInfoRow('Native Region', region, isDark),
-            ],
-          ),
+            );
+          }).toList(),
         ),
       ],
     );
   }
+}
 
-  Widget _buildInfoRow(String label, String value, bool isDark) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 2,
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: isDark ? Colors.white54 : const Color(0xFF94A3B8),
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 3,
-          child: Text(
-            value,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: isDark ? Colors.white : const Color(0xFF334155),
-            ),
-            textAlign: TextAlign.right,
-          ),
-        ),
-      ],
-    );
-  }
+class _InfoItem {
+  final IconData icon;
+  final String label;
+  final String value;
+  const _InfoItem({required this.icon, required this.label, required this.value});
 }
