@@ -26,6 +26,7 @@ class AppColors {
   static const Color keyTraits = Color(0xFFa1bba9); // herb
   static const Color desText = Color(0xFF4b7c59); // herb
   static const Color savedText = Color(0xFFa6c0ae); // herb
+  static const Color option = Color(0xFF82A88D); // herb
 
   static const Color herbScientific = Color(0xFF4b7c59); // herb
   static const Color borderColors = Color(0xFFe2f0e5); // herb
