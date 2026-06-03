@@ -26,8 +26,7 @@ class ApiService {
           imageFile.path,
           filename: fileName,
         ),
-        if (confidenceThreshold != null)
-          "confidence_threshold": confidenceThreshold,
+        "confidence_threshold": ?confidenceThreshold,
       });
 
       if (kDebugMode) {

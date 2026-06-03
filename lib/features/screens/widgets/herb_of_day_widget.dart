@@ -31,7 +31,7 @@ class HerbOfDayWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -56,8 +56,8 @@ class HerbOfDayWidget extends StatelessWidget {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      Colors.black.withOpacity(0.85), // Darker at bottom
-                      Colors.black.withOpacity(0.0),  // Clear at top
+                      Colors.black.withValues(alpha: 0.85), // Darker at bottom
+                      Colors.black.withValues(alpha: 0.0),  // Clear at top
                     ],
                     stops: const [0.0, 0.7],
                   ),
@@ -72,7 +72,7 @@ class HerbOfDayWidget extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.4), // Sleek translucent pill
+                  color: Colors.black.withValues(alpha: 0.4), // Sleek translucent pill
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: Colors.white24, width: 1),
                 ),
@@ -111,7 +111,7 @@ class HerbOfDayWidget extends StatelessWidget {
                   if (plant != null && plant.description.isNotEmpty)
                     Text(
                       plant.description,
-                      style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 13, height: 1.4),
+                      style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 13, height: 1.4),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

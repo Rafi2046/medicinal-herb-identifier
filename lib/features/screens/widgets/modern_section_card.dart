@@ -35,7 +35,7 @@ class ModernSectionCard extends StatelessWidget {
         boxShadow: [
           if (!isDark)
             BoxShadow(
-              color: Colors.black.withOpacity(0.03),
+              color: Colors.black.withValues(alpha: 0.03),
               blurRadius: 20,
               offset: const Offset(0, 4),
             ),
@@ -51,7 +51,7 @@ class ModernSectionCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: themeIconColor.withOpacity(0.12), // Soft tinted background for the icon
+                    color: themeIconColor.withValues(alpha: 0.12), // Soft tinted background for the icon
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Image(
@@ -75,7 +75,7 @@ class ModernSectionCard extends StatelessWidget {
           Divider(
             height: 1,
             thickness: 1,
-            color: borderColor.withOpacity(0.5), // Softer divider line
+            color: borderColor.withValues(alpha: 0.5), // Softer divider line
           ),
           Padding(
             padding: const EdgeInsets.all(20),
