@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   height: 100,
                 ),
 
-                Text('MediLeaf', style: AppTextStyles.heading2),
+                Text('AyurVision', style: AppTextStyles.heading2),
               ],
             ),
           ),

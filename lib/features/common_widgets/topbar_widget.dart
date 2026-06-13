@@ -291,7 +291,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
           children: [
             Image.asset(AppImages.mediLeafLogo, height: 32, width: 32),
             const SizedBox(width: 12),
-            const Text('MediLeaf'),
+            const Text('AyurVision'),
           ],
         ),
         content: const SingleChildScrollView(
@@ -300,7 +300,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSizeWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'MediLeaf is an intelligent medicinal herb identification app powered by AI. Simply capture or upload a photo of any herb, and MediLeaf will instantly identify it, providing detailed information about its medicinal properties, benefits, side effects, and botanical classification.',
+                'AyurVision is an intelligent medicinal herb identification app. Simply capture or upload a photo of any herb, and AyurVision will instantly identify it, providing detailed information about its medicinal properties, benefits, side effects, and botanical classification.',
                 style: TextStyle(fontSize: 14, height: 1.5),
               ),
               SizedBox(height: 16),
