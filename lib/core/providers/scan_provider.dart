@@ -31,6 +31,19 @@ class ScanProvider extends ChangeNotifier {
 
   final ImagePicker _picker = ImagePicker();
 
+  Future<String?> _copyToPermanentStorage(String sourcePath) async {
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      final fileName = 'leaf_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final file = File(sourcePath);
+      final permanent = await file.copy('${dir.path}/$fileName');
+      return permanent.path;
+    } catch (e) {
+      debugPrint('Error copying to permanent storage: $e');
+      return null;
+    }
+  }
+
   Future<String?> cropImage(String imagePath) async {
     try {
       final croppedFile = await ImageCropper().cropImage(
@@ -62,12 +75,15 @@ class ScanProvider extends ChangeNotifier {
     final XFile? image = await _picker.pickImage(source: source);
     if (image == null) return {'success': false, 'message': null};
 
-    final croppedPath = await cropImage(image.path);
-    if (croppedPath == null) {
-      return {'success': false, 'message': 'Cropping cancelled'};
+    final permanentPath = await _copyToPermanentStorage(image.path);
+    if (permanentPath == null) {
+      return {'success': false, 'message': 'Failed to save image'};
     }
 
-    return processPickedImage(croppedPath);
+    final croppedPath = await cropImage(permanentPath);
+    final finalPath = croppedPath ?? permanentPath;
+
+    return processPickedImage(finalPath);
   }
 
   Future<Map<String, dynamic>> processCroppedBoundary(
@@ -83,9 +99,9 @@ class ScanProvider extends ChangeNotifier {
       );
       Uint8List pngBytes = byteData!.buffer.asUint8List();
 
-      final tempDir = await getTemporaryDirectory();
+      final dir = await getApplicationDocumentsDirectory();
       File tempFile = File(
-        '${tempDir.path}/cropped_leaf_${DateTime.now().millisecondsSinceEpoch}.png',
+        '${dir.path}/cropped_leaf_${DateTime.now().millisecondsSinceEpoch}.png',
       );
       await tempFile.writeAsBytes(pngBytes);
 
@@ -104,10 +120,13 @@ class ScanProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> processPickedImage(String imagePath) async {
     try {
       _lastImagePath = imagePath;
+      final permanentPath = await _copyToPermanentStorage(imagePath);
+      final workingPath = permanentPath ?? imagePath;
+      _lastImagePath = workingPath;
       _isLoading = true;
       notifyListeners();
 
-      final qualityCheck = await compute(_checkImageQuality, imagePath);
+      final qualityCheck = await compute(_checkImageQuality, workingPath);
 
       if (qualityCheck['isValid'] == false) {
         _isLoading = false;
@@ -115,7 +134,7 @@ class ScanProvider extends ChangeNotifier {
         notifyListeners();
         return _lastResult!;
       }
-      final resultMap = await ApiService.uploadAndPredict(File(imagePath));
+      final resultMap = await ApiService.uploadAndPredict(File(workingPath));
 
       _isLoading = false;
 
@@ -140,7 +159,7 @@ class ScanProvider extends ChangeNotifier {
         } else {
           _lastResult = {
             'success': true,
-            'imagePath': imagePath,
+            'imagePath': workingPath,
             'predictionResult': predictionResult,
           };
         }

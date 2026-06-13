@@ -101,7 +101,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 top: 0,
                 left: 0,
                 right: 0,
-                height: size.height * 0.55,
+                height: size.height * 0.48,
                 child: _originalImagePath != null
                     ? ZoomInZoomOutWidget(
                         imagePath: _originalImagePath!,
@@ -151,7 +151,7 @@ class _UploadScreenState extends State<UploadScreen> {
               ),
 
               Positioned(
-                top: size.height * 0.50,
+                top: size.height * 0.46,
                 left: 0,
                 right: 0,
                 bottom: 0,
