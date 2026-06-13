@@ -7,7 +7,7 @@ class MainAppTopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize {
     return const TopBarWidget(
-      title: 'MediLeaf',
+      title: 'AyurVision',
       subtitle: 'Medicinal Herb Identifier',
       backArrow: false,
     ).preferredSize;
@@ -16,7 +16,7 @@ class MainAppTopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return const TopBarWidget(
-      title: 'MediLeaf',
+      title: 'AyurVision',
       subtitle: 'Medicinal Herb Identifier',
       backArrow: false,
     );
