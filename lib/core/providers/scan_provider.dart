@@ -87,8 +87,8 @@ class ScanProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> processCroppedBoundary(
-    RenderRepaintBoundary boundary,
-  ) async {
+      RenderRepaintBoundary boundary,
+      ) async {
     try {
       _isLoading = true;
       notifyListeners();
@@ -134,7 +134,14 @@ class ScanProvider extends ChangeNotifier {
         notifyListeners();
         return _lastResult!;
       }
-      final resultMap = await ApiService.uploadAndPredict(File(workingPath));
+
+      // FIX: actually forward the user-adjustable threshold to the backend.
+      // Before, this was never passed, so the slider had no real effect.
+      final resultMap = await ApiService.uploadAndPredict(
+        File(workingPath),
+        confidenceThreshold:
+        _confidenceThreshold > 0 ? _confidenceThreshold : null,
+      );
 
       _isLoading = false;
 
@@ -151,10 +158,14 @@ class ScanProvider extends ChangeNotifier {
           );
         }
 
-        if (predictionResult.primaryConfidence < 0.55) {
+        // FIX: backend confidence is on a 0-100 scale, not 0-1, so comparing
+        // it to 0.20 never actually triggered. Use the backend's own
+        // is_known flag instead - it already applies the correct threshold.
+        if (!predictionResult.isKnown) {
           _lastResult = {
             'success': false,
-            'message': 'Low confidence. Try a clearer photo or different leaf.',
+            'message':
+            'Low confidence. Try a clearer photo or different leaf.',
           };
         } else {
           _lastResult = {
@@ -172,7 +183,12 @@ class ScanProvider extends ChangeNotifier {
 
       notifyListeners();
       return _lastResult!;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint("========== JSON PARSING ERROR ==========");
+      debugPrint("ERROR: $e");
+      debugPrint("STACKTRACE: $stackTrace");
+      debugPrint("========================================");
+
       _isLoading = false;
       _lastResult = {
         'success': false,
@@ -189,6 +205,10 @@ class ScanProvider extends ChangeNotifier {
       return {'success': false, 'message': 'No image to reprocess.'};
     }
     notifyListeners();
+    // NOTE: this only updates the stored threshold; it does not actually
+    // re-run prediction. If you want changing the slider to re-score the
+    // same image with the new threshold, call processPickedImage(_lastImagePath!)
+    // here instead of just returning success.
     return {'success': true};
   }
 }
@@ -224,17 +244,23 @@ Map<String, dynamic> _checkImageQuality(String imagePath) {
       debugPrint("Image Brightness: $avgBrightness");
       debugPrint(" Green Pixel Percentage: $greenPercentage%");
     }
-// 🛑 Logic 1: Completely dark (like covering the lens with a finger)
+    // Completely dark (like covering the lens with a finger)
     if (avgBrightness < 15.0) {
       return {'isValid': false, 'message': 'Too dark. Please use flash.'};
     }
 
     if (avgBrightness < 60.0 && greenPercentage < 5.0) {
-      return {'isValid': false, 'message': 'Too dark and no leaf detected. Scan in well-lit area.'};
+      return {
+        'isValid': false,
+        'message': 'Too dark and no leaf detected. Scan in well-lit area.'
+      };
     }
 
     if (greenPercentage < 5.0) {
-      return {'isValid': false, 'message': 'No leaf detected. Please scan a medicinal leaf.'};
+      return {
+        'isValid': false,
+        'message': 'No leaf detected. Please scan a medicinal leaf.'
+      };
     }
 
     return {'isValid': true};

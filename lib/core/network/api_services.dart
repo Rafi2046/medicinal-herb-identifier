@@ -3,84 +3,92 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class ApiService {
-  static String apiUrl =
-      "https://ishmakrahatrafi-herb-backend.hf.space/predict";
+  static const String apiUrl = "https://nearness-usage-possibly.ngrok-free.dev";
 
   static final Dio _dio = Dio(
     BaseOptions(
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 60),
-      sendTimeout: const Duration(seconds: 30),
+      connectTimeout: Duration(minutes: 5),
+      receiveTimeout: Duration(minutes: 5),
+      sendTimeout: Duration(minutes: 5),
+      headers: {
+        "Accept": "application/json",
+        "ngrok-skip-browser-warning": "true"
+      },
     ),
   );
 
   static Future<Map<String, dynamic>> uploadAndPredict(
-    File imageFile, {
-    double? confidenceThreshold,
-  }) async {
+      File imageFile, {
+        double? confidenceThreshold,
+      }) async {
     try {
-      String fileName = imageFile.path.split('/').last;
+      final String fileName = imageFile.path.split('/').last;
+
+      // IMPORTANT: backend route is /predict, not the bare root URL
+      final String endpoint = "$apiUrl/predict";
+
+      debugPrint("Posting to: $endpoint");
+      debugPrint("Image: ${imageFile.path}");
 
       FormData formData = FormData.fromMap({
-        "file": await MultipartFile.fromFile(
+        // backend expects the file under the key "image"
+        "image": await MultipartFile.fromFile(
           imageFile.path,
           filename: fileName,
         ),
-        "confidence_threshold": ?confidenceThreshold,
+        // backend expects this field named "threshold"
+        if (confidenceThreshold != null)
+          "threshold": confidenceThreshold,
       });
 
-      if (kDebugMode) {
-        debugPrint("Uploading image to server...");
-      }
+      Response response = await _dio.post(endpoint, data: formData);
 
-      Response response = await _dio.post(
-        apiUrl,
-        data: formData,
-        options: Options(headers: {"Accept": "application/json"}),
-      );
+      debugPrint("Status Code: ${response.statusCode}");
+      debugPrint("Response: ${response.data}");
 
       if (response.statusCode == 200) {
-        if (kDebugMode) {
-          debugPrint(
-            "Prediction Success: ${response.data['primary_prediction']}",
-          );
-        }
-
         return {"success": true, "data": response.data};
-      } else {
-        return {
-          "success": false,
-          "message": "Server returned an error status: ${response.statusCode}",
-        };
       }
+
+      return {
+        "success": false,
+        "message": "Server returned status code ${response.statusCode}",
+      };
     } on DioException catch (e) {
-      String errorMessage =
-          "Failed to connect to the server. Please try again later.";
+      debugPrint("========== DIO ERROR ==========");
+      debugPrint("TYPE: ${e.type}");
+      debugPrint("MESSAGE: ${e.message}");
+      debugPrint("ERROR: ${e.error}");
+      debugPrint("RESPONSE: ${e.response?.data}");
+      debugPrint("===============================");
 
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.sendTimeout) {
-        errorMessage =
-            "Server is taking too long to respond. Hugging Face might be waking up, please try again.";
-      } else if (e.type == DioExceptionType.connectionError ||
-          e.type == DioExceptionType.unknown && e.error is SocketException) {
-        errorMessage =
-            "No Internet Connection! Please check your WiFi or Mobile Data.";
-      }
+      String errorMessage = "Failed to connect to server.";
 
-      if (kDebugMode) {
-        debugPrint("Dio Network Error: $errorMessage (type: ${e.type})");
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.receiveTimeout:
+        case DioExceptionType.sendTimeout:
+          errorMessage =
+          "Server timeout. The model server may still be loading or waking up.";
+          break;
+
+        case DioExceptionType.connectionError:
+          errorMessage = "Connection error. Check your internet connection.";
+          break;
+
+        case DioExceptionType.badResponse:
+          errorMessage = "Server error: ${e.response?.statusCode}";
+          break;
+
+        default:
+          errorMessage = e.message ?? "Unknown error occurred.";
       }
 
       return {"success": false, "message": errorMessage};
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint("Exception during API call: $e");
-      }
-      return {
-        "success": false,
-        "message": "An unexpected error occurred. Please try again.",
-      };
+      debugPrint("GENERAL ERROR: $e");
+
+      return {"success": false, "message": e.toString()};
     }
   }
 }
