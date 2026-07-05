@@ -88,7 +88,7 @@ class _UploadScreenState extends State<UploadScreen> {
               : widget.predictionResult;
 
           final primaryName = result?.primaryPrediction ?? 'Unknown';
-          final confidence = (result?.primaryConfidence ?? 0.0) * 100;
+          final confidence = (result?.primaryConfidence ?? 0.0);
           final allPredictions = result?.top3 ?? [];
           final otherPredictions =
               allPredictions.where((p) => p.className != primaryName).toList()
