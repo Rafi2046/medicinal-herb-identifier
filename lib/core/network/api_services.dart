@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 class ApiService {
   static const String apiUrl = "https://nearness-usage-possibly.ngrok-free.dev";
 
+
   static final Dio _dio = Dio(
     BaseOptions(
       connectTimeout: Duration(minutes: 5),
