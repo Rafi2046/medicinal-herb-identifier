@@ -14,7 +14,7 @@ class ScanProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _lastImagePath;
   Map<String, dynamic>? _lastResult;
-  double _confidenceThreshold = 0.0;
+  double _confidenceThreshold = 0.40;
 
   bool get isLoading => _isLoading;
 
