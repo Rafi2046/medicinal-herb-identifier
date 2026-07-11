@@ -3,12 +3,14 @@ class PredictionResult {
   final String primaryPrediction;
   final double primaryConfidence;
   final List<Prediction> top3;
+  final String? heatmapBase64;
 
   PredictionResult({
     required this.isKnown,
     required this.primaryPrediction,
     required this.primaryConfidence,
     required this.top3,
+    this.heatmapBase64,
   });
 
   factory PredictionResult.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,7 @@ class PredictionResult {
       top3: (json['top_3'] as List)
           .map((e) => Prediction.fromJson(e as Map<String, dynamic>))
           .toList(),
+      heatmapBase64: json['heatmap_base64'] as String?,
     );
   }
 }
