@@ -172,22 +172,41 @@ class _UploadScreenState extends State<UploadScreen> {
                     if (hasHeatmap && _heatmapImagePath != null)
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
-                        child: InkWell(
+                        child: GestureDetector(
                           onTap: () => setState(() => _showHeatmap = !_showHeatmap),
                           child: Container(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
                             decoration: BoxDecoration(
                               color: _showHeatmap
                                   ? const Color(0xFF4ADE80)
-                                  : Colors.black.withValues(alpha: 0.5),
-                              shape: BoxShape.circle,
+                                  : Colors.black.withValues(alpha: 0.6),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            child: Icon(
-                              Icons.layers,
-                              color: _showHeatmap
-                                  ? Colors.black87
-                                  : Colors.white,
-                              size: 22,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.layers_outlined,
+                                  color: _showHeatmap
+                                      ? Colors.black87
+                                      : Colors.white,
+                                  size: 18,
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  _showHeatmap ? 'Hide Heatmap' : 'Heatmap',
+                                  style: TextStyle(
+                                    color: _showHeatmap
+                                        ? Colors.black87
+                                        : Colors.white,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
