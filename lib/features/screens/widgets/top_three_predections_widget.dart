@@ -64,8 +64,8 @@ class TopThreePredictionsWidget extends StatelessWidget {
             const SizedBox(height: 16),
             ...predictions.map((p) {
               final isZeroToOne = p.confidence <= 1.0;
-              final pConfidence = isZeroToOne ? p.confidence * 100 : p.confidence;
-              final progressValue = isZeroToOne ? p.confidence : p.confidence / 100;
+              final pConfidence = (isZeroToOne ? p.confidence * 100 : p.confidence).clamp(0.0, 100.0);
+              final progressValue = (isZeroToOne ? p.confidence : p.confidence / 100).clamp(0.0, 1.0);
               if (pConfidence < threshold) return const SizedBox.shrink();
 
               return Padding(

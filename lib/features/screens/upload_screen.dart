@@ -1,13 +1,10 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:medical_herb/features/screens/widgets/screen_bottom_sheet_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:medical_herb/core/network/prediction_model.dart';
 import 'package:medical_herb/core/providers/history_provider.dart';
 import 'package:medical_herb/core/providers/scan_provider.dart';
-import 'package:medical_herb/features/screens/utils/heatmap_utils.dart';
 import 'package:medical_herb/features/screens/widgets/screen_guide_bottom_sheet.dart';
 import 'package:medical_herb/features/common_widgets/scan_error_dialog.dart';
 import 'package:medical_herb/features/screens/widgets/zoom_in_zoom_out_widget.dart';
@@ -26,26 +23,6 @@ class _UploadScreenState extends State<UploadScreen> {
   final GlobalKey _cropKey = GlobalKey();
   String? _originalImagePath;
   bool _showHeatmap = false;
-  String? _heatmapImagePath;
-
-  Future<void> _generateHeatmap(PredictionResult result) async {
-    if (result.heatmapBase64 == null || _originalImagePath == null) return;
-    try {
-      final dir = await getApplicationDocumentsDirectory();
-      final outputPath =
-          '${dir.path}/heatmap_${DateTime.now().millisecondsSinceEpoch}.jpg';
-      await compositeHeatmap(
-        originalImage: File(_originalImagePath!),
-        heatmapBase64: result.heatmapBase64!,
-        outputPath: outputPath,
-      );
-      if (mounted) {
-        setState(() => _heatmapImagePath = outputPath);
-      }
-    } catch (e) {
-      debugPrint('Heatmap generation failed: $e');
-    }
-  }
 
   Future<void> _reprocess(BuildContext context) async {
     final provider = context.read<ScanProvider>();
@@ -118,13 +95,8 @@ class _UploadScreenState extends State<UploadScreen> {
               allPredictions.where((p) => p.className != primaryName).toList()
                 ..sort((a, b) => b.confidence.compareTo(a.confidence));
           final topPredictions = otherPredictions.take(3).toList();
-          final hasHeatmap = result?.heatmapBase64 != null;
-
-          if (hasHeatmap && _heatmapImagePath == null) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              _generateHeatmap(result!);
-            });
-          }
+          final heatmapBase64 = result?.heatmapBase64;
+          final hasHeatmap = heatmapBase64 != null;
 
           return Stack(
             children: [
@@ -135,11 +107,11 @@ class _UploadScreenState extends State<UploadScreen> {
                 height: size.height * 0.48,
                 child: _originalImagePath != null
                     ? ZoomInZoomOutWidget(
-                        imagePath: _showHeatmap && _heatmapImagePath != null
-                            ? _heatmapImagePath!
-                            : _originalImagePath!,
+                        imagePath: _originalImagePath!,
                         cropKey: _cropKey,
                         onScan: () => _captureAndScan(context),
+                        showHeatmap: _showHeatmap,
+                        heatmapBase64: heatmapBase64,
                       )
                     : const SizedBox.shrink(),
               ),
@@ -169,7 +141,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (hasHeatmap && _heatmapImagePath != null)
+                    if (hasHeatmap)
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: GestureDetector(
