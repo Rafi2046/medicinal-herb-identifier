@@ -63,7 +63,9 @@ class TopThreePredictionsWidget extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             ...predictions.map((p) {
-              final pConfidence = p.confidence;
+              final isZeroToOne = p.confidence <= 1.0;
+              final pConfidence = isZeroToOne ? p.confidence * 100 : p.confidence;
+              final progressValue = isZeroToOne ? p.confidence : p.confidence / 100;
               if (pConfidence < threshold) return const SizedBox.shrink();
 
               return Padding(
@@ -103,7 +105,7 @@ class TopThreePredictionsWidget extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: LinearProgressIndicator(
-                        value: p.confidence / 100,
+                        value: progressValue.clamp(0.0, 1.0),
                         minHeight: 6,
                         backgroundColor: secondaryColor.withValues(alpha: 0.15),
                         valueColor: AlwaysStoppedAnimation<Color>(

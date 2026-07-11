@@ -1,10 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:medical_herb/features/screens/widgets/screen_bottom_sheet_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:medical_herb/core/network/prediction_model.dart';
 import 'package:medical_herb/core/providers/history_provider.dart';
 import 'package:medical_herb/core/providers/scan_provider.dart';
+import 'package:medical_herb/features/screens/utils/heatmap_utils.dart';
 import 'package:medical_herb/features/screens/widgets/screen_guide_bottom_sheet.dart';
 import 'package:medical_herb/features/common_widgets/scan_error_dialog.dart';
 import 'package:medical_herb/features/screens/widgets/zoom_in_zoom_out_widget.dart';
@@ -22,6 +25,27 @@ class UploadScreen extends StatefulWidget {
 class _UploadScreenState extends State<UploadScreen> {
   final GlobalKey _cropKey = GlobalKey();
   String? _originalImagePath;
+  bool _showHeatmap = false;
+  String? _heatmapImagePath;
+
+  Future<void> _generateHeatmap(PredictionResult result) async {
+    if (result.heatmapBase64 == null || _originalImagePath == null) return;
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      final outputPath =
+          '${dir.path}/heatmap_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      await compositeHeatmap(
+        originalImage: File(_originalImagePath!),
+        heatmapBase64: result.heatmapBase64!,
+        outputPath: outputPath,
+      );
+      if (mounted) {
+        setState(() => _heatmapImagePath = outputPath);
+      }
+    } catch (e) {
+      debugPrint('Heatmap generation failed: $e');
+    }
+  }
 
   Future<void> _reprocess(BuildContext context) async {
     final provider = context.read<ScanProvider>();
@@ -94,6 +118,13 @@ class _UploadScreenState extends State<UploadScreen> {
               allPredictions.where((p) => p.className != primaryName).toList()
                 ..sort((a, b) => b.confidence.compareTo(a.confidence));
           final topPredictions = otherPredictions.take(3).toList();
+          final hasHeatmap = result?.heatmapBase64 != null;
+
+          if (hasHeatmap && _heatmapImagePath == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _generateHeatmap(result!);
+            });
+          }
 
           return Stack(
             children: [
@@ -104,7 +135,9 @@ class _UploadScreenState extends State<UploadScreen> {
                 height: size.height * 0.48,
                 child: _originalImagePath != null
                     ? ZoomInZoomOutWidget(
-                        imagePath: _originalImagePath!,
+                        imagePath: _showHeatmap && _heatmapImagePath != null
+                            ? _heatmapImagePath!
+                            : _originalImagePath!,
                         cropKey: _cropKey,
                         onScan: () => _captureAndScan(context),
                       )
@@ -133,20 +166,48 @@ class _UploadScreenState extends State<UploadScreen> {
               Positioned(
                 top: paddingTop + 12,
                 right: 16,
-                child: InkWell(
-                  onTap: () => ScanGuideBottomSheet.show(context),
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.5),
-                      shape: BoxShape.circle,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (hasHeatmap && _heatmapImagePath != null)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: InkWell(
+                          onTap: () => setState(() => _showHeatmap = !_showHeatmap),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: _showHeatmap
+                                  ? const Color(0xFF4ADE80)
+                                  : Colors.black.withValues(alpha: 0.5),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.layers,
+                              color: _showHeatmap
+                                  ? Colors.black87
+                                  : Colors.white,
+                              size: 22,
+                            ),
+                          ),
+                        ),
+                      ),
+                    InkWell(
+                      onTap: () => ScanGuideBottomSheet.show(context),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.5),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.help_outline_rounded,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.help_outline_rounded,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
+                  ],
                 ),
               ),
 
@@ -164,6 +225,16 @@ class _UploadScreenState extends State<UploadScreen> {
                   onReprocess: _reprocess,
                 ),
               ),
+
+              if (scanProvider.isLoading)
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.black54,
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
             ],
           );
         },

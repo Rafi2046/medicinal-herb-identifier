@@ -156,6 +156,9 @@ class ScanProvider extends ChangeNotifier {
           debugPrint(
             " Confidence Score: ${predictionResult.primaryConfidence}",
           );
+          debugPrint(
+            " Top 3: ${predictionResult.top3.map((p) => '${p.className} (${p.confidence})').join(', ')}",
+          );
         }
 
         // FIX: backend confidence is on a 0-100 scale, not 0-1, so comparing

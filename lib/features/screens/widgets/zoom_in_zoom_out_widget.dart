@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
-class ZoomInZoomOutWidget extends StatelessWidget {
+class ZoomInZoomOutWidget extends StatefulWidget {
   final String imagePath;
   final GlobalKey cropKey;
   final VoidCallback onScan;
@@ -14,13 +14,20 @@ class ZoomInZoomOutWidget extends StatelessWidget {
   });
 
   @override
+  State<ZoomInZoomOutWidget> createState() => _ZoomInZoomOutWidgetState();
+}
+
+class _ZoomInZoomOutWidgetState extends State<ZoomInZoomOutWidget> {
+  bool _imageLoaded = false;
+
+  @override
   Widget build(BuildContext context) {
     final accentColor = Theme.of(context).brightness == Brightness.dark
         ? const Color(0xFF4ADE80)
         : const Color(0xFF27AE60);
 
     return RepaintBoundary(
-      key: cropKey,
+      key: widget.cropKey,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: Stack(
@@ -33,20 +40,35 @@ class ZoomInZoomOutWidget extends StatelessWidget {
                 minScale: 1.0,
                 maxScale: 6.0,
                 child: Image.file(
-                  File(imagePath),
+                  File(widget.imagePath),
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: double.infinity,
+                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                    if (wasSynchronouslyLoaded || frame != null) {
+                      if (!_imageLoaded) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (mounted) setState(() => _imageLoaded = true);
+                        });
+                      }
+                      return child;
+                    }
+                    return const SizedBox.expand();
+                  },
                 ),
               ),
             ),
+            if (!_imageLoaded)
+              const Center(
+                child: CircularProgressIndicator(color: Colors.white),
+              ),
             Positioned(
               bottom: 30,
               right: 16,
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: onScan,
+                  onTap: widget.onScan,
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
                     padding: const EdgeInsets.symmetric(

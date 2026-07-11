@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 class ApiService {
   static const String apiUrl = "https://nearness-usage-possibly.ngrok-free.dev";
 
-
   static final Dio _dio = Dio(
     BaseOptions(
       connectTimeout: Duration(minutes: 5),
@@ -21,6 +20,7 @@ class ApiService {
   static Future<Map<String, dynamic>> uploadAndPredict(
       File imageFile, {
         double? confidenceThreshold,
+        bool includeHeatmap = true,
       }) async {
     try {
       final String fileName = imageFile.path.split('/').last;
@@ -40,6 +40,7 @@ class ApiService {
         // backend expects this field named "threshold"
         if (confidenceThreshold != null)
           "threshold": confidenceThreshold,
+        "include_heatmap": includeHeatmap,
       });
 
       Response response = await _dio.post(endpoint, data: formData);
