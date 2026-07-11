@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 
@@ -5,12 +6,16 @@ class ZoomInZoomOutWidget extends StatefulWidget {
   final String imagePath;
   final GlobalKey cropKey;
   final VoidCallback onScan;
+  final bool showHeatmap;
+  final String? heatmapBase64;
 
   const ZoomInZoomOutWidget({
     super.key,
     required this.imagePath,
     required this.cropKey,
     required this.onScan,
+    this.showHeatmap = false,
+    this.heatmapBase64,
   });
 
   @override
@@ -39,22 +44,33 @@ class _ZoomInZoomOutWidgetState extends State<ZoomInZoomOutWidget> {
                 panEnabled: true,
                 minScale: 1.0,
                 maxScale: 6.0,
-                child: Image.file(
-                  File(widget.imagePath),
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: double.infinity,
-                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                    if (wasSynchronouslyLoaded || frame != null) {
-                      if (!_imageLoaded) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          if (mounted) setState(() => _imageLoaded = true);
-                        });
-                      }
-                      return child;
-                    }
-                    return const SizedBox.expand();
-                  },
+                child: Stack(
+                  children: [
+                    Image.file(
+                      File(widget.imagePath),
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                        if (wasSynchronouslyLoaded || frame != null) {
+                          if (!_imageLoaded) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              if (mounted) setState(() => _imageLoaded = true);
+                            });
+                          }
+                          return child;
+                        }
+                        return const SizedBox.expand();
+                      },
+                    ),
+                    if (widget.showHeatmap && widget.heatmapBase64 != null)
+                      Positioned.fill(
+                        child: Image.memory(
+                          base64Decode(widget.heatmapBase64!),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
